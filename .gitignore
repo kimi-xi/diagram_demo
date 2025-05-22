@@ -1,0 +1,15 @@
+# Syntax: https://git-scm.com/docs/gitignore
+
+# General
+.DS_Store
+*~
+
+# Asciidoctor
+.asciidoctor/
+images/diagrams/
+*.pdf
+*.html
+
+# Code
+.devcontainer
+.vscode/

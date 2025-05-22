@@ -1,0 +1,45 @@
+= Demo-Dokumentation
+Vorname Nachname <vorname.nachname@htw-dresden.de>
+include::attributes.inc.adoc[]
+
+Praktikumsbeispiel für die Verwendung von Diagrammen mit PlantUML in Asciidoctor.
+
+
+== PlantUML-Diagramme
+
+Diagramme mit der PlantUML-Notation können im Asciidoctor-Dokument direkt als Block *eingebettet* oder als externe Datei *inkludiert* werden.
+
+=== Funktionstest
+
+Ein Testdiagramm, ob die Vorschau in VS Code bzw. die Generierung mit Asciidoctor funktioniert.
+
+.Testdiagramm
+[plantuml, "{diagramsdir}/hello_world", svg]
+....
+actor Human
+(\nWorld\n) #dff
+note right of Human : Hello
+....
+
+.Graphiz Dot Test
+[plantuml, "{diagramsdir}/testdot", svg]
+....
+@startuml
+testdot
+@enduml
+....
+
+Hinweise zur Einrichtung siehe zugehörige Aufgabenstellung.
+
+=== Eingebettet
+
+Ein Beispiel für ein direkt im Dokument eingebettetes PlantUML-Diagramm.
+
+// diagram placeholder
+
+=== Inkludiert
+
+Ein Beispiel für ein im Dokument inkludiertes PlantUML-Diagramm als externe Datei.
+
+// diagram placeholder
+
