@@ -105,13 +105,14 @@ sequenceDiagram
 ----
 
 
-== 4. Habit erstellen (US #108 / #73 / #93)
+== 4. Habit erstellen (US #92/ US #279 / US #280)
 
 .User Story
 ****
-Als Nutzer möchte ich ein neues Habit erstellen können, um meine Ziele zu planen  
-und Erinnerungen sowie Wiederholungen festlegen zu können.
+Als Nutzer möchte ich ein neues Habit erstellen können, damit ich meine Ziele strukturiert planen kann.  
+Zusätzlich sollen meine Eingaben validiert und korrekt gespeichert werden.
 ****
+
 
 [source,mermaid]
 ----
@@ -149,7 +150,7 @@ sequenceDiagram
 ----
 
 
-== 5. Habit abhaken (US #298)
+== 5. Habit abhaken (US #93/ US #299/ US #87)
 
 .User Story
 ****
