@@ -1,0 +1,124 @@
+= Habitree – Sequenzdiagramme & User Stories
+Laurenz
+:toc:
+:toclevels: 3
+
+== Einleitung
+
+Diese Dokumentation beschreibt zentrale User Stories der Habitree-App sowie die dazugehörigen Sequenzdiagramme.  
+
+== User Stories
+
+=== US #250 – Anmeldung und Registrierung
+Als Nutzer möchte ich mich registrieren und anmelden können, damit ich meinen Fortschritt speichern und verfolgen kann.
+
+=== US #93 – Übersicht der erstellten Habits
+Als Nutzer möchte ich eine Liste meiner Habits sehen, um meinen Fortschritt zu verfolgen.
+
+=== US #298 – Erfolgreich abgeschlossenes Habit
+Als Nutzer möchte ich ein Habit abhaken können, um meinen täglichen Fortschritt zu dokumentieren.
+
+=== US #108 – Habit erstellen / Zeitplan festlegen
+Als Nutzer möchte ich ein Habit mit Wiederholungsintervallen erstellen, um meine Ziele strukturiert zu planen.
+
+== Sequenzdiagramme
+
+=== 1. Login Flow (US #250)
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant UI as UI (LoginScreen)
+    participant AC as AuthController
+    participant AS as AuthService
+    participant AR as AuthRepository
+    participant DS as AuthDataSource (REST)
+    participant BE as Backend
+
+    UI->>AC: login(email, password)
+    AC->>AS: authenticate(email, password)
+    AS->>AR: login(dto)
+    AR->>DS: POST /auth/login
+    DS->>BE: HTTP Request
+    BE-->>DS: tokens + user profile
+    DS-->>AR: tokens
+    AR-->>AS: tokens
+    AS-->>AC: tokens
+    AC-->>UI: store token & navigate
+----
+
+=== 2. Habit-Liste abrufen (US #93)
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant UI as UI (HabitListScreen)
+    participant HC as HabitController
+    participant HS as HabitService
+    participant HR as HabitRepository
+    participant DS as HabitDataSource
+    participant BE as Backend
+
+    UI->>HC: getHabits()
+    HC->>HS: fetchHabits()
+    HS->>HR: getHabits()
+    HR->>DS: GET /habits
+    DS->>BE: HTTP Request
+    BE-->>DS: HabitList
+    DS-->>HR: HabitList
+    HR-->>HS: HabitList
+    HS-->>HC: HabitList
+    HC-->>UI: render HabitList
+----
+
+=== 3. Habit erstellen (US #108)
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant UI as UI (CreateHabitScreen)
+    participant HC as HabitController
+    participant HS as HabitService
+    participant HR as HabitRepository
+    participant DS as HabitDataSource
+    participant BE as Backend
+
+    UI->>HC: createHabit(data)
+    HC->>HS: saveHabit(data)
+    HS->>HR: saveHabit(dto)
+    HR->>DS: POST /habits
+    DS->>BE: HTTP Request
+    BE-->>DS: CreatedHabit
+    DS-->>HR: CreatedHabit
+    HR-->>HS: CreatedHabit
+    HS-->>HC: CreatedHabit
+    HC-->>UI: update HabitList
+----
+
+=== 4. Habit abhaken (US #298)
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant UI as UI (HabitItem)
+    participant HC as HabitController
+    participant HS as HabitService
+    participant HR as HabitRepository
+    participant DS as HabitDataSource
+    participant BE as Backend
+
+    UI->>HC: toggleHabit(id)
+    HC->>HS: toggleHabit(id)
+    HS->>HR: updateHabit(id, checked)
+    HR->>DS: PATCH /habits/:id
+    DS->>BE: HTTP Request
+    BE-->>DS: UpdatedHabit
+    DS-->>HR: UpdatedHabit
+    HR-->>HS: UpdatedHabit
+    HS-->>HC: UpdatedHabit
+    HC-->>UI: update UI
+----
