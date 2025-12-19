@@ -23,29 +23,47 @@ Als Nutzer möchte ich ein Habit mit Wiederholungsintervallen erstellen, um mein
 
 == Sequenzdiagramme
 
-=== 1. Login Flow (US #250)
+=== 1. Login (US #250)
 
 [mermaid]
 ----
 sequenceDiagram
     autonumber
-    participant UI as UI (LoginScreen)
-    participant AC as AuthController
-    participant AS as AuthService
-    participant AR as AuthRepository
-    participant DS as AuthDataSource (REST)
-    participant BE as Backend
+    actor Nutzer as Nutzer
+    participant Expo as Expo App (React Native)
+    participant FEAuth as useAuthController
+    participant ApiRepo as ApiAuthRepository
+    participant Express as Express Router (/auth)
+    participant Prisma as Prisma ORM
+    participant PG as PostgreSQL (HabitTrackerDatabase)
 
-    UI->>AC: login(email, password)
-    AC->>AS: authenticate(email, password)
-    AS->>AR: login(dto)
-    AR->>DS: POST /auth/login
-    DS->>BE: HTTP Request
-    BE-->>DS: tokens + user profile
-    DS-->>AR: tokens
-    AR-->>AS: tokens
-    AS-->>AC: tokens
-    AC-->>UI: store token & navigate
+    Nutzer->>Expo: E-Mail & Passwort eingeben
+    Expo->>FEAuth: login(email, password)
+    FEAuth->>ApiRepo: POST /auth/login
+
+    ApiRepo->>Express: HTTP Request (email, password)
+    Express->>Prisma: prisma.user.findUnique({ email })
+    Prisma->>PG: SELECT * FROM "User" WHERE email = ...
+    PG-->>Prisma: UserRecord
+    Prisma-->>Express: UserRecord
+
+    alt User nicht gefunden
+        Express-->>ApiRepo: 401 Unauthorized
+        ApiRepo-->>FEAuth: Fehler
+        FEAuth-->>Expo: Fehlermeldung anzeigen
+    else User gefunden
+        Express->>Express: Passwortvergleich (bcrypt.compare)
+        alt Passwort korrekt
+            Express->>Express: JWT Token erzeugen
+            Express-->>ApiRepo: 200 OK (token, user)
+            ApiRepo-->>FEAuth: token + user
+            FEAuth-->>Expo: Login erfolgreich
+        else Passwort falsch
+            Express-->>ApiRepo: 401 Unauthorized
+            ApiRepo-->>FEAuth: Fehler
+            FEAuth-->>Expo: Fehlermeldung anzeigen
+        end
+    end
 ----
 
 === 2. Habit-Liste abrufen (US #93)
@@ -54,23 +72,23 @@ sequenceDiagram
 ----
 sequenceDiagram
     autonumber
-    participant UI as UI (HabitListScreen)
-    participant HC as HabitController
-    participant HS as HabitService
-    participant HR as HabitRepository
-    participant DS as HabitDataSource
-    participant BE as Backend
+    participant Expo as Expo App (React Native)
+    participant FEHabit as useHabitController
+    participant ApiRepo as ApiHabitRepository
+    participant Express as Express Router (/habits)
+    participant Prisma as Prisma ORM
+    participant PG as PostgreSQL (HabitTrackerDatabase)
 
-    UI->>HC: getHabits()
-    HC->>HS: fetchHabits()
-    HS->>HR: getHabits()
-    HR->>DS: GET /habits
-    DS->>BE: HTTP Request
-    BE-->>DS: HabitList
-    DS-->>HR: HabitList
-    HR-->>HS: HabitList
-    HS-->>HC: HabitList
-    HC-->>UI: render HabitList
+    Expo->>FEHabit: getHabits()
+    FEHabit->>ApiRepo: GET /habits
+    ApiRepo->>Express: HTTP Request
+    Express->>Prisma: prisma.habit.findMany()
+    Prisma->>PG: SELECT * FROM "Habit"
+    PG-->>Prisma: HabitList
+    Prisma-->>Express: HabitList
+    Express-->>ApiRepo: HabitList
+    ApiRepo-->>FEHabit: HabitList
+    FEHabit-->>Expo: HabitList anzeigen
 ----
 
 === 3. Habit erstellen (US #108)
@@ -79,23 +97,35 @@ sequenceDiagram
 ----
 sequenceDiagram
     autonumber
-    participant UI as UI (CreateHabitScreen)
-    participant HC as HabitController
-    participant HS as HabitService
-    participant HR as HabitRepository
-    participant DS as HabitDataSource
-    participant BE as Backend
+    actor Nutzer as Nutzer
+    participant Expo as Expo App (React Native)
+    participant FEHabit as useHabitController
+    participant ApiRepo as ApiHabitRepository
+    participant Express as Express Router (/habits)
+    participant Prisma as Prisma ORM
+    participant PG as PostgreSQL (HabitTrackerDatabase)
 
-    UI->>HC: createHabit(data)
-    HC->>HS: saveHabit(data)
-    HS->>HR: saveHabit(dto)
-    HR->>DS: POST /habits
-    DS->>BE: HTTP Request
-    BE-->>DS: CreatedHabit
-    DS-->>HR: CreatedHabit
-    HR-->>HS: CreatedHabit
-    HS-->>HC: CreatedHabit
-    HC-->>UI: update HabitList
+    Nutzer->>Expo: Habit-Daten eingeben (label, description, checked)
+    Expo->>FEHabit: createHabit(habitData)
+    FEHabit->>ApiRepo: POST /habits (habitData)
+
+    ApiRepo->>Express: HTTP Request (JSON HabitData)
+    Express->>Express: Validierung der Felder (label vorhanden?)
+
+    alt label fehlt
+        Express-->>ApiRepo: 400 Bad Request
+        ApiRepo-->>FEHabit: Fehler
+        FEHabit-->>Expo: Fehlermeldung anzeigen
+    else label ok
+        Express->>Prisma: prisma.habit.create({ data: habitData })
+        Prisma->>PG: INSERT INTO Habit (...)
+        PG-->>Prisma: CreatedHabitRecord
+        Prisma-->>Express: HabitRecord
+
+        Express-->>ApiRepo: 201 Created (Habit)
+        ApiRepo-->>FEHabit: Habit zurückgeben
+        FEHabit-->>Expo: Habit erfolgreich erstellt
+    end
 ----
 
 === 4. Habit abhaken (US #298)
@@ -104,21 +134,56 @@ sequenceDiagram
 ----
 sequenceDiagram
     autonumber
-    participant UI as UI (HabitItem)
-    participant HC as HabitController
-    participant HS as HabitService
-    participant HR as HabitRepository
-    participant DS as HabitDataSource
-    participant BE as Backend
+    participant Expo as Expo App (React Native)
+    participant FEHabit as useHabitController
+    participant ApiRepo as ApiHabitRepository
+    participant Express as Express Router (/habits)
+    participant Prisma as Prisma ORM
+    participant PG as PostgreSQL (HabitTrackerDatabase)
 
-    UI->>HC: toggleHabit(id)
-    HC->>HS: toggleHabit(id)
-    HS->>HR: updateHabit(id, checked)
-    HR->>DS: PATCH /habits/:id
-    DS->>BE: HTTP Request
-    BE-->>DS: UpdatedHabit
-    DS-->>HR: UpdatedHabit
-    HR-->>HS: UpdatedHabit
-    HS-->>HC: UpdatedHabit
-    HC-->>UI: update UI
+    Expo->>FEHabit: toggleHabit(id)
+    FEHabit->>ApiRepo: PATCH /habits/:id
+    ApiRepo->>Express: HTTP Request
+    Express->>Prisma: prisma.habit.update()
+    Prisma->>PG: UPDATE "Habit"
+    PG-->>Prisma: UpdatedHabit
+    Prisma-->>Express: UpdatedHabit
+    Express-->>ApiRepo: UpdatedHabit
+    ApiRepo-->>FEHabit: UpdatedHabit
+    FEHabit-->>Expo: UI aktualisieren
+----
+
+=== 5. Login erfolgreich (US #250 – Folgeaktion)
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant Expo as Expo App
+    participant FEAuth as useAuthController
+
+    FEAuth->>Expo: storeToken(token)
+    Expo->>Expo: Navigation zur HabitList
+----
+
+=== 3.6 Habit-Liste nach Erstellung aktualisieren (US #108)
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant FEHabit as useHabitController
+    participant ApiRepo as ApiHabitRepository
+    participant Express as Express Router (/habits)
+    participant Prisma as Prisma ORM
+    participant PG as PostgreSQL (HabitTrackerDatabase)
+
+    FEHabit->>ApiRepo: GET /habits
+    ApiRepo->>Express: HTTP Request
+    Express->>Prisma: prisma.habit.findMany()
+    Prisma->>PG: SELECT * FROM "Habit"
+    PG-->>Prisma: HabitList
+    Prisma-->>Express: HabitList
+    Express-->>ApiRepo: HabitList
+    ApiRepo-->>FEHabit: HabitList
 ----
