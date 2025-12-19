@@ -4,6 +4,11 @@
 
 == 1. Login (US #250)
 
+.User Story
+****
+Als Nutzer möchte ich mich anmelden können, um Zugriff auf meine persönlichen Habits zu erhalten.
+****
+
 [source,mermaid]
 ----
 sequenceDiagram
@@ -48,6 +53,11 @@ sequenceDiagram
 
 == 2. Registrierung (US #250)
 
+.User Story
+****
+Als neuer Nutzer möchte ich ein Konto erstellen können, um die App nutzen zu können.
+****
+
 [source,mermaid]
 ----
 sequenceDiagram
@@ -77,6 +87,11 @@ sequenceDiagram
 
 == 3. Logout (US #250)
 
+.User Story
+****
+Als Nutzer möchte ich mich ausloggen können, um mein Konto zu schützen.
+****
+
 [source,mermaid]
 ----
 sequenceDiagram
@@ -91,6 +106,12 @@ sequenceDiagram
 
 
 == 4. Habit erstellen (US #108 / #73 / #93)
+
+.User Story
+****
+Als Nutzer möchte ich ein neues Habit erstellen können, um meine Ziele zu planen  
+und Erinnerungen sowie Wiederholungen festlegen zu können.
+****
 
 [source,mermaid]
 ----
@@ -117,7 +138,7 @@ sequenceDiagram
         FEHabit-->>Expo: Fehlermeldung anzeigen
     else label ok
         Express->>Prisma: prisma.habit.create({ data: habitData })
-        Prisma->>PG: INSERT INTO "Habit" (...)
+        Prisma->>PG: INSERT INTO Habit (...)
         PG-->>Prisma: CreatedHabitRecord
         Prisma-->>Express: CreatedHabitRecord
 
@@ -129,6 +150,11 @@ sequenceDiagram
 
 
 == 5. Habit abhaken (US #298)
+
+.User Story
+****
+Als Nutzer möchte ich ein Habit abhaken können, um meinen täglichen Fortschritt zu dokumentieren.
+****
 
 [source,mermaid]
 ----
@@ -156,6 +182,12 @@ sequenceDiagram
 
 == 6. Habit-Liste abrufen (US #93)
 
+.User Story
+****
+Als Nutzer möchte ich eine Übersicht meiner Habits sehen können,  
+um meinen Fortschritt zu verfolgen.
+****
+
 [source,mermaid]
 ----
 sequenceDiagram
@@ -178,3 +210,4 @@ sequenceDiagram
     ApiRepo-->>FEHabit: HabitList
     FEHabit-->>Expo: HabitList anzeigen
 ----
+
