@@ -75,13 +75,30 @@ sequenceDiagram
     FEAuth->>ApiRepo: POST /auth/register
 
     ApiRepo->>Express: HTTP Request (email, password, name)
-    Express->>Prisma: prisma.user.create({ data })
-    Prisma->>PG: INSERT INTO "User" (...)
-    PG-->>Prisma: CreatedUser
-    Prisma-->>Express: CreatedUser
-    Express-->>ApiRepo: 201 Created (user)
-    ApiRepo-->>FEAuth: user
-    FEAuth-->>Expo: Registrierung erfolgreich
+
+    Express->>Express: Validierung der Eingaben
+
+    alt Ungültige Eingaben
+        Express-->>ApiRepo: 400 Bad Request (Validation Error)
+        ApiRepo-->>FEAuth: Fehler
+        FEAuth-->>Expo: Fehlermeldung anzeigen
+    else E-Mail bereits vergeben
+        Express->>Prisma: prisma.user.findUnique({ where: { email } })
+        Prisma->>PG: SELECT * FROM "User" WHERE email = ...
+        PG-->>Prisma: UserRecord (exists)
+        Prisma-->>Express: UserRecord
+        Express-->>ApiRepo: 409 Conflict (Email exists)
+        ApiRepo-->>FEAuth: Fehler
+        FEAuth-->>Expo: Fehlermeldung anzeigen
+    else Registrierung erfolgreich
+        Express->>Prisma: prisma.user.create({ data })
+        Prisma->>PG: INSERT INTO "User" (...)
+        PG-->>Prisma: CreatedUser
+        Prisma-->>Express: CreatedUser
+        Express-->>ApiRepo: 201 Created (user)
+        ApiRepo-->>FEAuth: user
+        FEAuth-->>Expo: Registrierung erfolgreich
+    end
 ----
 
 
