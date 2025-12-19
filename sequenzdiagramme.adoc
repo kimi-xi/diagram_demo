@@ -1,12 +1,8 @@
-= Habitree – User Stories & Sequenzdiagramme
+= Habitree – Sequenzdiagramme zu den wichtigsten User Stories
 :toc:
 :toclevels: 3
 
-== US #250 – Login
-
-Als Nutzer möchte ich mich anmelden können, um Zugriff auf meine persönlichen Habits zu erhalten.
-
-image::login.png[width=600,align=center]
+== 1. Login (US #250)
 
 [source,mermaid]
 ----
@@ -25,7 +21,7 @@ sequenceDiagram
     FEAuth->>ApiRepo: POST /auth/login
 
     ApiRepo->>Express: HTTP Request (email, password)
-    Express->>Prisma: prisma.user.findUnique({ email })
+    Express->>Prisma: prisma.user.findUnique({ where: { email } })
     Prisma->>PG: SELECT * FROM "User" WHERE email = ...
     PG-->>Prisma: UserRecord
     Prisma-->>Express: UserRecord
@@ -50,11 +46,7 @@ sequenceDiagram
 ----
 
 
-== US #250 – Registrierung
-
-Als Nutzer möchte ich ein Konto erstellen können, um die App nutzen zu können.
-
-image::register.png[width=600,align=center]
+== 2. Registrierung (US #250)
 
 [source,mermaid]
 ----
@@ -74,7 +66,7 @@ sequenceDiagram
 
     ApiRepo->>Express: HTTP Request (email, password, name)
     Express->>Prisma: prisma.user.create({ data })
-    Prisma->>PG: INSERT INTO "User"
+    Prisma->>PG: INSERT INTO "User" (...)
     PG-->>Prisma: CreatedUser
     Prisma-->>Express: CreatedUser
     Express-->>ApiRepo: 201 Created (user)
@@ -83,11 +75,7 @@ sequenceDiagram
 ----
 
 
-== US #250 – Logout
-
-Als Nutzer möchte ich mich ausloggen können, um mein Konto zu schützen.
-
-image::logout.png[width=600,align=center]
+== 3. Logout (US #250)
 
 [source,mermaid]
 ----
@@ -102,11 +90,7 @@ sequenceDiagram
 ----
 
 
-== US #108 – Habit erstellen
-
-Als Nutzer möchte ich ein Habit erstellen können, um meine Ziele zu planen.
-
-image::habit-erstellen.png[width=600,align=center]
+== 4. Habit erstellen (US #108 / #73 / #93)
 
 [source,mermaid]
 ----
@@ -125,7 +109,7 @@ sequenceDiagram
     FEHabit->>ApiRepo: POST /habits (habitData)
 
     ApiRepo->>Express: HTTP Request (JSON HabitData)
-    Express->>Express: Validierung der Felder (label vorhanden?)
+    Express->>Express: Validierung (label vorhanden?)
 
     alt label fehlt
         Express-->>ApiRepo: 400 Bad Request
@@ -133,9 +117,9 @@ sequenceDiagram
         FEHabit-->>Expo: Fehlermeldung anzeigen
     else label ok
         Express->>Prisma: prisma.habit.create({ data: habitData })
-        Prisma->>PG: INSERT INTO Habit (...)
+        Prisma->>PG: INSERT INTO "Habit" (...)
         PG-->>Prisma: CreatedHabitRecord
-        Prisma-->>Express: HabitRecord
+        Prisma-->>Express: CreatedHabitRecord
 
         Express-->>ApiRepo: 201 Created (Habit)
         ApiRepo-->>FEHabit: Habit zurückgeben
@@ -144,11 +128,7 @@ sequenceDiagram
 ----
 
 
-== US #298 – Habit abhaken
-
-Als Nutzer möchte ich ein Habit abhaken können, um meinen Fortschritt zu dokumentieren.
-
-image::habit-abhaken.png[width=600,align=center]
+== 5. Habit abhaken (US #298)
 
 [source,mermaid]
 ----
@@ -164,8 +144,8 @@ sequenceDiagram
     Expo->>FEHabit: toggleHabit(id)
     FEHabit->>ApiRepo: PATCH /habits/:id
     ApiRepo->>Express: HTTP Request
-    Express->>Prisma: prisma.habit.update()
-    Prisma->>PG: UPDATE "Habit"
+    Express->>Prisma: prisma.habit.update({ where: { id }, data: { checked } })
+    Prisma->>PG: UPDATE "Habit" SET checked = ...
     PG-->>Prisma: UpdatedHabit
     Prisma-->>Express: UpdatedHabit
     Express-->>ApiRepo: UpdatedHabit
@@ -174,11 +154,7 @@ sequenceDiagram
 ----
 
 
-== US #93 – Habit-Liste abrufen
-
-Als Nutzer möchte ich meine Habits sehen können, um meinen Fortschritt zu verfolgen.
-
-image::habit-liste.png[width=600,align=center]
+== 6. Habit-Liste abrufen (US #93)
 
 [source,mermaid]
 ----
