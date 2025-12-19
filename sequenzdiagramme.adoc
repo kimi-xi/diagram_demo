@@ -1,31 +1,14 @@
-= Habitree – Sequenzdiagramme & User Stories
-Laurenz
+= Habitree – User Stories & Sequenzdiagramme
 :toc:
 :toclevels: 3
 
-== Einleitung
+== US #250 – Login
 
-Diese Dokumentation beschreibt zentrale User Stories der Habitree-App sowie die dazugehörigen Sequenzdiagramme.  
+Als Nutzer möchte ich mich anmelden können, um Zugriff auf meine persönlichen Habits zu erhalten.
 
-== User Stories
+image::login.png[width=600,align=center]
 
-=== US #250 – Anmeldung und Registrierung
-Als Nutzer möchte ich mich registrieren und anmelden können, damit ich meinen Fortschritt speichern und verfolgen kann.
-
-=== US #93 – Übersicht der erstellten Habits
-Als Nutzer möchte ich eine Liste meiner Habits sehen, um meinen Fortschritt zu verfolgen.
-
-=== US #298 – Erfolgreich abgeschlossenes Habit
-Als Nutzer möchte ich ein Habit abhaken können, um meinen täglichen Fortschritt zu dokumentieren.
-
-=== US #108 – Habit erstellen / Zeitplan festlegen
-Als Nutzer möchte ich ein Habit mit Wiederholungsintervallen erstellen, um meine Ziele strukturiert zu planen.
-
-== Sequenzdiagramme
-
-=== 1. Login (US #250)
-
-[mermaid]
+[source,mermaid]
 ----
 sequenceDiagram
     autonumber
@@ -66,34 +49,66 @@ sequenceDiagram
     end
 ----
 
-=== 2. Habit-Liste abrufen (US #93)
 
-[mermaid]
+== US #250 – Registrierung
+
+Als Nutzer möchte ich ein Konto erstellen können, um die App nutzen zu können.
+
+image::register.png[width=600,align=center]
+
+[source,mermaid]
 ----
 sequenceDiagram
     autonumber
+    actor Nutzer as Nutzer
     participant Expo as Expo App (React Native)
-    participant FEHabit as useHabitController
-    participant ApiRepo as ApiHabitRepository
-    participant Express as Express Router (/habits)
+    participant FEAuth as useAuthController
+    participant ApiRepo as ApiAuthRepository
+    participant Express as Express Router (/auth)
     participant Prisma as Prisma ORM
     participant PG as PostgreSQL (HabitTrackerDatabase)
 
-    Expo->>FEHabit: getHabits()
-    FEHabit->>ApiRepo: GET /habits
-    ApiRepo->>Express: HTTP Request
-    Express->>Prisma: prisma.habit.findMany()
-    Prisma->>PG: SELECT * FROM "Habit"
-    PG-->>Prisma: HabitList
-    Prisma-->>Express: HabitList
-    Express-->>ApiRepo: HabitList
-    ApiRepo-->>FEHabit: HabitList
-    FEHabit-->>Expo: HabitList anzeigen
+    Nutzer->>Expo: Registrierungsdaten eingeben
+    Expo->>FEAuth: register(data)
+    FEAuth->>ApiRepo: POST /auth/register
+
+    ApiRepo->>Express: HTTP Request (email, password, name)
+    Express->>Prisma: prisma.user.create({ data })
+    Prisma->>PG: INSERT INTO "User"
+    PG-->>Prisma: CreatedUser
+    Prisma-->>Express: CreatedUser
+    Express-->>ApiRepo: 201 Created (user)
+    ApiRepo-->>FEAuth: user
+    FEAuth-->>Expo: Registrierung erfolgreich
 ----
 
-=== 3. Habit erstellen (US #108)
 
-[mermaid]
+== US #250 – Logout
+
+Als Nutzer möchte ich mich ausloggen können, um mein Konto zu schützen.
+
+image::logout.png[width=600,align=center]
+
+[source,mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant Expo as Expo App
+    participant FEAuth as useAuthController
+
+    Expo->>FEAuth: logout()
+    FEAuth->>FEAuth: Token löschen
+    FEAuth-->>Expo: Navigation zum LoginScreen
+----
+
+
+== US #108 – Habit erstellen
+
+Als Nutzer möchte ich ein Habit erstellen können, um meine Ziele zu planen.
+
+image::habit-erstellen.png[width=600,align=center]
+
+[source,mermaid]
 ----
 sequenceDiagram
     autonumber
@@ -105,7 +120,7 @@ sequenceDiagram
     participant Prisma as Prisma ORM
     participant PG as PostgreSQL (HabitTrackerDatabase)
 
-    Nutzer->>Expo: Habit-Daten eingeben (label, description, checked)
+    Nutzer->>Expo: Habit-Daten eingeben
     Expo->>FEHabit: createHabit(habitData)
     FEHabit->>ApiRepo: POST /habits (habitData)
 
@@ -128,9 +143,14 @@ sequenceDiagram
     end
 ----
 
-=== 4. Habit abhaken (US #298)
 
-[mermaid]
+== US #298 – Habit abhaken
+
+Als Nutzer möchte ich ein Habit abhaken können, um meinen Fortschritt zu dokumentieren.
+
+image::habit-abhaken.png[width=600,align=center]
+
+[source,mermaid]
 ----
 sequenceDiagram
     autonumber
@@ -153,31 +173,25 @@ sequenceDiagram
     FEHabit-->>Expo: UI aktualisieren
 ----
 
-=== 5. Login erfolgreich (US #250 – Folgeaktion)
 
-[mermaid]
+== US #93 – Habit-Liste abrufen
+
+Als Nutzer möchte ich meine Habits sehen können, um meinen Fortschritt zu verfolgen.
+
+image::habit-liste.png[width=600,align=center]
+
+[source,mermaid]
 ----
 sequenceDiagram
     autonumber
-    participant Expo as Expo App
-    participant FEAuth as useAuthController
-
-    FEAuth->>Expo: storeToken(token)
-    Expo->>Expo: Navigation zur HabitList
-----
-
-=== 3.6 Habit-Liste nach Erstellung aktualisieren (US #108)
-
-[mermaid]
-----
-sequenceDiagram
-    autonumber
+    participant Expo as Expo App (React Native)
     participant FEHabit as useHabitController
     participant ApiRepo as ApiHabitRepository
     participant Express as Express Router (/habits)
     participant Prisma as Prisma ORM
     participant PG as PostgreSQL (HabitTrackerDatabase)
 
+    Expo->>FEHabit: getHabits()
     FEHabit->>ApiRepo: GET /habits
     ApiRepo->>Express: HTTP Request
     Express->>Prisma: prisma.habit.findMany()
@@ -186,4 +200,5 @@ sequenceDiagram
     Prisma-->>Express: HabitList
     Express-->>ApiRepo: HabitList
     ApiRepo-->>FEHabit: HabitList
+    FEHabit-->>Expo: HabitList anzeigen
 ----
