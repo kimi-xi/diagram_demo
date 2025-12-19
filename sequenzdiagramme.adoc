@@ -150,7 +150,7 @@ sequenceDiagram
 ----
 
 
-== 5. Habit abhaken (US #93/ US #299/ US #87)
+== 5. Habit abhaken (US #93/ US #299)
 
 .User Story
 ****
