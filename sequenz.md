@@ -8,6 +8,7 @@
 - [5. Habit abhaken (US #93/ US #299)](#5-habit-abhaken-us-93-us-299)
 - [6. Habit-Liste abrufen (US #93)](#6-habit-liste-abrufen-us-93)
 
+---
 
 ## 1. Login (US #250)
 
