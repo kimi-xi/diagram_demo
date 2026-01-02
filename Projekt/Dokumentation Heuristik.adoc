@@ -1,0 +1,65 @@
+= Heuristik zur Bestimmung des "Risikostudent"-Flags
+
+== 1. Akute Gefahr (ROT)
+
+Ein Studierender wird als *ROT* eingestuft, wenn mindestens eines der folgenden Kriterien erfüllt ist:
+
+[cols="2,3,1",options="header"]
+|===
+| Kriterium
+| Datenpunkt
+| Schwellwert
+
+| Existenzielle Fehlversuche?
+| Anzahl_Fehlversuche (aus student_kpi)
+| ≥ 2
+
+| Sehr schlechte Durchschnittsnote?
+| Gewichtete_Durchschnittsnote (aus student_kpi)
+| ≥ 3.5
+
+| Starker Credit-Rückstand?
+| Gesamtzahl_Credits (aus student_kpi)  
+Vergleich: (Aktuelles_Fachsemester * 30)
+| < Soll-Credits − 60  
+*(Rückstand von 2 Semestern)*
+
+| Sehr hohe Misserfolgsquote?
+| Nichtbestehensrate_je_Student (aus student_kpi)
+| > 40%
+|===
+
+
+== 2. Frühwarnung (ORANGE)
+
+Ein Studierender wird als *ORANGE* eingestuft, wenn **kein** ROT-Kriterium erfüllt ist, aber mindestens eines der folgenden ORANGE-Kriterien:
+
+[cols="2,3,1",options="header"]
+|===
+| Kriterium
+| Datenpunkt
+| Schwellwert
+
+| Erhöhte Misserfolgsquote?
+| Nichtbestehensrate_je_Student (aus student_kpi)
+| > 20%
+
+| Schlechte Durchschnittsnote?
+| Gewichtete_Durchschnittsnote (aus student_kpi)
+| ≥ 3.0
+
+| Moderater Credit-Rückstand?
+| Gesamtzahl_Credits (aus student_kpi)  
+Vergleich: (Aktuelles_Fachsemester * 30)
+| < Soll-Credits − 30  
+*(Rückstand von 1 Semester)*
+
+| Inaktivität?
+| InactivityFlag (aus dim_students)
+| = TRUE
+|===
+
+
+== 3. On-Track (GRÜN)
+
+Ein Studierender ist *GRÜN*, wenn keine ROT- und keine ORANGE-Bedingung erfüllt ist.

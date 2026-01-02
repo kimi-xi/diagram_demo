@@ -1,0 +1,187 @@
+= dbt Model Documentation
+
+== stg_students_clean
+Cleaned and standardized student grade records with validated enums and filtered invalid rows.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| student_id | Unique student identifier.
+| module_number | Module number (e.g., I143, W825). Module titles are managed separately.
+| grade | Cleaned grade as a normalized string value.
+| exam_status | Status of the exam attempt (e.g., passed or failed).
+| term_counter | Sequential term number for each student.
+| year_of_matriculation | First academic year in which the student appears in the dataset.
+| semester_of_matriculation | Starting semester (WiSe or SoSe).
+|===
+
+== dim_students
+Student dimension table containing static, non-changing student attributes.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| student_id | Unique student identifier (primary key).
+| year_of_matriculation | Academic year the student enrolled.
+| semester_of_matriculation | Starting semester (WiSe or SoSe).
+| study_regulations_year | Curriculum version (11 or 18).
+| field_of_study | Program code in which the student is enrolled.
+| graduation_flag | True if the student passed the Master’s thesis (I707) at least once.
+| terms_taken_total_count | Total number of academic terms the student was enrolled.
+| inactivity_flag | True if the student studied for 8+ semesters without completing the Master’s thesis.
+|===
+
+== stg_students_with_credits
+Enriched student grade records including module metadata and earned credits.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| student_id | Unique student identifier.
+| module_number | Module number.
+| module_acronym | Module acronym.
+| grade | Cleaned grade as a normalized string.
+| exam_status | Exam status (bestanden, nicht bestanden, abgemeldet).
+| semester_type | Semester during which the module was taken (WiSe or SoSe).
+| year | Year of the exam attempt.
+| exam_annotation | Additional notes attached to the exam record.
+| term_counter | Sequential term number for each student.
+| credits_earned | Credits earned (only on the first passed attempt).
+| exam_plan_dif | Difference between actual term and recommended module term.
+| match_quality | Match quality indicator (0 = perfect match, 3 = poor match).
+| module_not_in_plan | True if the module does not belong to the curriculum plan.
+| module_title | Full module title.
+| module_key | Composite key for module identification.
+| tries_count | Number of attempts (unique per term).
+| withdrawal_count | Number of exam withdrawals (unique per term).
+| term_date | Synthetic date assigned per term.
+| sanity_check | True if module completion data contradicts expected graduation requirements.
+|===
+
+== dim_students_with_credits
+Aggregated student attributes including total credits and sanity checks.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| student_id | Unique student identifier.
+| graduation_flag | True if the student passed the Master’s thesis.
+| year_of_matriculation | Year of student enrolment.
+| semester_of_matriculation | Starting semester (WiSe or SoSe).
+| study_regulations_year | Curriculum version (11 or 18).
+| field_of_study | Program code.
+| terms_taken_total_count | Total number of terms the student was enrolled.
+| credits_earned_total_count | Total credits earned across all modules.
+| passed_xwm_xzm_count | Count of passed elective modules (XWM/XZM).
+| total_credits_with_xwm_xzm_bonus | Total credits including elective bonus credits.
+| sanity_check | Indicates implausible data regarding graduation and module completion.
+|===
+
+== dim_zeit
+Time dimension containing one entry per term.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| time_id | Surrogate time key (primary key).
+| year | Two-digit year representation.
+| semester_type | Semester type (WiSe or SoSe).
+| semester_type_numeric | Numeric encoding (1 = SoSe, 0 = WiSe).
+| time_label | Synthetic date assigned to the term.
+|===
+
+== dim_modul
+Module dimension containing all static module attributes.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| module_id | Module identifier (e.g., I143).
+| module_title | Full module title.
+| module_acronym | Module acronym.
+| credits | Credit points for the module.
+| graduation_year | Curriculum version (11 or 18).
+| graduation_semester | Semester in the curriculum plan (WiSe or SoSe).
+| module_key | Composite module key.
+| recommended_semester | Recommended semester for taking the module.
+| field_of_study | Study program code (71–74).
+| module_type | Type of module (mandatory, elective, additional).
+| professor_name | Responsible professor.
+| apl_flag | Indicates alternative assessment type.
+| written_flag | Indicates written exam requirement.
+| oral_flag | Indicates oral exam requirement.
+|===
+
+== fact_kpi
+Fact table linking students, time, and modules for KPI analysis.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| student_id | Foreign key to dim_students.
+| module_id | Foreign key to dim_modul.
+| time_id | Foreign key to dim_zeit.
+| grade_numeric | Numeric grade value.
+| term_counter | Sequential term number.
+| passed_flag | 1 if the exam was passed, 0 otherwise.
+| credits_earned | Credits earned for the module attempt.
+|===
+
+== student_kpi
+Aggregated KPI table describing academic progress for each student.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| student_id | Student identifier.
+| modules_count | Total modules attended.
+| modules_passed_count | Modules successfully completed.
+| failed_attempts_count | Total failed attempts across all modules.
+| modules_failed_count | Number of modules with at least one failed attempt.
+| credits_total_count | Total credits earned.
+| weighted_avg_grade | Credit-weighted average grade.
+| median_grade | Median grade over all attempts.
+| pass_rate | Share of passed modules.
+| fail_rate | Share of modules with at least one failed attempt.
+| repetition_rate | Share of modules with two or more attempts.
+|===
+
+== modul_kpi
+Aggregated KPI table for module-level difficulty and performance.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| module_id | Module identifier.
+| students_finally_failed_count | Number of students failing the module after three attempts.
+| students_passed_first_try_count | Number of students passing on first attempt.
+| students_finally_failed_percent | Share of students ultimately failing.
+| bottleneck_value | Difficulty metric (0.0 = very easy, 1.0 = very difficult).
+|===
+
+== studiengang_kpi
+KPIs describing whole-program performance.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| study_program_label | Label for the study program.
+| students_total_count | Total number of enrolled students.
+| graduation_rate | Share of students who completed the program.
+| dropout_rate | Share of students who dropped out or became inactive.
+| weighted_avg_program_grade | Credit-weighted average grade across the program.
+| median_program_grade | Median grade across all modules (excluding 5.0).
+|===
+
+== studiengangsvergleich_kpi
+KPIs comparing fields of study across matriculation years.
+
+[cols="1,3", options="header"]
+|===
+| Column | Description
+| field_of_study | Program code.
+| year_of_matriculation | Matriculation year (two-digit).
+| matriculations_count | Number of new students in that year.
+| matriculations_prev_year_count | Number of new students in the previous year.
+| matriculations_growth_rate | Year-over-year growth rate in matriculations.
+|===

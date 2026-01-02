@@ -1,0 +1,192 @@
+= SQL-Datei: Analyse der Tabellen `students` und `studienrichtung`
+:author: Paul Händler
+:revdate: 2025-10-14
+:doctype: book
+:toc: left
+:toclevels: 2
+
+== Tabelle 1: students
+
+[cols="2,2,2", options="header"]
+|===
+| Spalte | Datentyp | NULL / NOT NULL (wahrscheinlich)
+| studentID | int64 | NOT NULL
+| Modul | varchar | NOT NULL
+| Note | varchar | NULL
+| Modulnummer | varchar | NULL
+| Jahr | int64 | NULL
+| Semester | varchar | NULL
+| Vermerk | varchar | NULL
+| Studienrichtung | int64 | NOT NULL
+|===
+
+=== Allgemeine Beobachtungen
+* **StudentIDs:** keine Auffälligkeiten (`249 DISTINCT` Einträge)
+* **Modul:** `284 DISTINCT` Einträge (inkl. *Masterarbeit* und gewichteter Bewertungen,z. B.: `I705 Forschungs-/Entwicklungsprojekt / SoSe19 Forschungsseminar (Semesterarbeit 50%)`)
+* **Modulnummer:** nicht immer vergeben (z. B. Forschungsseminare ohne Modulnummer)
+
+=== Noten
+[source,sql]
+----
+SELECT DISTINCT note FROM students;
+----
+
+Anmerkung: `Note` sollte bereinigt und zu `FLOAT` gecastet werden, um numerische Vergleiche (`<`, `>`) zu ermöglichen.
+
+[cols="1", options="header"]
+|===
+| Note (varchar)
+| 3,0
+| NULL
+| 2,4
+| 1
+| 2,0
+| 1,5
+| 1,8
+| bestanden
+| 4,0
+| 5
+| 1,0
+| 1,1
+| 3,8
+| 3,5
+| 02.01.1900
+| 2,7
+| angemeldet
+| 1,2
+| 2
+| 2,3
+| 2,5
+| 3
+| 2,6
+| 2,8
+| 1,3\r\n
+| 4
+| 0,0 mE
+| 2,9
+| 1,3
+| 1,6
+| 3,2
+| 3,1
+| 3,7
+| 2,1
+| 10
+| 3,6
+| 2,2
+| 1,4
+| 1,9
+| 1,7
+| 3,3
+| 1,00
+| 3,4
+|===
+_43 Einträge_
+
+=== Modulnummern
+[source,sql]
+----
+SELECT DISTINCT Modulnummer FROM students LIMIT 53;
+----
+
+[cols="1", options="header"]
+|===
+| Modulnummer (varchar)
+| NULL
+| I364
+| ...
+| Wahlpflichtmodul
+| Zusatzmodul
+|===
+_50 Einträge (diverse I-Modulnummern)_
+
+=== Jahr
+[source,sql]
+----
+SELECT DISTINCT jahr FROM students;
+----
+
+[cols="1", options="header"]
+|===
+| Jahr (int64)
+| 29  (→ fehlerhaft)
+| 25
+| 24
+| 23
+| 22
+| 21
+| 20
+| 19
+| 18
+| 17
+| 16
+| 15
+| 14
+| 13
+| 12
+| 11
+| NULL
+|===
+
+=== Semester
+[source,sql]
+----
+SELECT DISTINCT semester FROM students;
+----
+
+[cols="1", options="header"]
+|===
+| Semester (varchar)
+| WiSE   (abweichende Schreibweise → zu *WiSe* normalisieren)
+| WiSe
+| SoSe
+| NULL
+|===
+
+=== Vermerk
+[source,sql]
+----
+SELECT DISTINCT vermerk FROM students;
+----
+
+[cols="1", options="header"]
+|===
+| Vermerk (varchar)
+| unentschuldigt gefehlt
+| anerkannt
+| NULL
+| mit Erfolg
+| kein Antrag
+| nicht zugelassen
+| krank
+| abgemeldet
+|===
+
+=== Studienrichtung
+[source,sql]
+----
+SELECT DISTINCT studienrichtung FROM students;
+----
+
+[cols="1", options="header"]
+|===
+| Studienrichtung (int64)
+| 71
+| 72  
+| 73
+|===
+(→ *Data Science* existiert **nicht** in `students`)
+
+== Tabelle 2: studienrichtung
+
+Keine Auffälligkeiten (`4 Einträge`)
+
+[cols="1,3", options="header"]
+|===
+| strID (int64) | studienrichtung (varchar)
+| 71 | Informations- und Kommunikationstechnologien
+| 72 | Wirtschaftsinformatik
+| 73 | Medieninformatik
+| 74 | Data Science
+|===
+
+---

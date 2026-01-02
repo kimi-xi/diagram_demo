@@ -1,0 +1,314 @@
+= QIS-Insights – Projektdokumentation
+:toc:
+:toclevels: 3
+:sectnums:
+
+== Einleitung
+
+=== Projektziel
+Ziel des Projekts *QIS-Insights* ist die Entwicklung eines datengetriebenen Entscheidungsunterstützungs-Tools, das auf Basis
+anonymisierter Leistungsübersichten aus dem QIS-System relevante Kennzahlen berechnet,
+kritische Verläufe sichtbar macht und Vorhersagen ermöglicht. 
+
+Auf Basis vorhandener Leistungsdaten aus dem QIS-System werden Kennzahlen
+berechnet und übersichtlich dargestellt, sodass Entwicklungen im Studienverlauf
+nachvollzogen und auffällige Muster erkannt werden können. 
+Es sollen Lehrende, Dekanate und Studiengangsleitungen in die Lage versetzt werden:
+
+- den Zustand eines Studiengangs oder einer Kohorte auf einen Blick zu erfassen,
+- kritische Entwicklungen frühzeitig zu erkennen,
+- Modulschwierigkeiten zu identifizieren,
+- Fortschritt und Lernerfolg der Studierenden transparent zu analysieren.
+
+Damit macht es QIS-Insights möglich die reine Tabellenansichten des QIS-Portals
+in eine moderne, entscheidungsorientierte Datenanalyse zu verbessern.
+
+=== Ausgangssituation
+Das aktuelle QIS-Portal stellt Noten und Module lediglich tabellarisch für einzelne Studierende dar.
+Funktionen zur Analyse, Filterung oder Auswertung sind nicht vorhanden. Insbesondere fehlen:
+
+- Aggregationen über Studiengänge, Kohorten oder Jahre,
+- Analysen von Modulschwierigkeit und Wiederholungsverhalten,
+- KPI-basierte Darstellungen des Studienerfolgs,
+- Trendanalysen (ECTS-Tempo, Notenentwicklung),
+- Werkzeuge zur Identifikation gefährdeter Studierender,
+- einheitliche, visualisierte Kennzahlen für Fakultätsentscheidungen.
+
+Diese fehlenden Funktionen führen dazu, dass Verantwortliche keinen vollständigen Überblick über
+Studienfortschritt, Studiendauer oder bestehende Engpässe besitzen. Entscheidungen basieren
+häufig auf Einzelbeobachtungen statt auf strukturierten, vergleichbaren Daten.
+
+=== Motivation
+Im Rahmen des Projektseminars wurde von Prof. Thiele der Auftrag erteilt ein übersichtliches, verlässliches und vollständig datengestütztes
+Informationssystem zu entwickeln, das:
+
+- zentrale Kennzahlen (z. B. aktive Studierende, Durchfallquoten, Notenverteilungen) bündelt,
+- Trends und Auffälligkeiten auf Studiengangs-, Modul- und Studierendenebene sichtbar macht,
+- Vergleiche zwischen Jahren, Kohorten und Studienrichtungen zulässt,
+- Modulverantwortliche bei der Qualitätsanalyse unterstützt,
+- Dekanate ein Gesamtbild der Studiengänge liefert.
+
+QIS-Insights verbindet damit die Rohdaten des QIS mit einem strukturierten Analyse-Framework
+und schafft eine Grundlage für datenbasierte Entscheidungen über Lehre und Supportmaßnahmen.
+
+== Architekturübersicht
+
+=== Systemkomponenten
+
+==== Datenquelle
+Anonymisierte Prüfungs- und Moduldaten aus dem QIS-System.
+=== Datenquelle
+
+Die zentrale Datenquelle des Projekts QIS-Insights ist eine vom betreuenden Professor
+bereitgestellte, vollständig anonymisierte SQLite-Datenbank. Diese Datenbank enthält
+bereits alle relevanten Leistungsinformationen aus dem QIS-System in strukturierter Form.
+
+Die Datenbank umfasst zwei Tabellen:
+
+*students*
+
+enthält alle Prüfungsereignisse im Studium
+
+jede Zeile repräsentiert eine Modulprüfung eines Studierenden
+
+wesentliche Attribute:
+
+  - *studentID*: pseudonymisierte Identifikation
+  - *Modulnummer* und *Modul*: Zuordnung zu einem spezifischen Lehrmodul
+  - *Note*: vergebene Modulnote (anonymisiert und leicht verändert)
+  - *ECTS* (falls vorhanden)
+  - *Semester* (SoSe/WiSe) und *Jahr* der Prüfung
+  - *Vermerk*: Prüfungsstatus (z. B. bestanden, abgemeldet, krank, nicht angetreten)
+  - *Studienrichtung*: kodiert (71, 72, 73, 74)
+
+*studienrichtungen*
+
+Lookup-Tabelle zur Auflösung der Studienrichtungs-Codes
+
+enthält:
+
+  - *id* (71/72/73/74)
+  - *bezeichnung* (z. B. „Wirtschaftsinformatik“)
+
+Diese Rohdaten bilden die Grundlage für:
+
+- alle KPI-Berechnungen,
+- das analytische Star-Schema,
+- Modul-, Kohorten- und Studierendenanalysen,
+- sowie die späteren Superset-Dashboards.
+
+Alle Daten entsprechen realen QIS-Daten, wurden jedoch vollständig anonymisiert und
+teilweise minimal modifiziert, um Datenschutzvorgaben einzuhalten.
+
+
+==== Speicherung
+
+Die im Projekt verwendeten Daten werden in DuckDB gespeichert und dort für weitere
+Verarbeitungsschritte und Analysen bereitgestellt. DuckDB dient als zentrale Datenbank,
+auf die sowohl die Transformationen als auch die Visualisierungen zugreifen.
+
+Die Grundlage bildete eine vom betreuenden Professor bereitgestellte,
+anonymisierte SQLite-Datenbank mit Leistungsdaten aus dem QIS-System. Diese Daten
+werden in DuckDB übernommen, um eine einheitliche und analysierbare Datenbasis
+zu schaffen.
+
+Innerhalb von DuckDB werden die Daten in mehreren logischen Schritten organisiert.
+Zunächst werden die übernommenen Daten unverändert abgelegt. Darauf aufbauend
+erfolgt eine strukturierte Aufbereitung, die als Grundlage für spätere Auswertungen
+und Dashboards dient.
+
+==== Transformation (dbt)
+
+
+==== Data Warehouse Schema
+==== Data Warehouse Schema
+include::galaxy_schema.adoc[leveloffset=+1, tags="zielsetzung"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="facts_dims"]
+
+==== Visualisierung
+Interaktive Dashboards mittels Apache Superset.
+
+=== Pipeline
+----
+Raw Data → DuckDB → dbt → Star Schema → Goldlayer Views → Superset Dashboards
+----
+
+== Datenverarbeitung
+
+=== Datenimport
+Raw Data aus SQLite → DuckDB
+
+==== Format der Raw Data
+
+
+==== Qualitätssicherung
+- Duplikaterkennung und -entfernung
+- Behandlung fehlender Werte
+
+
+=== Staging Layer (dbt)
+
+
+==== Abgeleitete Attribute 
+
+== Star Schema
+
+=== KPI-Tabellen und Views
+include::galaxy_schema.adoc[leveloffset=+1, tags="progress"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="studiengangsvergleich"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="student_kpi"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="cohort_kpi"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="studienrichtung_kpi"]
+
+=== Übersicht
+Das Sternschema bildet die Grundlage für alle KPI-Berechnungen.  
+Es besteht aus einer zentralen Faktentabelle und mehreren Dimensionstabellen, die den Kontext liefern.
+
+==== Faktentabelle
+* `fact_kpi`  
+  Enthält alle prüfungsrelevanten Ereignisse je Student (Noten, Credits, Status).  
+  Sie ist die Basis für alle Berechnungen und Aggregationen.
+
+==== Dimensionstabellen
+* `dim_student` – Stammdaten der Studierenden (Studienrichtung, Jahrgang, Abschlussstatus)  
+* `dim_modul` – Informationen zu Modulen (Modulnummer, Credits, Prüfungsart, Studienrichtung)  
+* `dim_zeit` – Zeitdimension (Jahr, Semester, zeitID, zeit_label) zur Abbildung von Trends
+
+
+== dbt-Konfiguration
+
+=== Ordnerstruktur
+
+
+=== Dokumentation in dbt
+
+
+=== Aktualisierung
+
+
+== Visualisierung mit Superset
+
+=== Datensets in Superset
+
+
+=== Dashboards
+
+
+== Machine Learning
+
+== Heuristiken
+
+=== Early-Warning-Score
+Metriken:
+
+- ECTS-Rückstand
+- Wiederholungen
+- Notentrend
+- Inaktivitätsdauer
+
+Erste Metriken für eine regelbasierte Risikoabschätzung ohne ML.
+
+==== Akute Gefahr (ROT)
+
+Ein Studierender wird als *ROT* eingestuft, wenn mindestens eines der folgenden Kriterien erfüllt ist:
+
+[cols="2,3,1",options="header"]
+|===
+| Kriterium
+| Datenpunkt
+| Schwellwert
+
+| Existenzielle Fehlversuche?
+| Anzahl_Fehlversuche (aus student_kpi)
+| ≥ 2
+
+| Sehr schlechte Durchschnittsnote?
+| Gewichtete_Durchschnittsnote (aus student_kpi)
+| ≥ 3.5
+
+| Starker Credit-Rückstand?
+| Gesamtzahl_Credits (aus student_kpi)  
+Vergleich: (Aktuelles_Fachsemester * 30)
+| < Soll-Credits − 60  
+*(Rückstand von 2 Semestern)*
+
+| Sehr hohe Misserfolgsquote?
+| Nichtbestehensrate_je_Student (aus student_kpi)
+| > 40%
+|===
+
+
+==== Frühwarnung (ORANGE)
+
+Ein Studierender wird als *ORANGE* eingestuft, wenn **kein** ROT-Kriterium erfüllt ist, aber mindestens eines der folgenden ORANGE-Kriterien:
+
+[cols="2,3,1",options="header"]
+|===
+| Kriterium
+| Datenpunkt
+| Schwellwert
+
+| Erhöhte Misserfolgsquote?
+| Nichtbestehensrate_je_Student (aus student_kpi)
+| > 20%
+
+| Schlechte Durchschnittsnote?
+| Gewichtete_Durchschnittsnote (aus student_kpi)
+| ≥ 3.0
+
+| Moderater Credit-Rückstand?
+| Gesamtzahl_Credits (aus student_kpi)  
+Vergleich: (Aktuelles_Fachsemester * 30)
+| < Soll-Credits − 30  
+*(Rückstand von 1 Semester)*
+
+| Inaktivität?
+| InactivityFlag (aus dim_students)
+| = TRUE
+|===
+
+==== On-Track (GRÜN)
+
+Ein Studierender ist *GRÜN*, wenn keine ROT- und keine ORANGE-Bedingung erfüllt ist.
+
+=== Heuristiken mit Machine Learning
+
+== Ergebnisse & Erkenntnisse
+
+=== Analytische Erkenntnisse
+
+
+=== ML-Ergebnisse
+
+
+=== Auffälligkeiten
+
+
+=== Nutzen für Lehrpersonen
+
+== Fazit
+
+=== Zusammenfassung
+
+
+=== Erfolgreich umgesetzt
+
+
+=== Verbesserungen
+
+
+== Anhang
+
+=== Technische Details
+
+
+=== Glossar
+
+
+=== Quellen
+

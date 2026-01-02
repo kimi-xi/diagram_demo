@@ -1,0 +1,872 @@
+
+:toc:
+:toclevels: 2
+
+// tag::zielsetzung[]
+== Zielsetzung
+
+Das Galaxy Schema verfolgt folgende Hauptziele:
+
+* Bereitstellung einer konsistenten, einheitlichen Datenbasis für alle KPI-Berechnungen
+* Einfache Berechnung der KPI's aus den Schema direkt heraus ohne aufwendige Formeln
+* Schichtentrennung von UI (Dashboard) und Persistenz und Logik
+* Unterstützung mehrerer Analyseebenen  und somit Ermöglichung OLAP- Operationen (Student, Jahrgang, Studienrichtung, Studiengang)
+* Sicherstellung der Wiederverwendbarkeit und Transparenz der Berechnungslogik
+* Ausgangsbasis für Implementierung von Heuristiken und Machine Learning (Vorgabe von Herrn Thiele)
+// end::zielsetzung[]
+
+
+// tag::facts_dims[]
+== Datenmodell (Übersicht)
+
+Das Silver-Layer-Schema besteht aus folgenden Tabellen:
+
+=== Faktentabelle
+
+* `fact_kpi`
+  - Enthält alle prüfungsrelevanten Ereignisse (z. B. Modulversuche) je Student.
+  - Speichert quantitative Kennzahlen (z. B. Note, Credits, bestanden_flag) für die weitere KPI- Bildung.
+ - *Derzeit noch keine Primär/ Fremdschlüssel- Beziehungen vorhanden!*
+
+=== Dimensionstabellen
+
+* `dim_student`
+  - Stammdaten der Studierenden für Erfüllung der Basis- KPI's
+  - (TODO): Enthält das berechnete Attribut `on_track_flag` als Frühindikator für Studienverzögerungen.
+
+* `dim_modul`
+  - Informationen zu Modulen 
+
+* `dim_zeit`
+  - Zeitdimension (Jahr, Semester, zeit_key, zeit_label) zur Abbildung von Jahrgangs- und Trendanalysen.
+  - (TODO): Semester je Student angeben, um zu wissen in welchen Semester genau sich der Student befindet für weitere Analysen wie den On- Track Anteil
+// end::facts_dims[]
+
+// tag::progress[]
+== Tabelle: study_progress
+*Analyseebene:* Studenten-Semesterebene  +
+*Zielsetzung:*  
+Erfassung des individuellen Studienverlaufs je Student und Semester.  
+Die Tabelle dient der Analyse von Studienfortschritt, Leistungsentwicklung, ECTS-Verhalten und der Identifikation potenzieller Risikoentwicklungen („off track“).
+
+*Beschreibung:*  
+Diese Tabelle materialisiert alle relevanten Kennzahlen pro Student und Fachsemester.  
+Sie wird für das Studienverlaufs-Dashboard genutzt, um zeitliche Entwicklungen sichtbar zu machen. +
+
+=== Enthaltene KPIs und Felder
+
+|===
+| Spaltenname | Beschreibung | Definition
+
+| `studentID`
+| Identifikator des Studenten
+| Übernommen aus `fact_kpi`
+
+| `term_counter`
+| Numerischer Zähler des Fachsemesters (1 = erstes Semester)
+| Aus `fact_kpi.term_counter`
+
+| `credits_per_term`
+| Im Semester erzielte ECTS je Student
+| `SUM(credits) pro studentID und term_counter``
+
+| `modules_per_term`
+| Anzahl belegter Module im Semester je Student
+| `COUNT(DISTINCT modulID)``
+
+| `avg_grade_per_term`
+| Durchschnittsnote des Semesters je Student
+| `AVG(note_numeric)``, gerundet auf 2 Dezimalstellen
+
+| `cumulative_ects`
+| Kumulierte Gesamtsumme aller Credits bis inkl. dieses Semesters je Student
+| Window- Functiom
+
+| `grade_change`
+| Veränderung der Durchschnittsnote zum Vorsemester je Student 
+(Trendindikator)
+| `avg_grade_per_term – LAG(avg_grade_per_term)``
+
+| `credit_change`
+| Veränderung der Credits zum Vorsemester je Student 
+(ECTS-Trendindikator)
+| `credits_per_term – LAG(credits_per_term)``
+
+| `ontrack_flag`
+| 1 = Student liegt im Sollbereich (>=25 ECTS)  
+0 = Student ist im Semester „off track“, also erzielte weniger als 25 Credits!
+| `CASE WHEN ABS(credits_per_term – 30) <= 5 THEN 1 ELSE 0 END`
+|===
+
+=== Nutzen
+* Analyse des Studierverhaltens über die Zeit  
+* Früherkennung von Risikostudenten anhand von Trends  
+* Grundlage fürTrendlinien und Studienverlaufsanalysen  und ggf. Heatmaps 
+* Ermöglicht On-Track-Monitoring für den Dekan   
+* Grundlage für ML-Features im Risikomodell  
+// end::progress[]
+
+[source, sql]
+----
+CREATE OR REPLACE TABLE students_final.study_progress AS
+WITH credits_pro_semester AS (
+SELECT
+f.studentID,
+f.term_counter, -- Fachsemester (numerische Semestereinteilung)
+
+-- Credits, die der Student in diesem Semester erzielt hat
+SUM(f.credits) AS credits_per_term, -- Gesamt-ECTS im Semester
+
+-- Anzahl der belegten Module in diesem Semester
+COUNT(DISTINCT f.modulID) AS modules_per_term, -- Anzahl belegter Module
+
+-- Durchschnittsnote in diesem Semester
+ROUND(AVG(f.note_numeric), 2) AS avg_grade_per_term, -- Durchschnitt aller Noten im Semester
+
+-- OnTrack-Flag: 0 falls mehr als 5 Credits vom 30-ECTS-Soll abgewichen wurden
+CASE
+WHEN ABS(credits_per_term - 30) > 5 THEN 0
+ELSE 1
+END AS ontrack_flag -- Semester gilt als riskant, wenn die ECTS stark vom Sollwert abweichen
+
+FROM students_final.fact_kpi f
+GROUP BY f.term_counter, f.studentID
+)
+
+SELECT
+studentID,
+term_counter,
+credits_per_term,
+modules_per_term,
+avg_grade_per_term,
+
+-- Kumulierte ECTS über alle bisherigen Semester des Studenten
+SUM(credits_per_term) OVER (
+PARTITION BY studentID
+ORDER BY term_counter
+ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+) AS cumulative_ects, -- Gesamtsumme aller bisher erreichten ECTS
+
+-- Notentrend: Veränderung der Semesterdurchschnittsnote zum Vorsemester
+ROUND(
+avg_grade_per_term
+- LAG(avg_grade_per_term) OVER (
+PARTITION BY studentID
+ORDER BY term_counter
+),
+2
+) AS grade_change, -- Positiv = Note wird schlechter, negativ = Note verbessert sich
+
+-- Credittrend: Veränderung der ECTS zum Vorsemester
+ROUND(
+credits_per_term
+- LAG(credits_per_term) OVER (
+PARTITION BY studentID
+ORDER BY term_counter
+),
+2
+) AS credit_change, -- Positiv = mehr Credits als letztes Semester, negativ = Rückgang
+
+ontrack_flag -- Semester gilt als „off track“, wenn die ECTS-Abweichung > 5 vom Sollwert beträgt
+
+FROM credits_pro_semester
+ORDER BY studentID, term_counter;
+----
+
+// tag::studiengangsvergleich[]
+== Tabelle: studiengangsvergleich_kpi
+
+*Analyseebene:*  +
+Studiengangsebene (Studienrichtung * Immatrikulationsjahr) +
+
+*Zielsetzung:*  +
+Analyse der Entwicklung der Immatrikulationszahlen je Studiengang über mehrere Jahre.  
+Die Tabelle ermöglicht stabile Trendanalysen, Vergleiche zwischen Studiengängen sowie die Ableitung kurz- und langfristiger Entwicklungen.  
+Die Table wurde vollständig überarbeitet, stabilsiert und verbessert hinsichtlich Aussagefähigkeit der Zeitreihen. +
+
+*Beschreibung:*  +
+Diese Tabelle aggregiert für jede Studienrichtung und jedes Immatrikulationsjahr   die Anzahl der neu eingeschriebenen Studierenden.  
+Zur Reduktion von Zufallsschwankungen werden geglättete Trendkennzahlen über den exponentially weighted moving average (EWMA)  
+sowie durch eine lineare Regressionsanalyse berechnet.  
+Dadurch lassen sich sowohl kurzfristige Abweichungen als auch langfristige strukturelle Trends identifizieren. +
+
+===  Mathematische Grundlagen
+
+*- Exponenntiell gewichteter gleitender Mittelwert:* +
+Der EWMA dient der Glättung von Zeitreihen, indem neuere Beobachtungen stärker gewichtet werden als ältere.
+Dadurch wird verhindert, dass einzelne Ausreißerjahre die Trendbewertung verzerren. +
+
+EWMA[t] = a * x[t] + b * x[t-1] + c * x[t-2]
+
+Bedingung: +
+a + b + c = 1 +
+a,b,c > 0 +
+
+Im Projekt findet sich folgende Gewichtung vor: +
+a = 0.5 (aktuelles Imma- Jahr) +
+b = 0,3 (Vorjahr) +
+c = 0.2 (Zwei Jahre zuvor) +
+
+*Wachstumsrate relativ zum EWMA:*
+Es wird die Abweichtung vom geglätteten Trend gemessen. +
+
+Wachstumsrate_vs_EWMA = (x[t]- EWMA[t])/EWMA[t]
+
+Interpretation: +
+	positiver Wert: Immatrikulationen liegen über dem erwarteten Trend +
+	negativer Wert: Immatrikulationen liegen unter dem erwarteten Trend +
+	Wert nahe 0: Entwicklung entspricht dem langfristigen Erwartungswert +
+
+*- Lineare Regression:* +
+Zugrunde liegendes Modell:
+
+y = a · x + b
+
+x = Immatrikulationsjahr +
+y = Anzahl der Immatrikulationen +
+a = Steigung der Regressionsgeraden (Regression Slope) +
+b = Achsenabschnitt (Regressions- Intercept) +
+
+*Interpretation des Regressions- Slopes/Steigung:* +
+	a > 0: langfristig wachsender Studiengang +
+	a < 0: langfristig rückläufiger Studiengang +
+	a = 0: stabile Entwicklung +
+
+*Interpretation des Achsenabschnitts:*
+    b = Schnittpunkt der Regressionsgerade mit der y- Achse.
+
+
+
+=== Enthaltene KPIs / Felder
+
+|===
+| Spaltenname | Beschreibung | Logik / Definition
+
+| `studienrichtung`
+| Studiengang
+| Aus `dim_students.studienrichtung`
+
+| `immajahr`
+| Jahr der Immatrikulation
+| Aus `dim_students.immajahr`
+
+| `anzahl_immatrikulationen`
+| Anzahl der Studierenden, die sich im jeweiligen Jahr und Studiengang immatrikuliert haben
+| `COUNT(DISTINCT studentID)`
+
+| `ewma_enrollments`
+| Exponentiell gewichteter gleitender Mittelwert der Immatrikulationen  
+(kurzfristig geglätteter Trend)
+| `((0.5 * t[i]) + (0.3 * t[i-1]) + (0.2 * t[i-2]))`
+unter Verwendung von `COALESCE`, um Startwerte stabil zu initialisieren
+
+| `growth_rate_vs_ewma_percent`
+| Prozentuale Abweichung der aktuellen Immatrikulationen vom geglätteten EWMA-Trend.  
+(positiv = über Trend, negativ = unter Trend)
+| `((anzahl_immatrikulationen - ewma_enrollments) / ewma_enrollments) * 100`
+
+| `regression_slope`
+| Steigung der linearen Regressionsgeraden je Studiengang  
+(langfristige jährliche Veränderung der Immatrikulationszahlen) 
+| `REGR_SLOPE(anzahl_immatrikulationen, immajahr) OVER (PARTITION BY studienrichtung)`
+
+| `regression_intercept`
+| Achsenabschnitt der Regressionsgeraden je Studiengang
+| `REGR_INTERCEPT(anzahl_immatrikulationen, immajahr) OVER (PARTITION BY studienrichtung)`
+
+| `regression_trend_value`
+| Erwarteter Immatrikulationswert gemäß Regressionsgerade für das jeweilige Jahr
+| `regression_intercept + regression_slope * immajahr`
+|===
+
+=== Nutzen
+* Statistisch stabile Analyse der Einschreibetrends ohne starke Verzerrung durch Einzeljahre  
+* Vergleich kurz und langfristiger Entwicklungen je Studiengang  
+* Identifikation strukturell wachsender oder schrumpfender Studiengänge  
+* Entscheidungsgrundlage für Kapazitätsplanung, Marketing und strategische Steuerung  
+* Grundlage für visuelle Trenddarstellungen 
+
+// end::studiengangsvergleich[]
+
+=== Konkrete Implementierung
+[source, sql]
+----
+CREATE OR REPLACE TABLE studiengangsvergleich_kpi AS
+WITH base AS (
+    SELECT
+        Studienrichtung,
+        ImmaJahr,
+        COUNT(DISTINCT studentID) AS anzahl_immatrikulationen
+    FROM students_final.dim_students
+    GROUP BY
+        Studienrichtung,
+        ImmaJahr
+),
+
+ewma_calc AS (
+    SELECT
+        Studienrichtung,
+        ImmaJahr,
+        anzahl_immatrikulationen,
+        (
+            0.5 * anzahl_immatrikulationen
+          + 0.3 * COALESCE(
+                LAG(anzahl_immatrikulationen, 1) OVER (
+                    PARTITION BY Studienrichtung
+                    ORDER BY ImmaJahr
+                ),
+                anzahl_immatrikulationen
+            )
+          + 0.2 * COALESCE(
+                LAG(anzahl_immatrikulationen, 2) OVER (
+                    PARTITION BY Studienrichtung
+                    ORDER BY ImmaJahr
+                ),
+                anzahl_immatrikulationen
+            )
+        ) AS ewma_enrollments
+
+    FROM base
+)
+
+SELECT
+    Studienrichtung,
+    ImmaJahr,
+    anzahl_immatrikulationen,
+
+    ROUND(ewma_enrollments, 2) AS ewma_enrollments,
+
+
+    ROUND(
+        (anzahl_immatrikulationen - ewma_enrollments)
+        / NULLIF(ewma_enrollments, 0)
+        * 100,
+        2
+    ) AS growth_rate_vs_ewma_percent,
+
+    ROUND(
+        REGR_SLOPE(anzahl_immatrikulationen, ImmaJahr)
+        OVER (PARTITION BY Studienrichtung),
+        3
+    ) AS regression_slope,
+
+    ROUND(
+        REGR_INTERCEPT(anzahl_immatrikulationen, ImmaJahr)
+        OVER (PARTITION BY Studienrichtung),
+        3
+    ) AS regression_intercept,
+
+   
+    ROUND(
+        (
+            REGR_INTERCEPT(anzahl_immatrikulationen, ImmaJahr)
+            OVER (PARTITION BY Studienrichtung)
+        )
+        +
+        (
+            REGR_SLOPE(anzahl_immatrikulationen, ImmaJahr)
+            OVER (PARTITION BY Studienrichtung)
+            * ImmaJahr
+        ),
+        3
+    ) AS regression_trend_value
+
+FROM ewma_calc
+ORDER BY
+    Studienrichtung,
+    ImmaJahr;
+----
+
+// tag::student_kpi[]
+== View: student_kpi_view
+*Analyseebene:* Studentenebene (individueller Studienfortschritt)  +
+*Zielsetzung:*  
+Diese View aggregiert alle wesentlichen Leistungskennzahlen je Student, um individuelle Studienverläufe quantifizierbar zu machen.  +
+Sie dient als Basis für: +
+– Risiko- Einschätzung +
+– Studentenanalyse   +
+– Frühwarnsysteme zur Identifikation potenzieller Risikostudierender  +
+– Performance Monitoring einzelner Studierender und Trendabschätzung +
+
+*Beschreibung:*  +
+Die View kombiniert Versuche, Noten, Credit Points und Erfolgsquoten auf Ebene eines Studierenden.  
+Hiermit können Trend, Risiko und Übersichts- KPI's auf Studentenebene betrachtet und analysiert werden.
+
+=== Enthaltene KPIs und Felder
+
+|===
+| Spaltenname | Beschreibung | Definition / Logik
+
+| `studentID` 
+| Eindeutiger Identifier eines Studenten 
+| Übernommen aus `fact_kpi`, gruppiert auf Studierendenebene
+
+| `Module_Gesamt`
+| Anzahl der unterschiedlichen Module, die ein Student belegt hat
+| `COUNT(*)` aus der gruppierten Tabelle `modul_status`
+
+| `Bestandene_Modul`
+| Anzahl der Module, die mindestens einmal bestanden wurden
+| `modul_bestanden = MAX(bestanden_flag)` je Modul; dann `SUM(modul_bestanden)`
+
+| `Anzahl_Fehlversuche`
+| Summe aller Fehlversuche eines Studenten
+| `SUM(CASE WHEN bestanden_flag = 0 THEN 1 END)` je Modul und Student
+
+| `Wiederholungsmodul`
+| Anzahl der Module, die mehrfach belegt wurden (mind. 2 Versuche)
+| `SUM(CASE WHEN Anz_Versuche > 1 THEN 1 END)`
+
+| `Gesamtzahl_Credits`
+| Summe aller erworbenen ECTS-Punkte eines Studenten
+| `SUM(Anz_Credits)` über alle Module
+
+| `Gewichtete_Durchschnittsnote`
+| ECTS-gewichtetes arithmetisches Mittel der Noten eines Studenten
+| `SUM(note_numeric * credits) / SUM(credits)` aus `noten_agg`
+
+| `Median_Note`
+| Median aller benoteten Leistungen eines Studenten
+| `MEDIAN(note_numeric)` aus `noten_agg`
+
+| `Bestehensrate_je_Student`
+| Anteil bestandener Module des Studenten relativ zur Gesamtzahl belegter Module
+| `(SUM(modul_bestanden) / COUNT(*)) * 100`
+
+| `Nichtbestehensrate_je_Student`
+| Komplement zur Bestehensrate → misst misslungene Modulabschlüsse
+| `100 - Bestehensrate`
+
+| `Wiederholungsrate_je_Student`
+| Anteil der Module, die mehrmals belegt wurden
+| `(SUM(CASE WHEN Anz_Versuche > 1 THEN 1 END) / COUNT(*)) * 100`
+|===
+
+=== Nutzen
+* Identifikation von Risikostudierenden anhand objektiver Leistungsdaten  
+* Grundlage für ML-Modelle (z. B. Abbruchvorhersage, On-Track-Klassifizierung)  
+* Analyse der individuellen Leistungsentwicklung (Fehlversuche, Wiederholungen, Notenniveau)  
+* Vergleich von Studierenden innerhalb eines Jahrgangs oder einer Studienrichtung  
+* Grundlage für das Studentenanalyse-Dashboard (Tabellenansicht + Sortieroptionen)  
+// end::student_kpi[]
+
+=== Konkrete Implementierung
+[source, sql]
+----
+CREATE OR REPLACE VIEW student_kpi_view AS
+WITH modul_status AS (
+    SELECT
+        studentID,
+        modulID,
+        MAX(
+            CASE 
+                WHEN bestanden_flag = 1 THEN 1 
+                ELSE 0 
+            END
+        ) AS modul_bestanden,
+        SUM(
+          CASE WHEN bestanden_flag = 0 THEN 1 ELSE 0 END
+        ) AS Anz_Fehlversuche,
+        COUNT(*) AS Anz_Versuche,
+        SUM(credits) AS Anz_Credits
+    FROM students_final.fact_kpi
+    GROUP BY studentID, modulID
+),
+noten_agg AS (
+    SELECT
+        studentID,
+        ROUND(
+          SUM(note_numeric * credits) / NULLIF(SUM(credits), 0),
+          2
+        ) AS Gewichtete_Durchschnittsnote,
+        MEDIAN(note_numeric) AS Median_Note
+    FROM students_final.fact_kpi
+    WHERE note_numeric IS NOT NULL
+    GROUP BY studentID
+)
+
+SELECT
+    m.studentID,
+
+    -- Module gesamt (Anzahl verschiedener Module)
+    COUNT(*) AS Module_Gesamt,
+
+    -- Anzahl bestandener Module
+    SUM(modul_bestanden) AS Bestandene_Modul,
+
+    -- Anzahl Fehlversuche
+    SUM(Anz_Fehlversuche) AS Anzahl_Fehlversuche,
+
+    -- Anzahl Wiederholungsmodule (mindestens 2 Versuche)
+    SUM(CASE WHEN Anz_Versuche > 1 THEN 1 ELSE 0 END) AS Wiederholungsmodul,
+
+    -- Summe Credits
+    SUM(Anz_Credits) AS Gesamtzahl_Credits,
+ -- gewichteter Notenschnitt nach Credits (pro Student aus noten_agg)
+    n.Gewichtete_Durchschnittsnote,
+    
+    -- Median-Note pro Student
+    n.Median_Note,
+
+      -- Bestehensrate
+    ROUND(
+        SUM(modul_bestanden) * 100.0 / NULLIF(COUNT(*), 0),
+        2
+    ) AS Bestehensrate_je_Student,
+
+    -- Nichtbestehensrate
+    ROUND(
+        100 - (SUM(modul_bestanden) * 100.0 / NULLIF(COUNT(*), 0)),
+        2
+    ) AS Nichtbestehensrate_je_Student,
+
+    -- Wiederholungsrate 
+    ROUND(
+        SUM(CASE WHEN Anz_Versuche > 1 THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0),
+        2
+    ) AS Wiederholungsrate_je_Student
+
+FROM modul_status m
+LEFT JOIN noten_agg n
+  ON m.studentID = n.studentID
+GROUP BY
+    m.studentID,
+    n.Gewichtete_Durchschnittsnote,
+    n.Median_Note;
+
+----
+
+
+// tag::cohort_kpi[]
+== Tabelle: cohort_kpi_table
+*Analyseebene:* Kohortenebene (Jahrgang = ImmaJahr)  +
+*Zielsetzung:*  
+Diese Tabelle fasst alle relevanten KPI des Studienerfolgs und Studienrisikos für ganze Immatrikulationsjahrgänge zusammen.  
+Sie dient dem Dekan als Basis, um Trends zu erkennen, problematische Kohorten zu identifizieren und Maßnahmen abzuleiten.
+
+*Beschreibung:*  +
+Die Tabelle materialisiert abgeschlossene Kennzahlen pro Jahrgang (in folgenden nennen wir es `Kohorte`).  
+Sie kombiniert Performance-Informationen (Noten, Abschlussquote, Fehlversuche)  
+mit einem On-Track-Indikator, der prüft, ob Studierende in ihren Fachsemestern ausreichend Credits erzielen.
+
+=== Enthaltene KPIs und Felder
+
+|===
+| Spaltenname | Beschreibung | Definition
+
+| `intake_year`
+| Immatrikulationsjahr der Kohorte
+| Aus `dim_students.ImmaJahr`
+
+| `enrollments`
+| Anzahl der Studierenden eines Jahrgangs
+| `COUNT(DISTINCT studentID)` für `ImmaJahr`
+
+| `graduation_rate`
+| Anteil der Studierenden eines Jahrgangs, die den Master erfolgreich abgeschlossen haben
+| Studierende mit bestandener Masterarbeit (`modulID = 'I707'` und `bestanden_flag = 1`)/Gesamtstudierende * 100
+
+| `dropout_rate`
+| Anteil der Studierenden, die ihr Studium abgebrochen haben
+| Abbruch = (Masterarbeit endgültig nicht bestanden (`tries_counter >= 3`) **ODER** `InactivityFlag = 1`)/Gesamtstudierende * 100
+
+| `weighted_avg_grade`
+| ECTS-gewichtetes Notenmittel des gesamten Jahrgangs
+| `SUM(note_numeric * Credits) / SUM(Credits)`, nur für nicht-NULL-Noten
+
+| `median_grade`
+| Median der Prüfungsnoten aller Studierenden des Jahrgangs
+| `MEDIAN(note_numeric)`
+
+| `avg_failed_attempts`
+| Durchschnittliche Anzahl der Fehlversuche pro Student eines Jahrgangs
+| 2-stufig:  
+(1) Fehlversuche je Student = `SUM(CASE WHEN bestanden_flag=0 THEN 1 END)`  
+(2) Durchschnitt über alle Studierenden der Kohorte
+
+| `ontrack_rate`
+| Anteil aller Semester eines Jahrgangs, die im Credit-Sollbereich liegen
+| `ontrack_terms / total_terms * 100`, wobei On-Track = `ABS(credits_per_term - 30) <= 5`
+|===
+
+=== Nutzen
+* Identifikation von „starken“ und „schwachen“ Jahrgängen  
+* Einblick in Studienverläufe auf Kohortenebene  
+* Früherkennung von Kohorten mit hoher Fehlversuchsrate oder hohem Abbruchrisiko  
+* Bewertung der Studierfähigkeit über die On-Track-Rate  
+* Grundlage für:  
+  – Jahrgangsvergleich  
+  – Trendanalysen über mehrere Jahre  
+  – Entscheidungen im Qualitätsmanagement  
+  – Studiengangsteuerung und Ressourcenplanung 
+// end::cohort_kpi[]
+
+=== Konkrete Implementierung:
+[source, sql]
+----
+CREATE OR REPLACE TABLE students_final.cohort_kpi_table AS
+WITH cohort_ontrack AS (
+    SELECT
+        s.ImmaJahr,
+        f.studentID,
+        f.term_counter,
+
+        SUM(f.credits) AS credits_per_term
+        
+    FROM students_final.fact_kpi f
+    JOIN students_final.dim_students s 
+      ON f.studentID = s.studentID
+    GROUP BY 
+        s.ImmaJahr,
+        f.studentID,
+        f.term_counter
+),
+ontrack_agg AS (
+    SELECT
+        ImmaJahr,--Anzahl der Semester, die im Soll Bereich liegen SUM(CASE 
+                WHEN ABS(credits_per_term - 30) <= 5 THEN 1 
+                ELSE 0 
+            END) AS ontrack_terms,
+        -- Gesamtanzahl der Semester aller Studierenden des Jahrgangs
+        COUNT(*) AS total_terms
+    FROM cohort_ontrack
+    GROUP BY ImmaJahr
+)
+
+SELECT
+    s.ImmaJahr AS intake_year,
+
+ -- Anzahl der Studierenden, die in diesem Jahrgang immatrikuliert wurden
+    COUNT(DISTINCT s.studentID) AS enrollments,
+
+ -- Abschlussquote: Anteil der Studierenden des Jahrgangs, die die Masterarbeit bestanden haben
+    ROUND(
+        100.0 * COUNT(DISTINCT CASE 
+                                  WHEN m.modulID = 'I707' 
+                                       AND f.bestanden_flag = 1 
+                                  THEN s.studentID
+                              END)
+        / NULLIF(COUNT(DISTINCT s.studentID), 0),
+        2
+    ) AS graduation_rate,
+
+ -- Abbruchquote: Studierende mit endgültig nicht bestandener Masterarbeit oder Inaktivitäts-Flag
+    ROUND(
+        100.0 * COUNT(DISTINCT CASE 
+                                  WHEN (
+                                            m.modulID = 'I707'
+                                            AND f.bestanden_flag = 0
+                                            AND f.tries_counter >= 3
+                                       )
+                                       OR s.InactivityFlag = 1
+                                  THEN s.studentID
+                              END)
+        / NULLIF(COUNT(DISTINCT s.studentID), 0),
+        2
+    ) AS dropout_rate,
+-- ECTS-gewichtetes Notenmittel aller Leistungen des Jahrgangs    
+ROUND(
+        SUM(CASE 
+                WHEN f.note_numeric IS NOT NULL 
+                THEN f.note_numeric * m.Credits 
+            END)
+        /
+        NULLIF(
+            SUM(CASE 
+                    WHEN f.note_numeric IS NOT NULL 
+                    THEN m.Credits 
+                END), 
+            0
+        ),
+        2
+    ) AS weighted_avg_grade,
+    
+--Median Note der Studenten eines Jahrganges
+    MEDIAN(f.note_numeric) AS median_grade,
+    
+-- Durchschnittliche Anzahl Fehlversuche je Student eines Jahrgangs
+    (
+        SELECT ROUND(AVG(fehlversuche), 2)
+        FROM (
+            SELECT
+                fk.studentID,
+                SUM(CASE WHEN fk.bestanden_flag = 0 THEN 1 ELSE 0 END) AS fehlversuche
+                -- Anzahl der Fehlversuche pro Student
+            FROM students_final.fact_kpi fk
+            GROUP BY fk.studentID
+        ) t
+        WHERE t.studentID IN (
+            SELECT ds.studentID 
+            FROM students_final.dim_students ds
+            WHERE ds.ImmaJahr = s.ImmaJahr
+        )
+    ) AS avg_failed_attempts,
+    
+-- Rate der Studenten je Jahrgang, die derzeit im Soll Liegen von den Credits
+    ROUND(
+        100.0 * oa.ontrack_terms
+        / NULLIF(oa.total_terms, 0),
+        2
+    ) AS ontrack_rate
+
+FROM students_final.dim_students s
+LEFT JOIN students_final.fact_kpi f 
+       ON f.studentID = s.studentID
+LEFT JOIN students_final.dim_modul m 
+       ON f.modulID = m.modulID
+LEFT JOIN ontrack_agg oa
+       ON oa.ImmaJahr = s.ImmaJahr
+
+GROUP BY
+    s.ImmaJahr,
+    oa.ontrack_terms,
+    oa.total_terms
+
+ORDER BY
+    intake_year;
+----
+
+
+== Konkrete Implementierung des Schemas:  +
+*Achtung: Schema Teilweise veraltet!:* +
+Dimension Modul:
+[source, sql]
+----
+CREATE OR REPLACE TABLE dim_modul AS 
+SELECT 
+Modulnummer AS modulID, 
+Modul AS Modulname, 
+Credits,
+AbJahr, 
+AbSemester, 
+concat(AbJahr,'-',AbSemester,'-',Modulnummer) as module_key, Semester AS SemesterEmpfohlen,
+Studienrichtung,
+Art, 
+Professor,
+APL,
+"schriftliche Prüfung" AS schriftlich, 
+"mündliche Prüfung" AS muendlich FROM students_final.module;
+----
+
+Dimension Student:
+[source, sql]
+----
+Create or replace table dim_student
+as 
+select
+studentID,
+Studienrichtung,
+StudienOrdnungJahr as Jahr_gueltiger_Ordnung,
+ImmaJahr as Jahrgang,
+ImmaSemester as Semesterstart,
+HasPassedDegree as Abschlussstatus
+from  students_final.dim_students
+
+----
+
+Dimension Zeit:
+[source, sql]
+----
+
+CREATE OR REPLACE TABLE dim_zeit AS
+SELECT
+    ROW_NUMBER() OVER () AS zeitID,
+    Jahr,
+    Semester,
+    Case when Semester = 'SoSe' then 1 
+    When Semester = 'WiSe' then 0
+    else null 
+    end as Semester_numeric,
+    case
+        when Semester = 'SoSe' then make_date(2000 + Jahr, 3, 1)
+        when Semester = 'WiSe' then make_date(2000 + Jahr, 10, 1)
+        else null
+    end as zeit_label
+FROM (
+    SELECT DISTINCT Jahr, Semester
+    FROM students_final.stg_students_clean
+    WHERE Jahr IS NOT NULL AND Semester IS NOT NULL
+);
+----
+
+Fakttabelle:
+[source, sql]
+----
+CREATE OR REPLACE TABLE fact_kpi AS
+SELECT
+    s.studentID,
+    m.modulID,
+    z.zeitID,
+    CAST(s.Note AS DOUBLE) AS note_numeric,
+    CASE 
+        WHEN s.Status = 'bestanden' THEN 1 
+        ELSE 0 
+    END AS bestanden_flag,
+    s.earned_credits AS credits
+FROM students_final.stg_students_with_credits s
+INNER JOIN students_final.dim_modul m
+    ON s.module_key = m.module_key
+LEFT JOIN students_final.dim_zeit z
+    ON s.Jahr = z.Jahr 
+   AND s.Semester = z.Semester;
+
+----
+
+// tag::studienrichtung_kpi[]
+Studienrichtung- View:
+[source, sql]
+----
+CREATE OR REPLACE VIEW studienrichtung_kpi_view AS
+SELECT
+    dS.Studienrichtung,
+    ROUND(AVG(f.bestanden_flag)*100, 2) AS bestehensquote,
+    ROUND((1 - AVG(f.bestanden_flag))*100, 2) AS durchfallquote,
+    COUNT(CASE WHEN f.bestanden_flag = 1 THEN 1 END) AS bestandene_module,
+    COUNT(DISTINCT f.modulID) AS gesamtmodule,
+    ROUND(AVG(dS.Abschlussstatus::INT)*100, 2) AS abschlussquote
+FROM fact_kpi f
+JOIN dim_student dS ON f.studentID = dS.studentID
+JOIN dim_modul dM ON f.modulID = dM.modulID
+GROUP BY dS.Studienrichtung;
+----
+// end::studienrichtung_kpi[]
+
+== Änderungen im Schema
+20.11.2025- 27.11.2025:
+[cols="2,4"]
+
+|===
+| Änderung | Beschreibung
+
+| **Neue Spalten `AbbruchFlag` und `totalTermsTaken` in `dim_students`**
+| - `AbbruchFlag`: +
+- Ergänzung eines booleschen Flags zur Kennzeichnung von Studienabbrüchen.  
+Heuristik: Studierende gelten als „abgebrochen“, wenn  
+keine Masterarbeit (`I707`) bestanden wurde **und** sie seit mindestens vier Semestern inaktiv sind.  +
+- `TotalTermsTaken`:  +
+<tbc>
+
+| **Erweiterung der `studiengang_kpi_view`** 
+| Die View wurde um zusätzliche KPIs erweitert: +
+  - `abschlussquote`: Anteil der Studierenden mit bestandener Masterarbeit  +
+  - `abbruchquote`: Anteil der Studierenden mit gesetztem `AbbruchFlag`  +
+  - `gewichtetes_mittel`: Durchschnittsnote, gewichtet nach Credits  +
+  - `median_note`: Median aller Modulnoten  +
+  - `durchschnittliche_studiendauer`: Differenz zwischen 
+  erstem und letztem belegten Semester pro Student  
+
+| **Umstrukturierung der `dim_module`**
+| - Ergänzung von `AbJahr`, `AbSemester` und einem Modulkey,
+bestehend aus:  `AbJahr`-`AbSemester`-`Modulnummer` +
+- Ermöglicht nun das Problem zu beheben, das manche Module in Abhängigkeit der Studienordnung verschiedenwertige Credits haben. +
+- Datensätze haben sich erhöht!
+
+| **Umstrukturierung der `dim_Zeit`**
+| - Zur besseren Auswertung ist nun eine neue Variable eingefügt wurden: `zeit_label`, welche konkrete Datumsangaben gibt, in Abhängigkeit, wann die Studenten genau angefangen hatten. +
+- `zeitID` beinhaltet zusätzlich eine Unique ID, welche für das Data Warehouse Schema unabdingbar ist. +
+
+| **Umstrukturierung der `fact_kpi`**
+| - Dadurch das die `dim_module` mit dem `module_key` geändert wurde, wird nun darüber gejoined. +
+
+|===
+

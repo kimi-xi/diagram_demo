@@ -1,0 +1,218 @@
+= Dokumentation zum Modell `stg_students_clean`
+:author: Paul Händler
+:revdate: 2025-10-23
+:doctype: book
+:toc: left
+:toclevels: 2
+
+== Zweck & Einordnung
+
+`stg_students_clean.sql` ist ein *Staging*-Modell. Es bereinigt, vereinheitlicht und typisiert Rohdaten aus `students` für spätere Analysen.
+Das Modell vereinheitlicht die Informationen aus unaufbereiteten Datenbank, mit reproduzierbaren Regeln.
+
+== Vorarbeiten
+Vor Erstellung des Modells musste die zugrundeliegende SQL-Light-Datenbank students_final.db in eine Duck-DB konvertiert werden, da SQL-Light keine ENUM-Typen erlaubt.
+
+== Konfiguration & Domänentypen
+
+[source,sql]
+----
+{{ config(
+    pre_hook=[
+        "CREATE TYPE IF NOT EXISTS academic_semester AS ENUM ('WiSe', 'SoSe');",
+        "CREATE TYPE IF NOT EXISTS exam_remark AS ENUM ('abgemeldet', 'anerkannt', 'krank', 'nicht zugelassen', 'unentschuldigt gefehlt');",
+        "CREATE TYPE IF NOT EXISTS exam_status AS ENUM ('bestanden', 'nicht bestanden', 'abgemeldet');"
+    ]
+) }}
+----
+*Warum?*  
+Die `pre_hook`s definieren **ENUM-Typen** für Semester, Vermerk und Status, sofern diese noch nicht vorhanden sind (`IF NOT EXISTS`).
+
+== Transformationslogik
+
+=== 1) `source_data` – Filter nur auf Hauptnoten (Entferne Teilnoten)
+[source,sql]
+----
+with source_data as (
+  select * from students
+  where Modul not like '%APL%'
+    and Modul not like '%SPL%'
+    and Modul not like '%PVL%'
+    and Modul not like '%MP%'
+    and Modul not like '%schriftlicher Teil%'
+    and Modul not like '%mündlicher Teil%'
+    and Modul not like '%SP%'
+    and Modul not like '%Semesterarbeit%'
+    and Modul not like '%BGA%'
+    and Modul not like '%Beleg%'
+    and Modul not like '%schriftlich%'
+    and Modul not like '%Verteidigung%'
+    and Modul not like '%schriftliche Arbeit%'
+),
+----
+*Ziel:* Alles entfernen, was keine **Endnote** ist (Zwischen-/Teilprüfungen, PVL, Beleg, Verteidigung etc.).  
+*Effekt:* Verhindert Doppelzählungen und Fehler durch die Anonymisierung in späteren Analysen.
+
+=== 2) `module_mapping` – Modulnummern ableiten/korrigieren
+[source,sql]
+----
+module_mapping as (
+  select
+    *,
+    case
+      when Modulnummer is null and Modul like '%Wahlpflichtmodul (Ausnahme)%' then 'XWM'
+      when Modulnummer is null and Modul like '%Zusatzmodul%'                 then 'XZM'
+      when Modulnummer is null and Modul like '%Forschungs-/Entwicklungsprojekt%' then 'I705'
+      else Modulnummer
+    end as Modulnummer_mapped
+  from source_data
+),
+----
+*Ziel:* Fehlende `Modulnummer` anhand bekannter Muster ergänzen (Wahlpflicht/ Zusatz/ Forschungsprojekt).  
+*Hinweis:* Platzhalter `XWM`/`XZM` ermöglichen spätere saubere Joins auf Modulstammdaten.
+
+    * XWM = Wahlpflichtmodul
+    * XZM = Zusatzmodul
+    * I705 = Forschungs-/Entwicklungsprojekt
+
+=== 3) `cleaned` – Kernbereinigung (Noten, Status, Semester, Jahr, Vermerk)
+[source,sql]
+----
+cleaned as (
+  select
+    studentID,
+    Modulnummer_mapped as Modulnummer,
+    Studienrichtung,
+    Note          as Note_original,
+    Vermerk       as Vermerk_original,
+
+    -- a) Note bereinigen (String)
+    case
+      when Note = '10' then '1,0'                                   -- Sonderfall 10  →  1,0
+      when Note in ('0,0 mE','02.01.1900','angemeldet') then null    -- offenkundig ungültig
+      when Note = 'bestanden' then null                              -- Statuslogik übernimmt das
+      when Note is not null then trim(regexp_replace(Note,'[\r\n\t\s]+','','g'))
+      else null
+    end as Note_cleaned,
+
+    -- b) Note als Zahl (1 Dezimalstelle)
+    case
+      when Note = '10' then 1.0
+      when Note_cleaned is null then null
+      else try_cast(replace(Note_cleaned, ',', '.') as decimal(3,1))
+    end as Note_numeric,
+
+    -- c) Vorläufiger Prüfungsstatus (aus Note/Vermerk abgeleitet)
+    case
+      when Note = 'bestanden' then 'bestanden'
+      when (Note_cleaned is null or Note_cleaned = '') and Vermerk = 'mit Erfolg' then 'bestanden'
+      when Note is null and Vermerk is null then 'abgemeldet'
+      when Vermerk in ('krank','nicht zugelassen') then 'abgemeldet'
+      when Note = 'angemeldet' and Vermerk is null then 'abgemeldet'
+      when Vermerk = 'unentschuldigt gefehlt' then 'nicht bestanden'
+      when Note_numeric between 1.0 and 4.0 then 'bestanden'
+      when Note_numeric = 5.0 then 'nicht bestanden'
+      when Vermerk = 'abgemeldet' and Note_numeric = 5.0 then 'nicht bestanden'
+      when Vermerk = 'abgemeldet' then 'abgemeldet'
+      when Note_cleaned is not null and Note_cleaned <> '' then 'bestanden'
+      else null
+    end as exam_status_temp,
+
+    -- d) Semester normalisieren
+    case
+      when upper(Semester) = 'WISE' then 'WiSe'
+      when upper(Semester) = 'SOSE' then 'SoSe'
+      else Semester
+    end as Semester_cleaned,
+
+    -- e) Jahr bereinigen
+    case
+      when Jahr = 29 then 19                   -- offensichtlicher Tippfehler
+      when Jahr between 11 and 25 then Jahr    -- 2011–2025 (zweistellig)
+      else null
+    end as Jahr_cleaned,
+
+    -- f) Vermerk bereinigen
+    case
+      when Note = '5' and Vermerk <> 'unentschuldigt gefehlt' then null
+      when Vermerk = 'krank' then null                        -- Status bereits abgeleitet
+      when Vermerk in ('mit Erfolg','kein Antrag') then null  -- in Statuslogik berücksichtigt
+      when Vermerk in ('abgemeldet','anerkannt','krank','nicht zugelassen','unentschuldigt gefehlt') then Vermerk
+      else null
+    end as Vermerk_cleaned
+
+  from module_mapping
+)
+----
+*Kernaussagen:*
+- **Notenbereinigung**: vereinheitlicht Noten, eliminiert offensichtliche Platzhalter/Fehler und löst zuvor manuell geprüfte Spezialfälle z.B. `10 → 1,0`.
+- **Numerische Note**: sichere Umwandlung (Komma → Punkt, `try_cast`).
+- **Statusableitung**:  
+  1) Explizite Schlüsselwörter (`bestanden`, `mit Erfolg`),  
+  2) Abmelde-/Zulassungslogik (`krank`, `nicht zugelassen`, „angemeldet ohne Vermerk“),  
+  3) Fehlzeit hart ( →  `nicht bestanden`),  
+  4) Zahlenbereich 1.0–4.0  →  `bestanden`, 5.0  →  `nicht bestanden`,  
+  5) Vermerke überschreiben (z. T. nachgelagert).  
+- **Semester/Jahr**: Normalisiert und behebt Sonderfälle (WiSe/SoSe, Tippfehler `29 → 19`).
+- **Vermerk**: alles entfernen, was in Statuslogik konsumiert wurde; nur *kanonische* Werte bleiben.
+
+=== 4) Finale Projektion & Typisierung
+[source,sql]
+----
+select
+  studentID,
+  Modulnummer,
+  Note_cleaned  as Note,
+  Note_numeric,
+  cast(exam_status_temp as exam_status)           as Status,
+  cast(Semester_cleaned as academic_semester)     as Semester,
+  Jahr_cleaned                                     as Jahr,
+  cast(Vermerk_cleaned as exam_remark)            as Vermerk,
+  Studienrichtung
+from cleaned
+where not (
+  Note_cleaned   is null
+  and Jahr_cleaned is null
+  and Semester_cleaned is null
+  and Vermerk_cleaned  is null
+)
+----
+
+== Logik kompakt (Tabellen)
+
+=== Statusableitung (Auszug)
+|===
+| Bedingung | Ergebnis
+
+| `Note = 'bestanden'` | Status = *bestanden*
+| `Note_cleaned NULL` & `Vermerk='mit Erfolg'` | *bestanden*
+| `Note NULL` & `Vermerk NULL` | *abgemeldet*
+| `Vermerk in ('krank','nicht zugelassen')` | *abgemeldet*
+| `Note='angemeldet'` & `Vermerk NULL` | *abgemeldet*
+| `Vermerk='unentschuldigt gefehlt'` | *nicht bestanden*
+| `1.0 ≤ Note_numeric ≤ 4.0` | *bestanden*
+| `Note_numeric = 5.0` | *nicht bestanden*
+| `Vermerk='abgemeldet'` & `Note_numeric=5.0` | *nicht bestanden*
+| `Vermerk='abgemeldet'` (sonst) | *abgemeldet*
+| `Note_cleaned not null` | *bestanden*
+|===
+
+=== Vermerkbereinigung
+|===
+| Fall | Aktion
+
+| `Note='5'` & Vermerk ≠ `unentschuldigt gefehlt` | Vermerk  →  `NULL`
+| `Vermerk='krank'` | Vermerk  →  `NULL` (Status trägt Case)
+| `Vermerk in ('mit Erfolg','kein Antrag')` | Vermerk  →  `NULL`
+| Vermerk ∈ {abgemeldet, anerkannt, krank, nicht zugelassen, unentschuldigt gefehlt} | Vermerk bleibt
+| Sonstiges | Vermerk  →  `NULL`
+|===
+
+
+== Edge Cases & Hinweise
+
+* `Note='10'` als *1,0* ist projektspezifisch – dokumentiert & getestet halten.  
+* `Jahr=29 → 19` ist ein gezielter Tippfehler-Fix. Weitere Jahr-Anomalien sollten geloggt werden.  
+* Falls zusätzliche Teilprüfungsarten auftauchen, muss die **Filterliste in `source_data`** erweitert werden.  
+* Werden neue Vermerke/Status eingeführt, **ENUMs + Logik** synchron anpassen.
+
