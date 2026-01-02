@@ -1,0 +1,213 @@
+= dbt Seeding – Kurz­dokumentation
+:author: Paul Händler
+:revdate: 2025-10-30
+:doctype: book
+:toc: left
+:toclevels: 2
+
+== Zweck
+*dbt seed* lädt **statische Stammdaten** (hier als modul.csv) reproduzierbar in die Ziel-Datenbank. Typischer Einsatz: Lookup-Tabellen (z. B. Modulstammdaten) zur Anreicherung in Staging-/Mart-Modellen.
+
+== Dateien und Orte
+* CSV-Seeds liegen im Ordner `seeds/` (z. B. `qisinsights/dbt/qis-insight/seeds/module.csv`).
+* Die **Spaltenbeschreibung** und Metadaten des Seeds `module` stehen in `schema.yml`.
+[source,bash]
+----
+dbt/
+└── qis-insight/
+    └── seeds/
+        ├── modul.csv
+        └── schema.yml
+----
+== Ausführung
+[source,bash]
+----
+# alle Seeds laden
+dbt seed
+
+# nur den Seed "module" laden
+dbt seed --select module
+
+# Seed neu schreiben (falls unterstützt)
+dbt seed --select module --full-refresh
+----
+
+== Verwendung in Modellen (Beispiel)
+[source,sql]
+----
+select
+  s.student_id,
+  s.Modulnummer,
+  m.Credits,
+  m.Professor
+from {{ ref('stg_students_clean') }} as s
+left join {{ ref('module') }} as m
+  on s.Modulnummer = m.Modulnummer
+----
+
+== schema.yml 
+Die folgende Definition stammt aus deiner `schema.yml`. 
+
+[source,yaml]
+----
+version: 2
+
+seeds:
+  - name: module
+    description: Master data for all modules with their properties
+    columns:
+      - name: AbJahr
+        description: Graduation year / Abschluss year
+        data_type: integer
+      
+      - name: AbSemester
+        description: Semester for this curriculum (WiSe or SoSe)
+        data_type: string
+      
+      - name: Modulnummer
+        description: Module number (e.g., I143, I705, XWM for special cases)
+        data_type: string
+      
+      - name: Modul
+        description: Module name
+        data_type: string
+      
+      - name: Art
+        description: Module type (Pflichtmodul, Wahlpflichtmodul, Zusatzmodul)
+        data_type: string
+      
+      - name: Credits
+        description: Credit points for the module
+        data_type: integer
+      
+      - name: Semester
+        description: Semester in which module is typically taught
+        data_type: integer
+      
+      - name: Wochenstunden
+        description: Weekly hours for the module
+        data_type: integer
+      
+      - name: Studienrichtung
+        description: Study program code (71, 72, 73, 74)
+        data_type: integer
+      
+      - name: Richtung
+        description: Study program name
+        data_type: string
+      
+      - name: Professor
+        description: Professor name teaching the module
+        data_type: string
+      
+      - name: PVL
+        description: Preliminary performance requirement (Prüfungsvorleistung)
+        data_type: boolean
+      
+      - name: APL
+        description: Alternative performance requirement (Alternative Prüfungsleistung)
+        data_type: boolean
+      
+      - name: "schriftliche Prüfung"
+        description: Written exam required
+        data_type: boolean
+      
+      - name: "mündliche Prüfung"
+        description: Oral exam required
+        data_type: boolean
+----
+== Tabellenbeschreibung (`schema.yml`)
+
+[cols="2,4,2,2", options="header"]
+|===
+| Spaltenname | Beschreibung | Datentyp | Beispielwert
+
+| `AbJahr`
+| Legt fest welche Studienablaufplan / Studienordnung gerade gilt (z. B. 10 = ab 2010)
+| integer
+| `10`
+
+| `AbSemester`
+| Gibt in kombination mit Abjahr an welcher Studienablaufplan gilt (z.B. Start Sose/19) (
+| string
+| `WiSe`
+
+| `Modulnummer`
+| Eindeutige Modulnummer (z. B. I143, I705, XWM)
+| string
+| `I143`
+
+| `Modul`
+| Vollständiger Modulname
+| string
+| `Erweiterte Datenbanktechnologien`
+
+| `Art`
+| Modulart (Pflichtmodul, Wahlpflichtmodul, Zusatzmodul)
+| string
+| `Pflichtmodul`
+
+| `Credits`
+| Vergebene ECTS-Punkte für das Modul
+| integer
+| `5`
+
+| `Semester`
+| Geplantes Fachsemester des Moduls
+| integer
+| `1`
+
+| `Wochenstunden`
+| Wöchentliche Lehrstunden
+| integer
+| `4`
+
+| `Studienrichtung`
+| StudienrichtungsID (71 – 74)
+| integer
+| `74`
+
+| `Richtung`
+| Name der Studienrichtung
+| string
+| `Data Science`
+
+| `Professor`
+| Lehrender Professor / Modulverantwortlicher
+| string
+| `Prof. Dr.-Ing. Maik Thiele`
+
+| `PVL`
+| Prüfungsvorleistung erforderlich
+| boolean
+| `false`
+
+| `APL`
+| Alternative Prüfungsleistung erforderlich
+| boolean
+| `false`
+
+| `"schriftliche Prüfung"`
+| Modul schließt mit schriftlicher Prüfung ab
+| boolean
+| `true`
+
+| `"mündliche Prüfung"`
+| Modul schließt mit mündlicher Prüfung ab
+| boolean
+| `false`
+|===
+
+---
+
+== Beispielhafte Daten (Ausschnitt aus `module.csv`)
+
+[source,csv]
+----
+AbJahr,Modulnummer,Modul,Art,Credits,Semester,Wochenstunden,Studienrichtung,Richtung,Professor,PVL,APL,schriftliche Prüfung,mündliche Prüfung
+10,I143,Erweiterte Datenbanktechnologien,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+10,I170,Informationssicherheit,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+10,I176,IT-Vertragsrecht,Pflichtmodul,3,1,2,74,Data Science,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+----
+
+---

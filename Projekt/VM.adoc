@@ -1,0 +1,32 @@
+= Dokumentation zur virtuellen Maschine
+
+== Betriebssystem
+
+* Ubuntu 24.04.3 LTS
+
+
+== Zugang per VPN
+
+* IP: 141.56.137.30
+* User: qisps
+* PW: qisinsight2025!
+
+
+== Installierte Dienste
+
+* Docker
+* Apache Superset (Docker)
+* DuckDB
+* Nginx
+
+
+== Zugriff auf Dienste
+
+[cols="1,1,1,1"]
+|===
+|Dienst |URL |Login| Hinweis
+
+|DuckDB UI |http://localhost:4213 |- |VPN + Tunnel per SSH aufbauen (Linux: ssh -L 4213:localhost:4213 qisps@141.56.137.30)
+|Apache Superset |http://141.56.137.30:8088 |Username: admin Passwort: admin |VPN ausreichend
+|Apache Airflow |http://iqisinsight.informatik.htw-dresden.de/airflow |Username: airflow Passwort: airflow |VPN ausreichend
+|===

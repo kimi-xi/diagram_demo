@@ -1,0 +1,362 @@
+
+:toc:
+:toclevels: 2
+
+== Zielsetzung
+
+Das Galaxy Schema verfolgt folgende Hauptziele:
+
+* Bereitstellung einer konsistenten, einheitlichen Datenbasis für alle KPI-Berechnungen
+* Einfache Berechnung der KPI's aus den Schema direkt heraus ohne aufwendige Formeln
+* Schichtentrennung von UI (Dashboard) und Persistenz
+* Unterstützung mehrerer Analyseebenen  und somit Ermöglichung OLAP- Operationen
+* Sicherstellung der Wiederverwendbarkeit und Transparenz der Berechnungslogik
+* Ausgangsbasis für Implementierung von Heuristiken und Machine Learning
+
+
+
+
+== Datenmodell (Übersicht)
+
+Das Schema besteht aus folgenden Tabellen:
+
+=== Faktentabelle
+
+* `fact_kpi`
+  - Enthält alle prüfungsrelevanten Ereignisse (z. B. Modulversuche) je Student.
+  - Speichert quantitative Kennzahlen (z. B. Note, Credits, bestanden_flag) für die weitere KPI- Bildung.
+ - *Derzeit noch keine Primär/ Fremdschlüssel- Beziehungen vorhanden!*
+
+=== Dimensionstabellen
+
+* `dim_student`
+  - Stammdaten der Studierenden für Erfüllung der Basis- KPI's
+  - (TODO): Enthält das berechnete Attribut `on_track_flag` als Frühindikator für Studienverzögerungen.
+
+* `dim_modul`
+  - Informationen zu Modulen 
+
+* `dim_zeit`
+  - Zeitdimension (Jahr, Semester, zeit_key, zeit_label) zur Abbildung von Jahrgangs- und Trendanalysen.
+  - (TODO): Semester je Student angeben, um zu wissen in welchen Semester genau sich der Student befindet für weitere Analysen wie den On- Track Anteil
+
+* `dim_ects_plan`
+  - Referenztabelle für den Studienverlaufsplan mit Soll-ECTS-Werten pro Semester
+
+
+== KPI- Views
+
+|===
+| View-Name | Analyseebene | Zielsetzung | Enthaltene KPIs
+
+| studiengang_kpi_view
+| Studiengangsebene (alle Studierenden, alle Module)
+| Gesamtüberblick über Studienleistung, Abschluss- und Abbruchquote auf Studiengangsebene
+| **1. Bestehensquote:** +
+ Anteil bestandener Module über alle Studierenden +
+ (AVG(f.bestanden_flag) * 100) +
+	**2. Durchfallquote:** +
+   Komplementär zur Bestehensquote +
+   ((1 - AVG(f.bestanden_flag)) * 100) +
+	**3. Gesamtzahl Studierende:** +
+   Anzahl aller eindeutigen Studierenden im Studiengang +
+   (COUNT(DISTINCT s.studentID)) +
+	**4. Gesamtzahl Module:** +
+  Anzahl aller distinct Module im Studiengang +
+  (COUNT(DISTINCT f.modulID)) +
+	**5. Median-Note:** +
+   Statistischer Median der Noten über alle Module  +
+   (PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY f.note_numeric)) +
+	**6. Gewichtetes arithmetisches Mittel der Note:** +
+  Durchschnittsnote gewichtet nach Credits +
+  (SUM(f.note_numeric * f.credits) / SUM(f.credits)) +
+	**7. Abschlussquote:** +
+  Anteil der Studierenden mit bestandener Masterarbeit I707 +
+  (COUNT(CASE WHEN m.modulID='I707' AND f.bestanden_flag=1 THEN s.studentID END) / COUNT(DISTINCT s.studentID))
+	**8. Abbruchquote:** +
+  Anteil der Studierenden mit AbbruchFlag = TRUE aus dim_students +
+	**9. Durchschnittliche Studiendauer:** +
+  Durchschnitt der Semester zwischen erstem und letztem belegten Modul je Student +
+  (AVG(MAX(z.Jahr*2+z.Semester_numeric)-MIN(z.Jahr*2+z.Semester_numeric)+1)) +
+  **Oder** +
+  AVG(TotalTermsTaken)
+| `studienrichtung_kpi_view`
+| Studienrichtungsebene
+| Vergleich der Studienleistungen zwischen einzelnen Studienrichtungen
+| * Bestehensquote  
+* Durchfallquote  
+* Bestandene Module (Anzahl)  
+* Abschlussquote  
+* Gesamtmodule (Anzahl)
+
+
+| `modul_kpi_view`
+| Modulebene (jedes einzelne Modul)
+| Vergleich der Leistungsentwicklung pro Modul
+| * Bestehensrate
+* Nichtbestehensrate
+* First Try Rate
+* Wiederholungsrate
+* Gesamtstudenten
+
+| `student_kpi_view`
+| Individuelle Studierendenebene
+| Detaillierte Auswertung des Studienfortschritts einzelner Studierender
+| * Bestehensrate je Student  
+* Nichtbestehensrate je Student  
+* Wiederholungsrate je Student  
+* Gesamtzahl belegter Module  
+
+
+|===
+
+== Offene Punkte und Weiterentwicklungen
+
+Folgende Punkte sind derzeit noch in Arbeit oder erfordern ergänzende Logik, 
+um die KPI-Berechnungen vollständig und valide abzubilden.
+
+. **Semester-Zuordnung je Student**
++
+Aktuell ist pro Student kein eindeutiges Semester hinterlegt.
+Für die Berechnung des *On-Track-Anteils* (Soll-/Ist-Vergleich der ECTS) 
+muss bekannt sein, in welchem Semester sich ein Student befindet. +
+
+*Vorgehen: Anlegen einer separaten Dimensionstabelle: dim_Studienverlauf*
+
+. **On-Track-Flag**
++
+Das Attribut `on_track_flag` soll als boolean (`true` / `false`) 
+in der Tabelle `dim_student` integriert werden.
+Berechnung erfolgt durch Vergleich zwischen *gesammelten ECTS* und *Soll-ECTS* 
+laut Studienverlaufsplan (aus `dim_ects_plan`)
+
+. **Risikomodul-Heuristiken**
++
+Noch zu entwickeln: Klassifizierung *„Risikomodule“* mittels heuristiken (Version ohne ML).
+
+. **Validierung bestehender Views**
+
+. **Keine Referenzielle Integrität derzeit gegeben, da Daten aus anderen Tabellen gezogen wurden**
+
+. **Jahrgang View fehlt noch.*
+
+== Konkrete Implementierung des Schemas: 
+Dimension Modul:
+[source, sql]
+----
+CREATE OR REPLACE TABLE dim_modul AS 
+SELECT 
+Modulnummer AS modulID, 
+Modul AS Modulname, 
+Credits,
+AbJahr, 
+AbSemester, 
+concat(AbJahr,'-',AbSemester,'-',Modulnummer) as module_key, Semester AS SemesterEmpfohlen,
+Studienrichtung,
+Art, 
+Professor,
+APL,
+"schriftliche Prüfung" AS schriftlich, 
+"mündliche Prüfung" AS muendlich FROM students_final.module;
+----
+
+Dimension Student:
+[source, sql]
+----
+Create or replace table dim_student
+as 
+select
+studentID,
+Studienrichtung,
+StudienOrdnungJahr as Jahr_gueltiger_Ordnung,
+ImmaJahr as Jahrgang,
+ImmaSemester as Semesterstart,
+HasPassedDegree as Abschlussstatus
+from  students_final.dim_students
+
+----
+
+Dimension Zeit:
+[source, sql]
+----
+
+CREATE OR REPLACE TABLE dim_zeit AS
+SELECT
+    ROW_NUMBER() OVER () AS zeitID,
+    Jahr,
+    Semester,
+    Case when Semester = 'SoSe' then 1 
+    When Semester = 'WiSe' then 0
+    else null 
+    end as Semester_numeric,
+    case
+        when Semester = 'SoSe' then make_date(2000 + Jahr, 3, 1)
+        when Semester = 'WiSe' then make_date(2000 + Jahr, 10, 1)
+        else null
+    end as zeit_label
+FROM (
+    SELECT DISTINCT Jahr, Semester
+    FROM students_final.stg_students_clean
+    WHERE Jahr IS NOT NULL AND Semester IS NOT NULL
+);
+----
+
+Fakttabelle:
+[source, sql]
+----
+CREATE OR REPLACE TABLE fact_kpi AS
+SELECT
+    s.studentID,
+    m.modulID,
+    z.zeitID,
+    CAST(s.Note AS DOUBLE) AS note_numeric,
+    CASE 
+        WHEN s.Status = 'bestanden' THEN 1 
+        ELSE 0 
+    END AS bestanden_flag,
+    s.earned_credits AS credits
+FROM students_final.stg_students_with_credits s
+INNER JOIN students_final.dim_modul m
+    ON s.module_key = m.module_key
+LEFT JOIN students_final.dim_zeit z
+    ON s.Jahr = z.Jahr 
+   AND s.Semester = z.Semester;
+
+----
+
+== Konkrete Implementierung der Views, basierend auf den Schema:
+
+Modul- View:
+[source, sql]
+----
+CREATE OR REPLACE VIEW modul_kpi_view AS
+SELECT
+    f.modulID,
+    dM.Modulname,
+     ROUND(AVG(f.bestanden_flag)*100, 2) AS bestehensrate,
+    ROUND((1 - AVG(f.bestanden_flag))*100, 2) AS nichtbestehensrate,
+    ROUND(SUM(CASE WHEN f.bestanden_flag = 1 THEN 1 END) * 100.0 / COUNT(*), 2) AS first_try_rate,
+    ROUND(SUM(CASE WHEN f.bestanden_flag = 0 THEN 1 END) * 100.0 / COUNT(*), 2) AS wiederholungsrate,
+    COUNT(DISTINCT f.studentID) AS total_students
+FROM fact_kpi f
+JOIN dim_modul dM ON f.modulID = dM.modulID
+GROUP BY f.modulID, dM.Modulname;
+----
+
+Student- View:
+[source, sql]
+----
+CREATE OR REPLACE VIEW student_kpi_view AS
+SELECT
+    f.studentID,
+    ROUND(AVG(f.bestanden_flag)*100, 2) AS bestehensrate,
+    ROUND((1 - AVG(f.bestanden_flag))*100, 2) AS nichtbestehensrate,
+    COUNT(f.modulID) AS module_gesamt,
+    ROUND(
+        100.0 * SUM(CASE WHEN f.bestanden_flag = 0 AND f.note_numeric IS NOT NULL THEN 1 END) 
+        / COUNT(f.modulID), 2
+    ) AS wiederholungsrate
+FROM fact_kpi f
+GROUP BY f.studentID;
+----
+
+Jahrgang- View:
+[source, sql]
+----
+
+----
+
+Studienrichtung- View:
+[source, sql]
+----
+CREATE OR REPLACE VIEW studienrichtung_kpi_view AS
+SELECT
+    dS.Studienrichtung,
+    ROUND(AVG(f.bestanden_flag)*100, 2) AS bestehensquote,
+    ROUND((1 - AVG(f.bestanden_flag))*100, 2) AS durchfallquote,
+    COUNT(CASE WHEN f.bestanden_flag = 1 THEN 1 END) AS bestandene_module,
+    COUNT(DISTINCT f.modulID) AS gesamtmodule,
+    ROUND(AVG(dS.Abschlussstatus::INT)*100, 2) AS abschlussquote
+FROM fact_kpi f
+JOIN dim_student dS ON f.studentID = dS.studentID
+JOIN dim_modul dM ON f.modulID = dM.modulID
+GROUP BY dS.Studienrichtung;
+----
+
+Studiengang- View:
+[source, sql]
+----
+CREATE OR REPLACE VIEW studiengang_kpi_view AS
+SELECT
+    'Gesamter Studiengang' AS studiengang_label,
+
+    -- Gesamtanzahl der Studierenden
+    COUNT(DISTINCT s.studentID) AS gesamtstudenten,
+
+    -- Abschlussquote: Anteil der Studierenden mit bestandener Masterarbeit (I707)
+    ROUND(
+        100.0 * COUNT(DISTINCT CASE WHEN m.modulID IN ('I707')AND f.bestanden_flag = 1 THEN s.studentID END)
+        / COUNT(DISTINCT s.studentID),
+        2
+    ) AS abschlussquote,
+
+    -- Abbruchquote: Anteil der Studierenden mit AbbruchFlag = TRUE in der DimStudent
+    ROUND(
+        100.0 * COUNT(DISTINCT CASE WHEN s.AbbruchFlag = TRUE THEN s.studentID END)
+        / COUNT(DISTINCT s.studentID),
+        2
+    ) AS abbruchquote,
+
+    -- Gewichtetes arithmetisches Mittel (Noten)
+    ROUND(SUM(f.note_numeric * f.credits) / SUM(f.credits), 2) AS gewichtetes_mittel,
+
+    -- Median der Noten
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY f.note_numeric) AS median_note,
+
+    -- Durchschnittliche Studiendauer:
+    avg(s.TotalTermsTaken) as durchschnittliche_Studiendauer
+    
+FROM fact_kpi f
+JOIN dim_students s ON f.studentID = s.studentID
+JOIN students_final.dim_modul m ON f.modulID = m.modulID;
+----
+
+== Änderungen im Schema
+20.11.2025- 27.11.2025:
+[cols="2,4"]
+
+|===
+| Änderung | Beschreibung
+
+| **Neue Spalten `AbbruchFlag` und `totalTermsTaken` in `dim_students`**
+| - `AbbruchFlag`: +
+- Ergänzung eines booleschen Flags zur Kennzeichnung von Studienabbrüchen.  
+Heuristik: Studierende gelten als „abgebrochen“, wenn  
+keine Masterarbeit (`I707`) bestanden wurde **und** sie seit mindestens vier Semestern inaktiv sind.  +
+- `TotalTermsTaken`:  +
+<tbc>
+
+| **Erweiterung der `studiengang_kpi_view`** 
+| Die View wurde um zusätzliche KPIs erweitert: +
+  - `abschlussquote`: Anteil der Studierenden mit bestandener Masterarbeit  +
+  - `abbruchquote`: Anteil der Studierenden mit gesetztem `AbbruchFlag`  +
+  - `gewichtetes_mittel`: Durchschnittsnote, gewichtet nach Credits  +
+  - `median_note`: Median aller Modulnoten  +
+  - `durchschnittliche_studiendauer`: Differenz zwischen 
+  erstem und letztem belegten Semester pro Student  
+
+| **Umstrukturierung der `dim_module`**
+| - Ergänzung von `AbJahr`, `AbSemester` und einem Modulkey,
+bestehend aus:  `AbJahr`-`AbSemester`-`Modulnummer` +
+- Ermöglicht nun das Problem zu beheben, das manche Module in Abhängigkeit der Studienordnung verschiedenwertige Credits haben. +
+- Datensätze haben sich erhöht!
+
+| **Umstrukturierung der `dim_Zeit`**
+| - Zur besseren Auswertung ist nun eine neue Variable eingefügt wurden: `zeit_label`, welche konkrete Datumsangaben gibt, in Abhängigkeit, wann die Studenten genau angefangen hatten. +
+- `zeitID` beinhaltet zusätzlich eine Unique ID, welche für das Data Warehouse Schema unabdingbar ist. +
+
+| **Umstrukturierung der `fact_kpi`**
+| - Dadurch das die `dim_module` mit dem `module_key` geändert wurde, wird nun darüber gejoined. +
+
+|===
+
