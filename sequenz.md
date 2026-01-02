@@ -8,7 +8,7 @@
 - [5. Habit abhaken (US #93/ US #299)](#5-habit-abhaken-us-93-us-299)
 - [6. Habit-Liste abrufen (US #93)](#6-habit-liste-abrufen-us-93)
 
----
+
 
 ## 1. Login (US #250)
 
@@ -55,7 +55,7 @@ sequenceDiagram
     end
 ```
 
----
+
 
 ## 2. Registrierung (US #250)
 
@@ -104,7 +104,7 @@ sequenceDiagram
     end
 ```
 
----
+
 
 ## 3. Logout (US #250)
 
@@ -122,7 +122,7 @@ sequenceDiagram
     FEAuth-->>Expo: Navigation zum LoginScreen
 ```
 
----
+
 
 ## 4. Habit erstellen (US #92/ US #279 / US #280)
 
@@ -163,7 +163,7 @@ sequenceDiagram
     end
 ```
 
----
+
 
 ## 5. Habit abhaken (US #93/ US #299)
 
@@ -192,7 +192,7 @@ sequenceDiagram
     FEHabit-->>Expo: UI aktualisieren
 ```
 
----
+
 
 ## 6. Habit-Liste abrufen (US #93)
 
