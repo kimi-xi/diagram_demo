@@ -141,7 +141,8 @@ Die Datenverarbeitung in QIS-Insights umfasst den Weg von den Rohdaten aus dem Q
 === Datenimport
 Die Rohdaten liegen als SQLite-Datenbank vor und werden zunächst unverändert in DuckDB übernommen. Dadurch entsteht der Bronze Layer der Medaillon-Architektur.
 
-include::analyse_db.adoc[leveloffset=+1]
+include::analyse_db.adoc[leveloffset=+1, tags="analyse_kurz"]
+
 
 ==== Format der Raw Data
 
@@ -339,5 +340,6 @@ Ein Studierender ist *GRÜN*, wenn keine ROT- und keine ORANGE-Bedingung erfüll
 
 
 === Quellen
+
 
 
