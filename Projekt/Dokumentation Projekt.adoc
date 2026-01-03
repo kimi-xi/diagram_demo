@@ -6,57 +6,50 @@
 == Einleitung
 
 === Projektziel
-Ziel des Projekts *QIS-Insights* ist die Entwicklung eines datengetriebenen Entscheidungsunterstützungs-Tools, das auf Basis
-anonymisierter Leistungsübersichten aus dem QIS-System relevante Kennzahlen berechnet,
-kritische Verläufe sichtbar macht und Vorhersagen ermöglicht. 
+Das Projekt QIS‑Insights entstand aus dem Wunsch von Prof. Dr.-Ing. Maik Thiele heraus, die Leistungsdaten aus dem QIS‑System endlich so nutzen zu können, wie es im Alltag wirklich gebraucht wird.
+Im aktuellen Portal sieht man zwar jede einzelne Prüfung, aber ein Gesamtbild über Studiengänge, Kohorten oder typische Problemstellen fehlt völlig.
 
-Auf Basis vorhandener Leistungsdaten aus dem QIS-System werden Kennzahlen
-berechnet und übersichtlich dargestellt, sodass Entwicklungen im Studienverlauf
-nachvollzogen und auffällige Muster erkannt werden können. 
-Es sollen Lehrende, Dekanate und Studiengangsleitungen in die Lage versetzt werden:
+Unser Ziel war es deshalb, ein Werkzeug zu entwickeln, das diese verstreuten Informationen zusammenführt und verständlich aufbereitet. Lehrende, Modulverantwortliche und Dekanate sollen damit schneller erkennen können:
 
-- den Zustand eines Studiengangs oder einer Kohorte auf einen Blick zu erfassen,
-- kritische Entwicklungen frühzeitig zu erkennen,
-- Modulschwierigkeiten zu identifizieren,
-- Fortschritt und Lernerfolg der Studierenden transparent zu analysieren.
+- wie sich ein Studiengang entwickelt
+- wo Studierende Schwierigkeiten haben
+- welche Module besonders herausfordernd sind
+- und wie sich Leistungen über die Semester hinweg verändern
 
-Damit macht es QIS-Insights möglich die reine Tabellenansichten des QIS-Portals
-in eine moderne, entscheidungsorientierte Datenanalyse zu verbessern.
+Kurz gesagt:
+QIS‑Insights soll aus vielen einzelnen Tabellen ein klares, aussagekräftiges Bild machen – damit Entscheidungen nicht mehr auf Bauchgefühl, sondern auf Daten basieren.
 
 === Ausgangssituation
-Das aktuelle QIS-Portal stellt Noten und Module lediglich tabellarisch für einzelne Studierende dar.
-Funktionen zur Analyse, Filterung oder Auswertung sind nicht vorhanden. Insbesondere fehlen:
+Das QIS‑Portal bietet zwar alle relevanten Prüfungsdaten, aber nur in Form einzelner Tabellen pro Studierendem.
+Für Auswertungen über ganze Studiengänge oder Jahrgänge hinweg ist es nicht ausgelegt. Insbesondere fehlen:
 
-- Aggregationen über Studiengänge, Kohorten oder Jahre,
-- Analysen von Modulschwierigkeit und Wiederholungsverhalten,
-- KPI-basierte Darstellungen des Studienerfolgs,
-- Trendanalysen (ECTS-Tempo, Notenentwicklung),
-- Werkzeuge zur Identifikation gefährdeter Studierender,
-- einheitliche, visualisierte Kennzahlen für Fakultätsentscheidungen.
+- Vergleiche zwischen Kohorten
+- Analysen zu Modulschwierigkeiten
+- Trends im Studienverlauf
+- Hinweise auf gefährdete Studierende
+- einheitliche Kennzahlen für die Fakultät
 
 Diese fehlenden Funktionen führen dazu, dass Verantwortliche keinen vollständigen Überblick über
 Studienfortschritt, Studiendauer oder bestehende Engpässe besitzen. Entscheidungen basieren
 häufig auf Einzelbeobachtungen statt auf strukturierten, vergleichbaren Daten.
 
 === Motivation
-Im Rahmen des Projektseminars wurde von Prof. Thiele der Auftrag erteilt ein übersichtliches, verlässliches und vollständig datengestütztes
-Informationssystem zu entwickeln, das:
+Im Projektseminar wurde uns die Aufgabe gestellt, ein System zu entwickeln, das diese Lücke schließt.
+Wir wollten ein Werkzeug schaffen, das nicht nur Daten sammelt, sondern sie so aufbereitet, dass sie im Hochschulalltag wirklich helfen.
 
-- zentrale Kennzahlen (z. B. aktive Studierende, Durchfallquoten, Notenverteilungen) bündelt,
-- Trends und Auffälligkeiten auf Studiengangs-, Modul- und Studierendenebene sichtbar macht,
-- Vergleiche zwischen Jahren, Kohorten und Studienrichtungen zulässt,
-- Modulverantwortliche bei der Qualitätsanalyse unterstützt,
-- Dekanate ein Gesamtbild der Studiengänge liefert.
+Dazu gehören:
+- verständliche Kennzahlen
+- Vergleiche zwischen Jahren und Studienrichtungen
+- Analysen zu Modulen und Prüfungsverläufen
+- Hinweise auf auffällige Entwicklungen
 
-QIS-Insights verbindet damit die Rohdaten des QIS mit einem strukturierten Analyse-Framework
-und schafft eine Grundlage für datenbasierte Entscheidungen über Lehre und Supportmaßnahmen.
+QIS‑Insights soll damit eine Grundlage schaffen, um Studiengänge besser zu verstehen, Lehrqualität zu verbessern und Studierende gezielter zu unterstützen.
 
 == Architekturübersicht
 
-=== Systemkomponenten
+=== Medaillon-Architektur (Bronze / Silver / Gold) 
+include::medaillon_Schema.adoc[leveloffset=+1]
 
-==== Datenquelle
-Anonymisierte Prüfungs- und Moduldaten aus dem QIS-System.
 === Datenquelle
 
 Die zentrale Datenquelle des Projekts QIS-Insights ist eine vom betreuenden Professor
@@ -101,7 +94,7 @@ Alle Daten entsprechen realen QIS-Daten, wurden jedoch vollständig anonymisiert
 teilweise minimal modifiziert, um Datenschutzvorgaben einzuhalten.
 
 
-==== Speicherung
+=== Speicherung
 
 Die im Projekt verwendeten Daten werden in DuckDB gespeichert und dort für weitere
 Verarbeitungsschritte und Analysen bereitgestellt. DuckDB dient als zentrale Datenbank,
@@ -117,53 +110,76 @@ Zunächst werden die übernommenen Daten unverändert abgelegt. Darauf aufbauend
 erfolgt eine strukturierte Aufbereitung, die als Grundlage für spätere Auswertungen
 und Dashboards dient.
 
-==== Transformation (dbt)
+=== Transformation (dbt)
 
+Die Transformation der Daten erfolgt mit dbt. dbt übernimmt: 
+- die Bereinigung und Vereinheitlichung der Rohdaten (Silver Layer)
+- die Ableitung zusätzlicher Attribute (z. B. ECTS-Fortschritt) 
+- den Aufbau des analytischen Star Schemas (Gold Layer)
+- die Erstellung der KPI-Views
+- sowie Teile der technischen Dokumentation und Tests
 
-==== Data Warehouse Schema
-==== Data Warehouse Schema
+include::Dokumentation\ der\ dbt-staging-Modelle.adoc[leveloffset=+1]
+
+=== Analytisches Datenmodell (Star Schema)
 include::galaxy_schema.adoc[leveloffset=+1, tags="zielsetzung"]
-
 include::galaxy_schema.adoc[leveloffset=+1, tags="facts_dims"]
 
-==== Visualisierung
+=== Visualisierung
 Interaktive Dashboards mittels Apache Superset.
+Doku von Superset!!!
 
 === Pipeline
+Der Gesamtprozess lässt sich wie folgt zusammenfassen:
 ----
 Raw Data → DuckDB → dbt → Star Schema → Goldlayer Views → Superset Dashboards
 ----
 
 == Datenverarbeitung
+Die Datenverarbeitung in QIS-Insights umfasst den Weg von den Rohdaten aus dem QIS-System bis hin zu bereinigten, angereicherten und analytisch nutzbaren Tabellen. Dieser Prozess erfolgt schrittweise und wird vollständig durch dbt gesteuert.
 
 === Datenimport
-Raw Data aus SQLite → DuckDB
+Die Rohdaten liegen als SQLite-Datenbank vor und werden zunächst unverändert in DuckDB übernommen. Dadurch entsteht der Bronze Layer der Medaillon-Architektur.
+
+include::analyse_db.adoc[leveloffset=+1]
 
 ==== Format der Raw Data
 
+Die Rohdaten bestehen aus zwei Tabellen: 
+- *students*: alle Prüfungsereignisse eines Studierenden 
+- *studienrichtungen*: Lookup-Tabelle zur Auflösung der Studienrichtungscodes 
+
+Die Daten enthalten teilweise fehlende Werte, uneinheitliche Statusangaben und inkonsistente Modulbezeichnungen. Diese Probleme werden im Staging-Prozess bereinigt.
 
 ==== Qualitätssicherung
-- Duplikaterkennung und -entfernung
-- Behandlung fehlender Werte
-
+Im Rahmen der Datenübernahme werden grundlegende QS-Schritte durchgeführt: 
+- Erkennung und Entfernung von Duplikaten 
+- Vereinheitlichung von Statuswerten 
+- Behandlung fehlender Werte 
+- Prüfung auf ungültige Kombinationen (z. B. ECTS = NULL bei bestandenem Modul)
 
 === Staging Layer (dbt)
 
+Im Silver Layer werden die Rohdaten bereinigt, vereinheitlicht und um zusätzliche Attribute ergänzt. Dieser Schritt bildet die Grundlage für das spätere Star Schema. 
+
+include::Dokumentation\ der\ dbt-staging-Modelle.adoc[leveloffset=+1]
 
 ==== Abgeleitete Attribute 
 
+Zu den wichtigsten abgeleiteten Attributen gehören: 
+- berechnete ECTS pro Modul 
+- gewichtete Durchschnittsnoten 
+- Status-Mapping (bestanden, nicht bestanden, abgemeldet, krank, nicht angetreten) 
+- Normalisierung der Modulnamen 
+- Zuordnung zu Studienrichtungen 
+- Berechnung des Fachsemesters 
+- Flags für Inaktivität
+
+=== Seeds (dbt) Für Lookup-Tabellen und Hilfsstrukturen werden Seed-Dateien verwendet, die direkt in dbt eingebunden sind. 
+
+include::Dokumentation\ dbt-seeding.adoc[leveloffset=+1]
+
 == Star Schema
-
-=== KPI-Tabellen und Views
-include::galaxy_schema.adoc[leveloffset=+1, tags="progress"]
-
-include::galaxy_schema.adoc[leveloffset=+1, tags="studiengangsvergleich"]
-
-include::galaxy_schema.adoc[leveloffset=+1, tags="student_kpi"]
-
-include::galaxy_schema.adoc[leveloffset=+1, tags="cohort_kpi"]
-
-include::galaxy_schema.adoc[leveloffset=+1, tags="studienrichtung_kpi"]
 
 === Übersicht
 Das Sternschema bildet die Grundlage für alle KPI-Berechnungen.  
@@ -178,6 +194,18 @@ Es besteht aus einer zentralen Faktentabelle und mehreren Dimensionstabellen, di
 * `dim_student` – Stammdaten der Studierenden (Studienrichtung, Jahrgang, Abschlussstatus)  
 * `dim_modul` – Informationen zu Modulen (Modulnummer, Credits, Prüfungsart, Studienrichtung)  
 * `dim_zeit` – Zeitdimension (Jahr, Semester, zeitID, zeit_label) zur Abbildung von Trends
+
+== Gold Layer / KPI Tabellen und Views
+include::galaxy_schema.adoc[leveloffset=+1, tags="progress"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="studiengangsvergleich"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="student_kpi"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="cohort_kpi"]
+
+include::galaxy_schema.adoc[leveloffset=+1, tags="studienrichtung_kpi"]
+
 
 
 == dbt-Konfiguration
@@ -311,4 +339,5 @@ Ein Studierender ist *GRÜN*, wenn keine ROT- und keine ORANGE-Bedingung erfüll
 
 
 === Quellen
+
 
