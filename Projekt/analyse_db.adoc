@@ -5,6 +5,7 @@
 :toc: left
 :toclevels: 2
 
+// tag::analyse_kurz[]
 == Tabelle 1: students
 
 [cols="2,2,2", options="header"]
@@ -24,6 +25,7 @@
 * **StudentIDs:** keine Auffälligkeiten (`249 DISTINCT` Einträge)
 * **Modul:** `284 DISTINCT` Einträge (inkl. *Masterarbeit* und gewichteter Bewertungen,z. B.: `I705 Forschungs-/Entwicklungsprojekt / SoSe19 Forschungsseminar (Semesterarbeit 50%)`)
 * **Modulnummer:** nicht immer vergeben (z. B. Forschungsseminare ohne Modulnummer)
+// end::analyse_kurz[]
 
 === Noten
 [source,sql]
@@ -190,3 +192,4 @@ Keine Auffälligkeiten (`4 Einträge`)
 |===
 
 ---
+
