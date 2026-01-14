@@ -1,14 +1,16 @@
-= Benutzerhandbuch – Habit Tracker (Expo)
+= Benutzerhandbuch – Habit Tracker (Expo) 
+:toc: 
+:toclevels: 3 
 
-== 1. Ziel des Dokuments
+== Ziel des Dokuments
 Dieses Handbuch unterstützt Nutzer dabei, die **habitree-App** zu starten und erklärt die Bedienung der App.
 
-== 2. Voraussetzungen
+== Voraussetzungen
 * Expo Go App auf dem Handy
 * Internetzugang
 * Uni-VPN bzw. Verbindung zum HTW-Dresden Netzwerk
 
-== 3. App auf dem Handy starten
+== App auf dem Handy starten
 
 Bitte beachten, dass auf dem Handy der eduVPN aktiviert sein muss bzw. Sie sich im Netz der HTW Dresden befinden müssen.
 
@@ -16,11 +18,12 @@ Scanne den angezeigten QR-Code mit der **Expo Go App** auf deinem Smartphone.
 
 Hinweis: Würde man die App tatsächlich veröffentlichen wäre der QR-Code nicht notwendig, da die App dann über den App Store/Play Store installiert werden könnte.
 
-== 4. Benutzeroberfläche
+== Benutzeroberfläche
 
 === Startseite (Home)
 
-image::images/Startseite.jpg[Startseite der App, width=300]
+
+image:images/Home01.jpg[width=200] image:images/Home02.jpg[width=200]
 
 Auf der Startseite wird der Benutzer persönlich begrüßt (z. B. *„Hallo, Nutzer!“*).  
 Zusätzlich werden folgende Informationen angezeigt:
@@ -37,7 +40,7 @@ Zusätzlich werden folgende Informationen angezeigt:
 
 === Habits-Übersicht
 
-image::images/Habits.jpg[Habits Übersicht, width=300]
+image:images/habits01.jpg[width=200] image:images/habits02.jpg[width=200] image:images/habits03.jpg[width=200] 
 
 In der Habits-Ansicht verwaltet der Benutzer seine Gewohnheiten.  
 Die Ansicht ist in drei Bereiche unterteilt:
@@ -50,7 +53,7 @@ Die Ansicht ist in drei Bereiche unterteilt:
 
 === Baum-Ansicht (Fortschritt)
 
-image::images/Baum.jpg[Baum Fortschritt, width=300]
+image:images/tree01.jpg[width=200]
 
 Die Baum-Ansicht visualisiert den Fortschritt des Benutzers:
 
@@ -63,9 +66,9 @@ Der Baum dient als zentrales Motivations- und Belohnungselement der App.
 
 ---
 
-=== Inventar / Abzeichen
+=== Erfolge
 
-image::images/Inventar.jpg[Inventar / Abzeichen Übersicht, width=300]
+image:images/erfolge01.jpg[width=200] 
 
 In der Inventar-Ansicht sieht der Benutzer alle gesammelten Abzeichen und Belohnungen:
 
@@ -78,7 +81,7 @@ Die Inventar-Ansicht dient der Gamification und zusätzlichen Motivation, regelm
 
 === Profil / Einstellungen
 
-image::images/Profil.jpg[Profil-Ansicht und Einstellungen, width=300]
+image:images/profil01.jpg[width=200] image:images/Home02.jpg[width=200]
 
 In der Profil-Ansicht kann der Benutzer persönliche Daten und App-Einstellungen anpassen:
 
@@ -98,34 +101,76 @@ Die untere Navigationsleiste ist in allen Ansichten sichtbar und ermöglicht den
 
 * Home  
 * Habits  
-* Baum  
-* Inventar  
+* Habitree 
+* Erfolge  
 * Profil  
 
-== 5. Hauptaufgaben / Features
-=== 5.1 Neue Gewohnheit anlegen
+== Hauptaufgaben / Features
 
-=== 5.2 Gewohnheit abhaken
+=== Neue Gewohnheit anlegen
 
-=== 5.3 Gewohnheit bearbeiten / löschen
+==== Ein vordefiniertes Ziel wählen
+image:images/habit1.jpg[width=200]
+image:images/habit2.jpg[width=200]
+image:images/habit3.jpg[width=200]
 
-=== 5.4 Alle Gewohnheiten anzeigen
+==== Ein eigenes Ziel wählen
+image:images/habit1.jpg[width=200] image:images/habit4.jpg[width=200]
 
-=== 5.5 Baum anzeigen und wachsen lassen
+=== Gewohnheit abhaken
+image:images/habit5.jpg[width=200]
+image:images/habit6.jpg[width=200]
 
-=== 5.6 Abzeichen verdienen und anzeigen lassen
+image:images/habits01.jpg[width=200] 
+image:images/kal3.jpg[width=200]
 
-=== 5.7 Anmelden/ Abmelden/ Registrieren
+=== Gewohnheit bearbeiten / löschen
+image:images/habits01.jpg[width=200] image:images/kal6.jpg[width=200]
+
+image:images/kal3.jpg[width=200] image:images/kal31.jpg[width=200] 
+
+image:images/kal4.jpg[width=200]
+
+image:images/kal5.jpg[width=200]
+
+=== Baum anzeigen und wachsen lassen
+image:images/tree2.jpg[width=200]
+
+image:images/tree3.jpg[width=200] image:images/tree1.jpg[width=200] image:images/tree4.jpg[width=200]
 
 
-== 7. FAQ / Häufige Probleme
-//- **Warum sehe ich den QR-Code nicht?** - Stelle sicher, dass Expo läuft und die VPN an ist damit dein Handy im gleichen Netzwerk ist.
+=== Abzeichen verdienen und anzeigen lassen
+image:images/erfolg1.jpg[width=200] image:images/erfolg2.jpg[width=200]
+
+=== Anmelden/ Abmelden/ Registrieren
+image:images/login1.jpg[width=200] 
+
+image:images/login2.jpg[width=200]
+
+
+== FAQ / Häufige Probleme
+- **Warum funktioniert der QR-Code nicht?** - Stelle sicher, dass Expo läuft und die VPN an ist damit dein Handy im gleichen Netzwerk ist.
 
 - **Meine Habits werden nicht geladen / Ich kann mich nicht einloggen** - Prüfe, ob du dich mit deinem Account eingeloggt hast und du Zugriff zum HTW-Netzwerk hast.
 
 - **Der Baum wächst nicht?** - Nur wenn du deine Habits regelmäßig abhaken kannst, steigt der Fortschritt.
 
-== 11. Tipps & Tricks
+- **Warum 66 Tage?** 
+image:images/faq1.jpg[width=200]
+
+- **Wo sehe ich meine aktuelle Streak?**
+image:images/Home01.jpg[width=200] image:images/habit8.jpg[width=200]
+
+- **Wo sehe ich meine aktuelle Streak eines Habits?**
+image:images/Home01.jpg[width=200] image:images/habit7.jpg[width=200]
+
+-**Was passiert nachdem ich mein Habit abgeschlossen habe?**
+image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:images/erfolg3.jpg[width=200]
+
+
+
+
+== Tipps & Tricks
 - Starte mit kleinen Gewohnheiten – lieber 5 Minuten lesen als gleich ein ganzes Buch.
 
 - Nutze die Streak-Anzeige als Motivation: schon 3 Tage geschafft, jetzt nicht abbrechen!
