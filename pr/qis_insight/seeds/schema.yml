@@ -1,0 +1,69 @@
+version: 2
+
+seeds:
+  - name: module
+    description: Master data for all modules with their properties
+    columns:
+      - name: AbJahr
+        description: Graduation year / Abschluss year
+        data_type: integer
+      
+      - name: AbSemester
+        description: Semester for this curriculum (WiSe or SoSe)
+        data_type: string
+      
+      - name: Modulnummer
+        description: Module number (e.g., I143, I705, XWM for special cases)
+        data_type: string
+      
+      - name: Modul
+        description: Module name
+        data_type: string
+
+      - name: Acronym
+        description: Module acronym
+        data_type: string
+      
+      - name: Art
+        description: Module type (Pflichtmodul, Wahlpflichtmodul, Zusatzmodul)
+        data_type: string
+      
+      - name: Credits
+        description: Credit points for the module
+        data_type: integer
+      
+      - name: Semester
+        description: Semester in which module is typically taught
+        data_type: integer
+      
+      - name: Wochenstunden
+        description: Weekly hours for the module
+        data_type: integer
+      
+      - name: Studienrichtung
+        description: Study program code (71, 72, 73, 74)
+        data_type: integer
+      
+      - name: Richtung
+        description: Study program name
+        data_type: string
+      
+      - name: Professor
+        description: Professor name teaching the module
+        data_type: string
+      
+      - name: PVL
+        description: Preliminary performance requirement (Prüfungsvorleistung)
+        data_type: boolean
+      
+      - name: APL
+        description: Alternative performance requirement (Alternative Prüfungsleistung)
+        data_type: boolean
+      
+      - name: "schriftliche Prüfung"
+        description: Written exam required
+        data_type: boolean
+      
+      - name: "mündliche Prüfung"
+        description: Oral exam required
+        data_type: boolean

@@ -1,0 +1,359 @@
+AbJahr,AbSemester,Modulnummer,Modul,Acronym,Art,Credits,Semester,Wochenstunden,Studienrichtung,Richtung,Professor,PVL,APL,schriftliche Prüfung,mündliche Prüfung
+11,WiSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I143,Erweiterte Datenbanktechnologien/ Medienarchive,EDM,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I886,Mathematische/Stochastische Modelle,MSM,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I523,3D-Programmierung,3DP,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I778,Marketing/ Unternehmensfühung,MAU,Pflichtmodul,2,1,2,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I779,Digitaler Rundfunk/ Medientechnik,DRM,Pflichtmodul,3,2,3,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I762,Fortgeschrittene Computeranimation,FOC,Pflichtmodul,4,2,3,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I745,Interaktions-/Spieletechniken ,INS,Pflichtmodul,8,3,3,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I364,Digitales Compositing/ Medienproduktion ,DCM,Pflichtmodul,8,3,3,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I740,Computer Vision / Bildverstehen ,CVB,Pflichtmodul,5,2,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I728,Fotografie/Bildgestaltung,FOB,Pflichtmodul,2,3,2,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I365,Medienpsychologie,MED,Pflichtmodul,5,3,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,3,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,2,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I870,Formale Verifikation,FOV,Wahlpflichtmodul,5,2,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,3,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I845,Wissenschaftlich-technische Visualisierung ,WTV,Wahlpflichtmodul,5,3,4,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,3,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I143,Erweiterte Datenbanktechnologien/ Medienarchive,EDM,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I886,Mathematische/Stochastische Modelle,MSM,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I523,3D-Programmierung,3DP,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Pflichtmodul,5,1,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I778,Marketing/ Unternehmensfühung,MAU,Pflichtmodul,2,1,2,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I779,Digitaler Rundfunk/ Medientechnik,DRM,Pflichtmodul,3,3,3,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I762,Fortgeschrittene Computeranimation,FOC,Pflichtmodul,4,3,3,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I745,Interaktions-/Spieletechniken ,INS,Pflichtmodul,8,3,3,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I364,Digitales Compositing/ Medienproduktion ,DCM,Pflichtmodul,8,3,3,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I740,Computer Vision / Bildverstehen ,CVB,Pflichtmodul,5,3,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I728,Fotografie/Bildgestaltung,FOB,Pflichtmodul,2,2,2,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I365,Medienpsychologie,MED,Pflichtmodul,5,2,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,3,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,3,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I870,Formale Verifikation,FOV,Wahlpflichtmodul,5,3,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,2,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I845,Wissenschaftlich-technische Visualisierung ,WTV,Wahlpflichtmodul,5,2,4,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,2,4,73,Computergrafik und Medientechnologien,,,,,
+18,WiSe,I143,Erweiterte Datenbanktechnologien/Medienarchive,EDM,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+18,WiSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,WiSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,74,Data Science,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+18,WiSe,I725,Parallele Algorithmierung,PAA,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. habil. Peter Sobe,false,false,true,false
+18,WiSe,I830,Lineare und nichtlineare Optimierung,LNO,Pflichtmodul,4,1,4,74,Data Science,Prof. Dr. rer. nat. Kerstin Dächert-Pauly,false,false,false,true
+18,WiSe,I836,Mathematisch-stochastische Modelle: Markovketten und Monte-Carlo-Simulationen,MSMMMCS,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr. rer. nat. Anja Voß-Böhme,false,false,true,false
+18,WiSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,2,4,74,Data Science,Prof. Dr.-Ing. Thomas Wiedemann,false,false,true,false
+18,WiSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,4,74,Data Science,Prof. Dr. rer. nat. Anja Voß-Böhme,false,true,false,false
+18,WiSe,I833,Deep Learning,DEL,Pflichtmodul,5,2,4,74,Data Science,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,false,true
+18,WiSe,I834,Mehrdimensionale Datenanalyse und statistische Lernverfahren,MDSL,Pflichtmodul,5,2,4,74,Data Science,Prof. Dr. rer. nat. Fabian Schwarzenberger,false,false,false,true
+18,WiSe,I837,"Mathematisch-stochastische Modelle: Stochastische Prozesse, Spieltheorie, Zeitreihen",MSMSPSZ,Pflichtmodul,5,2,4,74,Data Science,Prof. Dr. rer. nat. Anja Voß-Böhme,false,false,true,false
+18,WiSe,I788,Wissenschaftliches Rechnen,WIR,Pflichtmodul,5,3,4,74,Data Science,PD Prof. Dr. rer. nat. habil. Michael Jung,false,false,false,true
+18,WiSe,I820,Kontinuierliche Simulation,KOS,Pflichtmodul,5,3,4,74,Data Science,Prof. Dr. rer. nat. habil. Jörg Wensch,false,false,true,false
+18,WiSe,I832,Algorithmik,ALG,Pflichtmodul,5,2,4,74,Data Science,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,WiSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,74,Data Science,Prof. Dr.-Ing. Maik Thiele,false,false,true,true
+18,WiSe,I282,Numerische Mathematik,NUM,Pflichtmodul,3,1,2,74,Data Science,PD Prof. Dr. rer. nat. habil. Michael Jung,false,false,true,false
+18,WiSe,I840,Software-Engineering-Projekt,SEP,Pflichtmodul,3,1,2,74,Data Science,Prof. Dr.-Ing. habil. Dirk Müller,false,true,false,false
+18,WiSe,I740,Computer Vision / Bildverstehen,CVB,Wahlpflichtmodul,5,2,4,74,Data Science,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,WiSe,I831,Maschinelle Lernverfahren,MAL,Wahlpflichtmodul,5,2,4,74,Data Science,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,WiSe,I838,Mathematisch-stochastische Modelle: Modellbildung und Modellanpassung,MSMMM,Wahlpflichtmodul,5,2,4,74,Data Science,Prof. Dr. rer. nat. Fabian Schwarzenberger,false,false,false,true
+18,WiSe,I523,3D-Programmierung,3DP,Wahlpflichtmodul,5,3,4,74,Data Science,PD Prof. Dr. rer. nat. Marco Block-Berlitz,false,true,false,false
+18,WiSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Wahlpflichtmodul,5,3,4,74,Data Science,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,true,false
+18,WiSe,I755,Software Factories,SOF,Wahlpflichtmodul,5,3,4,74,Data Science,Prof. Dr.-Ing. habil. Dirk Müller,false,false,true,false
+18,WiSe,I845,Wissenschaftlich-technische Visualisierung,WTV,Wahlpflichtmodul,5,3,4,74,Data Science,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,WiSe,I836,Mathematisch-stochastische Modelle: Markovketten und Monte-Carlo-Simulationen,MSMMMCS,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Anja Voß-Böhme,false,false,true,false
+18,WiSe,I836,Mathematisch-stochastische Modelle: Markovketten und Monte-Carlo-Simulationen,MSMMMCS,Pflichtmodul,5,1,4,73,Medieninformatik,Prof. Dr. rer. nat. Anja Voß-Böhme,false,false,true,false
+18,SoSe,I143,Erweiterte Datenbanktechnologien/Medienarchive,EDM,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+18,SoSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,SoSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,74,Data Science,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+18,SoSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. Thomas Wiedemann,false,false,true,false
+18,SoSe,I725,Parallele Algorithmierung,PAA,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr.-Ing. habil. Peter Sobe,false,false,true,false
+18,SoSe,I837,"Mathematisch-stochastische Modelle: Stochastische Prozesse, Spieltheorie, Zeitreihen",MSMSPSZ,Pflichtmodul,5,1,4,74,Data Science,Prof. Dr. rer. nat. Anja Voß-Böhme,false,false,true,false
+18,SoSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,4,74,Data Science,Prof. Dr. rer. nat. Anja Voß-Böhme,false,true,false,false
+18,SoSe,I788,Wissenschaftliches Rechnen,WIR,Pflichtmodul,5,2,4,74,Data Science,PD Prof. Dr. rer. nat. habil. Michael Jung,false,false,false,true
+18,SoSe,I820,Kontinuierliche Simulation,KOS,Pflichtmodul,5,2,4,74,Data Science,Prof. Dr. rer. nat. habil. Jörg Wensch,false,false,true,false
+18,SoSe,I830,Lineare und nichtlineare Optimierung,LNO,Pflichtmodul,4,2,4,74,Data Science,Prof. Dr. rer. nat. Kerstin Dächert-Pauly,false,false,false,true
+18,SoSe,I832,Algorithmik,ALG,Pflichtmodul,5,2,4,74,Data Science,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,SoSe,I836,Mathematisch-stochastische Modelle: Markovketten und Monte-Carlo-Simulationen,MSMMMCS,Pflichtmodul,5,2,4,74,Data Science,Prof. Dr. rer. nat. Anja Voß-Böhme,false,false,true,false
+18,SoSe,I833,Deep Learning,DEL,Pflichtmodul,5,3,4,74,Data Science,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,false,true
+18,SoSe,I834,Mehrdimensionale Datenanalyse und statistische Lernverfahren,MDSL,Pflichtmodul,5,3,4,74,Data Science,Prof. Dr. rer. nat. Fabian Schwarzenberger,false,false,false,true
+18,SoSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,74,Data Science,Prof. Dr.-Ing. Maik Thiele,false,false,true,true
+18,SoSe,I282,Numerische Mathematik,NUM,Pflichtmodul,3,1,2,74,Data Science,PD Prof. Dr. rer. nat. habil. Michael Jung,false,false,true,false
+18,SoSe,I840,Software-Engineering-Projekt,SEP,Pflichtmodul,3,1,2,74,Data Science,Prof. Dr.-Ing. habil. Dirk Müller,false,true,false,false
+18,SoSe,I845,Wissenschaftlich-technische Visualisierung,WTV,Wahlpflichtmodul,5,2,4,74,Data Science,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I523,3D-Programmierung,3DP,Wahlpflichtmodul,5,3,4,74,Data Science,PD Prof. Dr. rer. nat. Marco Block-Berlitz,false,true,false,false
+18,SoSe,I740,Computer Vision / Bildverstehen,CVB,Wahlpflichtmodul,5,3,4,74,Data Science,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Wahlpflichtmodul,5,3,4,74,Data Science,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,true,false
+18,SoSe,I755,Software Factories,SOF,Wahlpflichtmodul,5,3,4,74,Data Science,Prof. Dr.-Ing. habil. Dirk Müller,false,false,true,false
+18,SoSe,I831,Maschinelle Lernverfahren,MAL,Wahlpflichtmodul,5,3,4,74,Data Science,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,SoSe,I838,Mathematisch-stochastische Modelle: Modellbildung und Modellanpassung,MSMMM,Wahlpflichtmodul,5,3,4,74,Data Science,Prof. Dr. rer. nat. Fabian Schwarzenberger,false,false,false,true
+18,WiSe,I143,Erweiterte Datenbanktechnologien/Medienarchive,EDM,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+18,WiSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,WiSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+18,WiSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,true,false
+18,WiSe,I755,Software Factories,SOF,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. habil. Dirk Mülle,false,false,true,false
+18,WiSe,W955,Marketing/Unternehmensführung,MAU,Pflichtmodul,2,1,2,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. pol. Nicola Neuvians,false,false,true,false
+18,WiSe,I220,Programmierparadigmen,PRO,Pflichtmodul,2,2,2,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Boris Hollas,false,false,true,false
+18,WiSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Thomas Wiedemann,false,false,true,false
+18,WiSe,I282,Numerische Mathematik,NUM,Pflichtmodul,3,2,2,71,Informations- und Kommunikationstechnologien,PD Prof. Dr. rer. nat. habil. Michael Jung,false,false,true,false
+18,WiSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Anja Voß-Böhme,false,true,false,false
+18,WiSe,I725,Parallele Algorithmierung,PAA,Pflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. habil. Peter Sobe,false,false,true,false
+18,WiSe,I740,Computer Vision / Bildverstehen,CVB,Pflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,WiSe,I771,Sensornetze,SEN,Pflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Jörg Vogt,false,true,false,false
+18,WiSe,I788,Wissenschaftliches Rechnen,WIR,Pflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,PD Prof. Dr. rer. nat. habil. Michael Jung,false,false,false,true
+18,WiSe,I832,Algorithmik,ALG,Pflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,WiSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Maik Thiele,false,false,true,true
+18,WiSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Mario Neugebauer,false,true,false,true
+18,WiSe,I831,Maschinelle Lernverfahren,MAL,Wahlpflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,WiSe,I833,Deep Learning,DEL,Wahlpflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,false,true
+18,WiSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,WiSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. habil. Jörg Wensch,false,false,true,false
+18,WiSe,I845,Wissenschaftlich-technische Visualisierung,WTV,Wahlpflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I143,Erweiterte Datenbanktechnologien/Medienarchive,EDM,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+18,SoSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,SoSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+18,SoSe,I282,Numerische Mathematik,NUM,Pflichtmodul,3,1,2,71,Informations- und Kommunikationstechnologien,PD Prof. Dr. rer. nat. habil. Michael Jung,false,false,true,false
+18,SoSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,true,false
+18,SoSe,I755,Software Factories,SOF,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. habil. Dirk Mülle,false,false,true,false
+18,SoSe,I838,Mathematisch-stochastische Modelle: Modellbildung und Modellanpassung,MSMMM,Pflichtmodul,5,1,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Fabian Schwarzenberger,false,false,false,true
+18,SoSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Anja Voß-Böhme,false,true,false,false
+18,SoSe,I771,Sensornetze,SEN,Pflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Jörg Vogt,false,true,false,false
+18,SoSe,I788,Wissenschaftliches Rechnen,WIR,Pflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,PD Prof. Dr. rer. nat. habil. Michael Jung,false,false,false,true
+18,SoSe,I832,Algorithmik,ALG,Pflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,SoSe,I220,Programmierparadigmen,PRO,Pflichtmodul,2,3,2,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Boris Hollas,false,false,true,false
+18,SoSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Thomas Wiedemann,false,false,true,false
+18,SoSe,I725,Parallele Algorithmierung,PAA,Pflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. habil. Peter Sobe,false,false,true,false
+18,SoSe,I740,Computer Vision / Bildverstehen,CVB,Pflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,W955,Marketing/Unternehmensführung,MAU,Pflichtmodul,5,3,2,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. pol. Nicola Neuvians,false,false,true,false
+18,SoSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Maik Thiele,false,false,true,true
+18,SoSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,SoSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. habil. Jörg Wensch,false,false,true,false
+18,SoSe,I845,Wissenschaftlich-technische Visualisierung,WTV,Wahlpflichtmodul,5,2,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr.-Ing. Mario Neugebauer,false,true,false,true
+18,SoSe,I831,Maschinelle Lernverfahren,MAL,Wahlpflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,SoSe,I833,Deep Learning,DEL,Wahlpflichtmodul,5,3,4,71,Informations- und Kommunikationstechnologien,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,false,true
+11,WiSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I176,IT-Vertragsrecht ,ITV,Pflichtmodul,3,1,2,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I143,Erweiterte Datenbanktechnologien/ Medienarchive,EDM,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I886,Mathematische/Stochastische Modelle,MSM,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I755,Software Factories,SOF,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I778,Marketing/ Unternehmensfühung,MAU,Pflichtmodul,2,1,2,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I725,Parallele Algorithmierung ,PAA,Pflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I740,Computer Vision/Bildverstehen,CVB,Pflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I220,Programmierparadigmen,PRO,Pflichtmodul,2,2,2,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I282,Numerische Mathematik,NUM,Pflichtmodul,3,2,2,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I788,Wissenschaftliches Rechnen,WIR,Pflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I754,Algorithmen und Lernverfahren,ALL,Pflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I771,Sensornetze ,SEN,Pflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,3,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I870,Formale Verifikation,FOV,Wahlpflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I845,Wissenschaftlich-technische Visualisierung ,WTV,Wahlpflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I176,IT-Vertragsrecht ,ITV,Pflichtmodul,3,1,2,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I143,Erweiterte Datenbanktechnologien/ Medienarchive,EDM,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I886,Mathematische/Stochastische Modelle,MSM,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I755,Software Factories,SOF,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Pflichtmodul,5,1,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I778,Marketing/ Unternehmensfühung,MAU,Pflichtmodul,2,1,2,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I725,Parallele Algorithmierung ,PAA,Pflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I740,Computer Vision/Bildverstehen,CVB,Pflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I220,Programmierparadigmen,PRO,Pflichtmodul,2,3,2,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I282,Numerische Mathematik,NUM,Pflichtmodul,3,3,2,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I788,Wissenschaftliches Rechnen,WIR,Pflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I754,Algorithmen und Lernverfahren,ALL,Pflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I771,Sensornetze ,SEN,Pflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,3,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I870,Formale Verifikation,FOV,Wahlpflichtmodul,5,3,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I845,Wissenschaftlich-technische Visualisierung ,WTV,Wahlpflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,2,4,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+18,WiSe,I143,Erweiterte Datenbanktechnologien/Medienarchive,EDM,Pflichtmodul,5,1,4,73,Medieninformatik,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+18,WiSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,73,Medieninformatik,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,WiSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,73,Medieninformatik,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+18,WiSe,I523,3D-Programmierung,3DP,Pflichtmodul,5,1,4,73,Medieninformatik,PD Prof. Dr. rer. nat. Marco Block-Berlitz,false,true,false,false
+18,WiSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Pflichtmodul,5,1,4,73,Medieninformatik,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,true,false
+18,WiSe,W955,Marketing/Unternehmensführung,MAU,Pflichtmodul,2,1,2,73,Medieninformatik,Prof. Dr. rer. pol. Nicola Neuvia,false,false,true,false
+18,WiSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,4,73,Medieninformatik,Prof. Dr. rer. nat. Anja Voß-Böhme,false,true,false,false
+18,WiSe,I740,Computer Vision / Bildverstehen,CVB,Pflichtmodul,5,2,4,73,Medieninformatik,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,WiSe,I745,Interaktions-/Spieletechniken,INS,Pflichtmodul,8,2,6,73,Medieninformatik,Prof. Dr. rer. nat. Markus Wacker,false,true,false,false
+18,WiSe,I762,Fortgeschrittene Computeranimation,FOC,Pflichtmodul,4,2,3,73,Medieninformatik,Prof. Dr. rer. nat. Markus Wacker,false,true,false,false
+18,WiSe,I779,Digitaler Rundfunk / Medientechnik,DRM,Pflichtmodul,3,2,3,73,Medieninformatik,Prof. Dr.-Ing. Jens Schönthier,false,true,false,false
+18,WiSe,I364,Digitales Compositing / Medienproduktion,DCM,Pflichtmodul,8,3,6,73,Medieninformatik,Prof. Dr. rer. nat. Markus Wacker,false,true,false,false
+18,WiSe,I365,Medienpsychologie,MED,Pflichtmodul,5,3,4,73,Medieninformatik,Prof. Dr. Teresa Merino,false,true,true,false
+18,WiSe,I728,Fotografie/Bildgestaltung,FOB,Pflichtmodul,2,3,2,73,Medieninformatik,Prof. Dr.-Ing. Kai Bruns,false,true,true,false
+18,WiSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,73,Medieninformatik,Prof. Dr.-Ing. Maik Thiele,false,false,true,true
+18,WiSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,2,4,73,Medieninformatik,Prof. Dr.-Ing. Mario Neugebauer,false,true,false,true
+18,WiSe,I831,Maschinelle Lernverfahren,MAL,Wahlpflichtmodul,5,2,4,73,Medieninformatik,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,WiSe,I833,Deep Learning,DEL,Wahlpflichtmodul,5,2,4,73,Medieninformatik,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,false,true
+18,WiSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,3,4,73,Medieninformatik,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,WiSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,3,4,73,Medieninformatik,Prof. Dr. rer. nat. habil. Jörg Wensch,false,false,true,false
+18,WiSe,I845,Wissenschaftlich-technische Visualisierung,WTV,Wahlpflichtmodul,5,3,4,73,Medieninformatik,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I143,Erweiterte Datenbanktechnologien/Medienarchive,EDM,Pflichtmodul,5,1,4,73,Medieninformatik,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+18,SoSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,73,Medieninformatik,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,SoSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,73,Medieninformatik,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+18,SoSe,I523,3D-Programmierung,3DP,Pflichtmodul,5,1,4,73,Medieninformatik,PD Prof. Dr. rer. nat. Marco Block-Berlitz,false,true,false,false
+18,SoSe,I753,Mensch-Maschine-Kommunikation/Robotik,MMKR,Pflichtmodul,5,1,4,73,Medieninformatik,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,true,false
+18,SoSe,I839,Mathematisch-stochastische Modelle: Elementare stochastische Prozesse,MSMESP,Pflichtmodul,5,1,4,73,Medieninformatik,Prof. Dr. rer. nat. Andreas Harry Löpker,false,false,true,false
+18,SoSe,W955,Marketing/Unternehmensführung,MAU,Pflichtmodul,2,1,2,73,Medieninformatik,Prof. Dr. rer. pol. Nicola Neuvia,false,false,true,false
+18,SoSe,I364,Digitales Compositing / Medienproduktion,DCM,Pflichtmodul,8,2,6,73,Medieninformatik,Prof. Dr. rer. nat. Markus Wacker,false,true,false,false
+18,SoSe,I365,Medienpsychologie,MED,Pflichtmodul,5,2,4,73,Medieninformatik,Prof. Dr. Teresa Merino,false,true,true,false
+18,SoSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,4,73,Medieninformatik,Prof. Dr. rer. nat. Anja Voß-Böhme,false,true,false,false
+18,SoSe,I728,Fotografie/Bildgestaltung,FOB,Pflichtmodul,2,2,2,73,Medieninformatik,Prof. Dr.-Ing. Kai Bruns,false,true,true,false
+18,SoSe,I740,Computer Vision / Bildverstehen,CVB,Pflichtmodul,5,3,4,73,Medieninformatik,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I745,Interaktions-/Spieletechniken,INS,Pflichtmodul,8,3,6,73,Medieninformatik,Prof. Dr. rer. nat. Markus Wacker,false,true,false,false
+18,SoSe,I762,Fortgeschrittene Computeranimation,FOC,Pflichtmodul,4,3,3,73,Medieninformatik,Prof. Dr. rer. nat. Markus Wacker,false,true,false,false
+18,SoSe,I779,Digitaler Rundfunk / Medientechnik,DRM,Pflichtmodul,3,3,3,73,Medieninformatik,Prof. Dr.-Ing. Jens Schönthier,false,true,false,false
+18,SoSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,73,Medieninformatik,Prof. Dr.-Ing. Maik Thiele,false,false,true,true
+18,SoSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,2,4,73,Medieninformatik,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,SoSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,2,4,73,Medieninformatik,Prof. Dr. rer. nat. habil. Jörg Wensch,false,false,true,false
+18,SoSe,I845,Wissenschaftlich-technische Visualisierung,WTV,Wahlpflichtmodul,5,2,4,73,Medieninformatik,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,3,4,73,Medieninformatik,Prof. Dr.-Ing. Mario Neugebauer,false,true,false,true
+18,SoSe,I831,Maschinelle Lernverfahren,MAL,Wahlpflichtmodul,5,3,4,73,Medieninformatik,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,SoSe,I833,Deep Learning,DEL,Wahlpflichtmodul,5,3,4,73,Medieninformatik,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,false,true
+11,WiSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I143,Erweiterte Datenbanktechnologien/ Medienarchive,EDM,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I886,Mathematische/Stochastische Modelle,MSM,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I755,Software Factories ,SOF,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I456,IT-Servicemanagement ,ITS,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I474,Personalwesen,PER,Pflichtmodul,2,1,2,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I541,Business Process Automation,BPA,Pflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I787,Statistische Analyseverfahren ,STA,Pflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I774,Makroökonomie,MAK,Pflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I776,Finanzierung,FIN,Pflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I446,Business Performance Management ,BPM,Pflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I444,Innovative Webbasierte Betriebliche Informationssysteme,IWBI,Pflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,3,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I870,Formale Verifikation,FOV,Wahlpflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I845,Wissenschaftlich-technische Visualisierung ,WTV,Wahlpflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I143,Erweiterte Datenbanktechnologien/ Medienarchive,EDM,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I886,Mathematische/Stochastische Modelle,MSM,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I755,Software Factories ,SOF,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I456,IT-Servicemanagement ,ITS,Pflichtmodul,5,1,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I474,Personalwesen,PER,Pflichtmodul,2,1,2,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I541,Business Process Automation,BPA,Pflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I787,Statistische Analyseverfahren ,STA,Pflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I774,Makroökonomie,MAK,Pflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I776,Finanzierung,FIN,Pflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I446,Business Performance Management ,BPM,Pflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I444,Innovative Webbasierte Betriebliche Informationssysteme,IWBI,Pflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,3,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I870,Formale Verifikation,FOV,Wahlpflichtmodul,5,3,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I845,Wissenschaftlich-technische Visualisierung ,WTV,Wahlpflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,2,4,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+18,WiSe,I143,Erweiterte Datenbanktechnologien/Medienarchive,EDM,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+18,WiSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,WiSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+18,WiSe,I456,IT-Service-Management,ISM,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Dirk Reichelt,false,true,true,false
+18,WiSe,I755,Software Factories,SOF,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. habil. Dirk Müller,false,false,true,false
+18,WiSe,I836,Mathematisch-stochastische Modelle: Markovketten und Monte-Carlo-Simulationen,MSMMMCS,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. Anja Voß-Böhme,false,false,true,false
+18,WiSe,W953,Personal,PER,Pflichtmodul,2,1,2,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Anne-Katrin Haubold,false,false,true,false
+18,WiSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Thomas Wiedemann,false,false,true,false
+18,WiSe,I541,Business Process Automation,BPA,Pflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Dirk Reichelt,false,true,false,true
+18,WiSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. Anja Voß-Böhme,false,true,false,false
+18,WiSe,I834,Mehrdimensionale Datenanalyse und statistische Lernverfahren,MDSL,Pflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. Fabian Schwarzenberger,false,false,false,true
+18,WiSe,W825,Resources and Uncertainty in Strategic Management,RAUSM,Pflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Romy Hilbig,false,true,true,false
+18,WiSe,I444,Innovative Webbasierte Betriebliche Informationssysteme (electronic business/electronic commerce),IWBIEBEC,Pflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. habil. Jürgen Anke,false,true,false,false
+18,WiSe,I446,Business Performance Management,BPM,Pflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Axel Toll,false,false,false,true
+18,WiSe,W954,Finanzierung,FIN,Pflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Christoph Mayer,false,true,false,false
+18,WiSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Maik Thiele,false,false,true,true
+18,WiSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Mario Neugebauer,false,true,false,true
+18,WiSe,I831,Maschinelle Lernverfahren,MAL,Wahlpflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,WiSe,I833,Deep Learning,DEL,Wahlpflichtmodul,5,2,4,72,Wirtschaftsinformatik,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,false,true
+18,WiSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,WiSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. habil. Jörg Wensch,false,false,true,false
+18,WiSe,I845,Wissenschaftlich-technische Visualisierung,WTV,Wahlpflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I143,Erweiterte Datenbanktechnologien/Medienarchive,EDM,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Maik Thiele,false,false,true,false
+18,SoSe,I170,Informationssicherheit,INF,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,SoSe,I176,IT-Vertragsrecht,ITV,Pflichtmodul,3,1,2,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Andreas Westfeld,false,true,false,false
+18,SoSe,I456,IT-Service-Management,ISM,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Dirk Reichelt,false,true,true,false
+18,SoSe,I755,Software Factories,SOF,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. habil. Dirk Müller,false,false,true,false
+18,SoSe,I837,"Mathematisch-stochastische Modelle: Stochastische Prozesse, Spieltheorie, Zeitreihen",MSMSPSZ,Pflichtmodul,5,1,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. Anja Voß-Böhme,false,false,true,false
+18,SoSe,W953,Personal,PER,Pflichtmodul,2,1,2,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Anne-Katrin Haubold,false,false,true,false
+18,SoSe,I444,Innovative Webbasierte Betriebliche Informationssysteme (electronic business/electronic commerce),IWBIEBEC,Pflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. habil. Jürgen Anke,false,true,false,false
+18,SoSe,I446,Business Performance Management,BPM,Pflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Axel Toll,false,false,false,true
+18,SoSe,I705,Forschungs-/Entwicklungsprojekt / Forschungsseminar,FEF,Pflichtmodul,10,3,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. Anja Voß-Böhme,false,true,false,false
+18,SoSe,W954,Finanzierung,FIN,Pflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Christoph Mayer,false,true,false,false
+18,SoSe,I265,Diskrete Simulation,DIS,Pflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Thomas Wiedemann,false,false,true,false
+18,SoSe,I541,Business Process Automation,BPA,Pflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Dirk Reichelt,false,true,false,true
+18,SoSe,I834,Mehrdimensionale Datenanalyse und statistische Lernverfahren,MDSL,Pflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. Fabian Schwarzenberger,false,false,false,true
+18,SoSe,W825,Resources and Uncertainty in Strategic Management,RAUSM,Pflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr. rer. pol. Romy Hilbig,false,true,true,false
+18,SoSe,I707,Masterarbeit,MAS,Pflichtmodul,30,4,0,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Maik Thiele,false,false,true,true
+18,SoSe,I730,Echtzeitsysteme,ECH,Wahlpflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Robert Baumgartl,false,false,true,false
+18,SoSe,I820,Kontinuierliche Simulation,KOS,Wahlpflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. habil. Jörg Wensch,false,false,true,false
+18,SoSe,I845,Wissenschaftlich-technische Visualisierung,WTV,Wahlpflichtmodul,5,2,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. habil. Wolfgang Oertel,false,false,false,true
+18,SoSe,I760,Mobile Netze,MON,Wahlpflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr.-Ing. Mario Neugebauer,false,true,false,true
+18,SoSe,I831,Maschinelle Lernverfahren,MAL,Wahlpflichtmodul,5,3,4,72,Wirtschaftsinformatik,Prof. Dr. rer. nat. Boris Hollas,false,false,false,true
+18,SoSe,I833,Deep Learning,DEL,Wahlpflichtmodul,5,3,4,72,Wirtschaftsinformatik,PD Prof. Dr.-Ing. habil. Hans-Joachim Böhme,false,false,false,true
+18,SoSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,72,Wirtschaftsinformatik,,,,,
+18,SoSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,73,Medieninformatik,,,,,
+18,SoSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,71,Informations- und Kommunikationstechnologien,,,,,
+18,SoSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,74,Data Science,,,,,
+18,WiSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,72,Wirtschaftsinformatik,,,,,
+18,WiSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,73,Medieninformatik,,,,,
+18,WiSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,71,Informations- und Kommunikationstechnologien,,,,,
+18,WiSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,74,Data Science,,,,,
+18,SoSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,72,Wirtschaftsinformatik,,,,,
+18,SoSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,73,Medieninformatik,,,,,
+18,SoSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,71,Informations- und Kommunikationstechnologien,,,,,
+18,SoSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,74,Data Science,,,,,
+18,WiSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,72,Wirtschaftsinformatik,,,,,
+18,WiSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,73,Medieninformatik,,,,,
+18,WiSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,71,Informations- und Kommunikationstechnologien,,,,,
+18,WiSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,74,Data Science,,,,,
+18,SoSe,XQQ,Unbekanntes Modul,UNM,,,,,72,Wirtschaftsinformatik,,,,,
+18,SoSe,XQQ,Unbekanntes Modul,UNM,,,,,73,Medieninformatik,,,,,
+18,SoSe,XQQ,Unbekanntes Modul,UNM,,,,,71,Informations- und Kommunikationstechnologien,,,,,
+18,SoSe,XQQ,Unbekanntes Modul,UNM,,,,,74,Data Science,,,,,
+18,WiSe,XQQ,Unbekanntes Modul,UNM,,,,,72,Wirtschaftsinformatik,,,,,
+18,WiSe,XQQ,Unbekanntes Modul,UNM,,,,,73,Medieninformatik,,,,,
+18,WiSe,XQQ,Unbekanntes Modul,UNM,,,,,71,Informations- und Kommunikationstechnologien,,,,,
+18,WiSe,XQQ,Unbekanntes Modul,UNM,,,,,74,Data Science,,,,,
+11,SoSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,74,Data Science,,,,,
+11,WiSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,XWM,Wahlpflichtmodul,WAH,Wahlpflichtmodul,,,,74,Data Science,,,,,
+11,SoSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,74,Data Science,,,,,
+11,WiSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,XZM,Zusatzmodul,ZUS,Zusatzmodul,,,,74,Data Science,,,,,
+11,SoSe,XQQ,Unbekanntes Modul,UNM,,,,,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,SoSe,XQQ,Unbekanntes Modul,UNM,,,,,73,Computergrafik und Medientechnologien,,,,,
+11,SoSe,XQQ,Unbekanntes Modul,UNM,,,,,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,SoSe,XQQ,Unbekanntes Modul,UNM,,,,,74,Data Science,,,,,
+11,WiSe,XQQ,Unbekanntes Modul,UNM,,,,,72,Prozessorientierte Wirtschaftsinformatik,,,,,
+11,WiSe,XQQ,Unbekanntes Modul,UNM,,,,,73,Computergrafik und Medientechnologien,,,,,
+11,WiSe,XQQ,Unbekanntes Modul,UNM,,,,,71,Intelligente Informations- und Kommunikationstechnologien,,,,,
+11,WiSe,XQQ,Unbekanntes Modul,UNM,,,,,74,Data Science,,,,,

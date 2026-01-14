@@ -1,0 +1,7 @@
+qis_insight:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../../students_final.duckdb
+      threads: 4

@@ -1,0 +1,646 @@
+version: 2
+
+models:
+  - name: stg_students_clean
+    description: "Cleaned and standardized student grades data with validated enums and filtered invalid records"
+    columns:
+      - name: student_id
+        description: "Student identifier"
+      
+      - name: module_number
+        description: "Module number (e.g., I143, W825). Module names sourced separately."
+      
+      - name: grade
+        description: "Cleaned grade as string"
+      
+      - name: exam_status
+        description: "status of the final exam grade"
+      
+      - name: term_counter
+        description: "Term counter for student (1, 2, 3, etc.)"
+      
+      - name: year_of_matriculation
+        description: "Immatriculation year (first year student has any entry)"
+      
+      - name: semester_of_matriculation
+        description: "Semester in which student started (WiSe or SoSe)"
+
+  - name: dim_students
+    description: "Student dimension table with one row per student and non-changing attributes"
+    columns:
+      - name: student_id
+        description: "Student identifier (primary key)"
+        tests:
+          - unique
+          - not_null
+      
+      - name: year_of_matriculation
+        description: "Immatriculation year"
+        tests:
+          - not_null
+      
+      - name: semester_of_matriculation
+        description: "Semester student started (WiSe or SoSe)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['WiSe', 'SoSe']
+      
+      - name: study_regulations_year
+        description: "Curriculum version year (11 or 18)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [11, 18]
+              quote: false
+      
+      - name: field_of_study
+        description: "Study program code"
+        tests:
+          - not_null
+      
+      - name: graduation_flag
+        description: "True if student has passed I707 (Masterarbeit) at least once"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+      
+      - name: terms_taken_total_count
+        description: "Total number of terms the student has taken"
+        tests:
+          - not_null
+      
+      - name: inactivity_flag
+        description: "True if student has been enrolled for 8+ semesters (4+ years) without passing Masterarbeit (I707). Checks total enrollment duration from start, not consecutive inactivity."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+  - name: stg_students_with_credits
+    description: "Student grades enriched with module metadata and earned credits"
+    columns:
+      - name: student_id
+        description: "Student identifier"
+        tests:
+          - not_null
+      
+      - name: module_number
+        description: "Module number"
+        tests:
+          - not_null
+        
+      - name: module_acronym
+        description: Module acronym
+        data_type: string
+      
+      - name: grade
+        description: "Cleaned grade as string"
+      
+      - name: exam_status
+        description: "Exam status (bestanden, nicht bestanden, abgemeldet)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['bestanden', 'nicht bestanden', 'abgemeldet']
+      
+      - name: semester_type
+        description: "Semester when module was taken (WiSe or SoSe)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['WiSe', 'SoSe']
+      
+      - name: year
+        description: "Year when module was taken"
+        tests:
+          - not_null
+      
+      - name: exam_annotation
+        description: "Special remarks about the grade"
+      
+      - name: term_counter
+        description: "Term counter for student"
+        tests:
+          - not_null
+      
+      - name: credits_earned
+        description: "Credits earned (only on first pass)"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 30
+      
+      - name: exam_plan_dif
+        description: "Plan difference (term_counter - module_semester). Negative means taken earlier than planned, positive means later"
+      
+      - name: match_quality
+        description: "Quality of module match (0=perfect, 1=wrong direction, 2=wrong semester, 3=worst)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3]
+              quote: false
+      
+      - name: module_not_in_plan
+        description: "True if module is not in the regular plan"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+              
+      - name: module_title
+        description: "Module name from module table"
+        tests:
+          - not_null
+      
+      - name: module_key
+        description: "Exact module key from dim_modul (format: AbJahr-graduation_semester-module_number-field_of_study, e.g., '11-WiSe-I143-73')"
+      
+      - name: tries_count
+        description: "Number of attempts counted: counts distinct terms where exam_status = 'nicht bestanden' OR final exam_status = 'bestanden'. Only counts once per term to handle bad data quality."
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 20
+      
+      - name: withdrawal_count
+        description: "Number of times student had exam_status = 'abgemeldet' for this module. Counts distinct terms (only once per term) to handle bad data quality."
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 20
+      
+      - name: term_date
+        description: "Fake date for the term (SoSe = March 1, WiSe = October 1)"
+      
+      - name: sanity_check
+        description: "Data quality flag - True if student passed degree (I707) but never passed a core module across all attempts. Indicates potentially broken data since core modules should be required to pass."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+  - name: dim_students_with_credits
+    description: "Student dimension table aggregated with total earned credits and comprehensive sanity checks. One row per student."
+    columns:
+      - name: student_id
+        description: "Student identifier (primary key)"
+        tests:
+          - unique
+          - not_null
+      
+      - name: graduation_flag
+        description: "True if student has passed I707 (Masterarbeit) at least once"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+      
+      - name: year_of_matriculation
+        description: "Immatriculation year"
+        tests:
+          - not_null
+      
+      - name: semester_of_matriculation
+        description: "Semester student started (WiSe or SoSe)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['WiSe', 'SoSe']
+      
+      - name: study_regulations_year
+        description: "Curriculum version year (11 or 18)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [11, 18]
+              quote: false
+      
+      - name: field_of_study
+        description: "Study program code"
+        tests:
+          - not_null
+      
+      - name: terms_taken_total_count
+        description: "Total number of terms the student has taken"
+        tests:
+          - not_null
+      
+      - name: credits_earned_total_count
+        description: "Total credits earned by student (only counted on first pass with perfect match)"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 150
+      
+      - name: passed_xwm_xzm_count
+        description: "Count of passed elective/additional modules (XWM, XZM)"
+        tests:
+          - not_null
+      
+      - name: total_credits_with_xwm_xzm_bonus
+        description: "Total credits including potential 5-credit bonus for each passed XWM/XZM module"
+        tests:
+          - not_null
+      
+      - name: sanity_check
+        description: "Data quality flag - True if student passed degree BUT (any core module never passed) OR (has < 120 credits and even with XWM/XZM bonuses cannot reach 120). Indicates broken or incomplete data."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+  - name: dim_zeit
+    description: "Time dimension table with one row per unique Jahr/Semester combination"
+    columns:
+      - name: time_id
+        description: "Surrogate key for time dimension (primary key)"
+        tests:
+          - unique
+          - not_null
+      
+      - name: year
+        description: "Year (e.g., 19, 20, 21)"
+        tests:
+          - not_null
+      
+      - name: semester_type
+        description: "Semester (WiSe or SoSe)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['WiSe', 'SoSe']
+      
+      - name: semester_type_numeric
+        description: "Numeric representation of semester (1 for SoSe, 0 for WiSe)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      
+      - name: time_label
+        description: "Date representation of the term (SoSe = March 1, WiSe = October 1)"
+        tests:
+          - not_null
+
+  - name: dim_modul
+    description: "Module dimension table with one row per module and all module attributes"
+    columns:
+      - name: module_id
+        description: "Module number (primary key, e.g., I143, I705, XWM)"
+        tests:
+          - not_null
+      
+      - name: module_title
+        description: "Full module name"
+        tests:
+          - not_null
+      
+      - name: module_acronym
+        description: "Module acronym (e.g., INF, ITV, EDM)"
+        tests:
+          - not_null
+      
+      - name: credits
+        description: "Credit points for the module"
+        # tests:
+        #   - not_null
+        #   - dbt_expectations.expect_column_values_to_be_between:
+        #       min_value: 0
+        #       max_value: 30
+      
+      - name: graduation_year
+        description: "Graduation year / Abschluss year (curriculum version)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [11, 18]
+              quote: false
+      
+      - name: graduation_semester
+        description: "Semester for this curriculum (WiSe or SoSe)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['WiSe', 'SoSe']
+      
+      - name: module_key
+        description: "Composite key combining graduation_year, graduation_semester, module_number, and field_of_study (e.g., '11-WiSe-I143-73')"
+        tests:
+          - not_null
+          - unique
+      
+      - name: recommended_semester
+        description: "Recommended semester in which module is typically taught (1, 2, 3, 4)"
+        # tests:
+        #   - not_null
+        #   - dbt_expectations.expect_column_values_to_be_between:
+        #       min_value: 1
+        #       max_value: 4
+      
+      - name: field_of_study
+        description: "Study program code (71, 72, 73, 74)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [71, 72, 73, 74]
+              quote: false
+      
+      - name: module_type
+        description: "Module type (Pflichtmodul, Wahlpflichtmodul, Zusatzmodul)"
+        # tests:
+        #   - not_null
+        #   - accepted_values:
+        #       values: ['Pflichtmodul', 'Wahlpflichtmodul', 'Zusatzmodul']
+      
+      - name: professor_name
+        description: "Professor name teaching the module"
+      
+      - name: apl_flag
+        description: "Alternative performance requirement (Alternative Prüfungsleistung)"
+        # tests:
+          # - not_null
+          # - accepted_values:
+          #     values: [true, false]
+      
+      - name: written_flag
+        description: "Written exam required (schriftliche Prüfung)"
+        # tests:
+          # - not_null
+          # - accepted_values:
+          #     values: [true, false]
+      
+      - name: oral_flag
+        description: "Oral exam required (mündliche Prüfung)"
+        # tests:
+          # - not_null
+          # - accepted_values:
+          #     values: [true, false]
+
+  - name: fact_kpi
+    description: "Fact table for KPI analysis with one row per student-module-time combination. Links students, modules, and time dimensions."
+    columns:
+      - name: student_id
+        description: "Student identifier (foreign key to dim_students)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_students')
+              field: student_id
+      
+      - name: module_id
+        description: "Module identifier (foreign key to dim_modul)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_modul')
+              field: module_id
+      
+      - name: time_id
+        description: "Time identifier (foreign key to dim_zeit)"
+        tests:
+          - relationships:
+              to: ref('dim_zeit')
+              field: time_id
+      
+      - name: grade_numeric
+        description: "Numeric grade value"
+
+      - name: term_counter
+        description: "Term counter for student"
+        tests:
+          - not_null
+      
+      - name: passed_flag
+        description: "Flag indicating if student passed the exam (1 = bestanden, 0 = otherwise)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+      
+      - name: credits_earned
+        description: "Credits earned by student for this module attempt (only non-zero on first successful pass with perfect match)"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 30
+  
+  - name: student_kpi
+    description: "Student-KPI table for analysis of each student"
+    columns:
+      - name: student_id
+        description: "Student identifier (foreign key to dim_students)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_students')
+              field: student_id
+
+      - name: modules_count
+        description: "number of modules the student attended"
+        #tests:
+          
+      - name: modules_passed_count
+        description: "number of all modules the student successfully passed"
+        #tests:
+
+      - name: failed_attempts_count
+        description: "number of all failed attempts across all modules the student attended"
+        #tests:
+
+      - name: modules_failed_count
+        description: "number of modules with at least one failed attempt"
+        #tests:
+
+      - name: credits_total_count
+        description: "total amount of credit points the student has achieved"
+        #tests:
+
+      - name: weighted_avg_grade
+        description: "average grade weighted (by amount of credit points per grade"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 4
+
+      - name: median_grade
+        description: "median of all grades the student achieved"
+        tests:
+        - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 5
+
+      - name: pass_rate
+        description: "percentage of passed modules (out of all attended modules)"
+        #tests:
+
+      - name: fail_rate
+        description: "percentage of modules with at least one failed attempt (out of all attended modules)"
+        #tests:
+
+      - name: repetition_rate
+        description: "percentage of modules with at least two attempts (out of all attended modules)"
+        #tests:
+
+  - name: modul_kpi
+    description: "Module-KPI table for analysis of each module"
+    columns:
+      - name: module_id
+        description: "Module identifier (foreign key to dim_modul)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_modul')
+              field: module_id
+      - name: module_acronym
+        description: "Short module code"
+      - name: students_finally_failed_count
+        description: "Count of students who ultimately failed the module after three unsuccessful attempts"
+      - name: students_passed_first_try_count
+        description: "Number of students who passed the module on their first attempt"
+      - name: students_failed_percent
+        description: "Proportion of students who failed at least one attempt relative to all attendees"
+      - name: students_final_fail_percent
+        description: "Share of students who did not pass after exhausting all allowed attempts"
+      - name: bottleneck_value
+        description: "Measure of module difficulty ranging from 0.0 (everyone passed first try) to 1.0 (no one passed first try)"
+      - name: avg_exam_plan_diff
+        description: "Average deviation between planned and actual exam participation or scheduling"
+      - name: students_finally_failed_percent
+        description: "Percentage of module attendees who ultimately failed the module"
+
+  - name: studiengang_kpi
+    description: "Table for KPIs affecting the entire study program"
+    columns:
+      - name: study_program_label
+        description: ""
+        #tests:
+
+      - name: students_total_count
+        description: "number of all students (every year of matriculation)"
+        tests:
+          - not_null
+
+      - name: graduation_rate
+        description: "amount of all students that passed their masters degree"
+        #tests:
+
+      - name: dropout_rate
+        description: "amount of all students that finally failed their masters degree or are seemingly inactive"
+        #tests:
+
+      - name: weighted_avg_program_grade
+        description: "average by credit points weighted grade (not including 5.0)"
+        tests:
+          - not_null
+
+      - name: median_program_grade
+        description: "median of all grades (not including 5.0)"
+        tests:
+          - not_null
+      
+      - name: master_on_track_percent
+        description: "Percentage of students who complete their master's degree in the correct semester or earlier"
+
+  - name: studiengangsvergleich_kpi
+    description: "KPI-table comparing the different fields of study per year of matriculation"  
+    columns:
+      - name: field_of_study
+        description: "numeric value representing the corresponding field of study"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [71, 72, 73]
+              quote: false
+
+      - name: year_of_matriculation
+        description: "the last two digits of the year of matriculation"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 11
+              max_value: 21
+
+      - name: matriculations_count
+        description: "amount of new matriculations"
+        tests:
+          - not_null
+          
+      - name: matriculations_prev_year_count
+        description: "amount of new matriculations the year before"
+        #tests:
+
+      - name: matriculations_growth_rate
+        description: "growth rate of matriculations compared to the year before (percentage)"
+        #tests:
+      
+  - name: cohort_kpi
+    description: "KPI table comparing different student cohorts"  
+    columns:
+      - name: intake_year
+        description: "Year of enrollment"
+      - name: enrollments
+        description: "Total number of enrolled students in the cohort"
+      - name: graduation_rate
+        description: "Percentage of students who successfully graduated"
+      - name: dropout_rate
+        description: "Percentage of students who left or are inactive"
+      - name: weighted_avg_grade
+        description: "Weighted average grade for the cohort"
+      - name: median_grade
+        description: "Median grade achieved within the cohort"
+      - name: avg_failed_attempts
+        description: "Average number of failed exam attempts per student"
+      - name: ontrack_rate
+        description: "Percentage of students meeting expected study progress"
+
+  - name: study_progress_kpi
+    description: "KPI table capturing academic progress metrics at the student-term level"
+    columns:
+      - name: student_id
+        description: "Unique identifier of the student"
+      - name: term_counter
+        description: "Sequential number of the academic term for the student"
+      - name: credits_per_term
+        description: "Number of ECTS credits earned during the term"
+      - name: modules_per_term
+        description: "Count of completed modules in the term"
+      - name: avg_grade_per_term
+        description: "Average grade achieved within the term"
+      - name: cumulative_ects
+        description: "Total accumulated ECTS credits up to the term"
+      - name: grade_change
+        description: "Difference in average grade compared to prior term"
+      - name: credit_change
+        description: "Difference in earned credits compared to prior term"
+      - name: ontrack_flag
+        description: "Indicator showing whether progress aligns with expected study pace"
+      - name: inactivity_flag
+        description: "Indicator marking periods without academic activity"
+
+  - name: studienrichtung_mark_kpi
+    description: "KPI table showing the average final grade"  
+    columns:
+      - name: students_with_thesis_avg_final_grade
+        description: "Average final grade"
+      - name: students_with_thesis_avg_final_grade
+        description: "Average grade masters thesis"
+  
+  - name: module_status_kpi
+    description: "KPI table showing the status of a module for a student"
+    columns:
+      - name: student_id
+        description: "Unique identifier of the student"
+      - name: module_id
+        description: "Module identifier (foreign key to dim_modul)"
+      - name: exam_status
+        description: "status of the final exam grade"
