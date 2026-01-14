@@ -81,7 +81,7 @@ Die Inventar-Ansicht dient der Gamification und zusätzlichen Motivation, regelm
 
 === Profil / Einstellungen
 
-image:images/profil01.jpg[width=200] image:images/Home02.jpg[width=200]
+image:images/profil01.jpg[width=200]
 
 In der Profil-Ansicht kann der Benutzer persönliche Daten und App-Einstellungen anpassen:
 
