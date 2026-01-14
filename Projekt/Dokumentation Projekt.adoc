@@ -11,6 +11,7 @@ Im aktuellen Portal sieht man zwar jede einzelne Prüfung, aber ein Gesamtbild �
 
 Unser Ziel war es deshalb, ein Werkzeug zu entwickeln, das diese verstreuten Informationen zusammenführt und verständlich aufbereitet. Lehrende, Modulverantwortliche und Dekanate sollen damit schneller erkennen können:
 
+- welcher Student hat Schwierigkeiten oder wird in Zukunft welche haben
 - wie sich ein Studiengang entwickelt
 - wo Studierende Schwierigkeiten haben
 - welche Module besonders herausfordernd sind
@@ -20,7 +21,7 @@ Kurz gesagt:
 QIS‑Insights soll aus vielen einzelnen Tabellen ein klares, aussagekräftiges Bild machen – damit Entscheidungen nicht mehr auf Bauchgefühl, sondern auf Daten basieren.
 
 === Ausgangssituation
-Das QIS‑Portal bietet zwar alle relevanten Prüfungsdaten, aber nur in Form einzelner Tabellen pro Studierendem.
+Das QIS‑Portal stellt nur eine einzelne Notentabelle pro Studierendem dar.
 Für Auswertungen über ganze Studiengänge oder Jahrgänge hinweg ist es nicht ausgelegt. Insbesondere fehlen:
 
 - Vergleiche zwischen Kohorten
@@ -34,21 +35,23 @@ Studienfortschritt, Studiendauer oder bestehende Engpässe besitzen. Entscheidun
 häufig auf Einzelbeobachtungen statt auf strukturierten, vergleichbaren Daten.
 
 === Motivation
-Im Projektseminar wurde uns die Aufgabe gestellt, ein System zu entwickeln, das diese Lücke schließt.
+Im Projektseminar wurde uns die Aufgabe gegeben, ein System zu entwickeln, das diese Lücke schließt.
 Wir wollten ein Werkzeug schaffen, das nicht nur Daten sammelt, sondern sie so aufbereitet, dass sie im Hochschulalltag wirklich helfen.
 
 Dazu gehören:
+
 - verständliche Kennzahlen
 - Vergleiche zwischen Jahren und Studienrichtungen
 - Analysen zu Modulen und Prüfungsverläufen
 - Hinweise auf auffällige Entwicklungen
 
 QIS‑Insights soll damit eine Grundlage schaffen, um Studiengänge besser zu verstehen, Lehrqualität zu verbessern und Studierende gezielter zu unterstützen.
+Gleichzeitig soll das System auch die Fakultätsleitung und den Dekan entlasten, indem es verlässliche, übersichtliche und vergleichbare Daten für Entscheidungen bereitstellt.
 
 == Architekturübersicht
 
-=== Medaillon-Architektur (Bronze / Silver / Gold) 
-include::medaillon_Schema.adoc[leveloffset=+1]
+// === Medaillon-Architektur (Bronze / Silver / Gold) 
+// include::medaillon_Schema.adoc[leveloffset=+1]
 
 === Datenquelle
 
@@ -112,18 +115,29 @@ und Dashboards dient.
 
 === Transformation (dbt)
 
-Die Transformation der Daten erfolgt mit dbt. dbt übernimmt: 
+Die Transformation der Daten erfolgt mit dbt. 
+dbt übernimmt: 
+
 - die Bereinigung und Vereinheitlichung der Rohdaten (Silver Layer)
 - die Ableitung zusätzlicher Attribute (z. B. ECTS-Fortschritt) 
 - den Aufbau des analytischen Star Schemas (Gold Layer)
 - die Erstellung der KPI-Views
+- die konsistente Benennung der KPI-Modelle 
+- die Materialisierung der KPI-Tabellen für bessere Performance
 - sowie Teile der technischen Dokumentation und Tests
 
-include::Dokumentation\ der\ dbt-staging-Modelle.adoc[leveloffset=+1]
+
+include::Dokumentation der dbt-staging-Modelle.adoc[leveloffset=+2, tags="staging_kurz"]
+==== Tests
+include::Dokumentation der dbt-staging-Modelle.adoc[leveloffset=+2, tags="test1"]
+include::Dokumentation der dbt-staging-Modelle.adoc[leveloffset=+2, tags="test"]
+
+include::Dokumentation der dbt-staging-Modelle.adoc[leveloffset=+2, tags="fazit"]
+
 
 === Analytisches Datenmodell (Star Schema)
-include::galaxy_schema.adoc[leveloffset=+1, tags="zielsetzung"]
-include::galaxy_schema.adoc[leveloffset=+1, tags="facts_dims"]
+include::galaxy_schema.adoc[leveloffset=+2, tags="zielsetzung"]
+include::galaxy_schema.adoc[leveloffset=+2, tags="facts_dims"]
 
 === Visualisierung
 Interaktive Dashboards mittels Apache Superset.
@@ -141,19 +155,19 @@ Die Datenverarbeitung in QIS-Insights umfasst den Weg von den Rohdaten aus dem Q
 === Datenimport
 Die Rohdaten liegen als SQLite-Datenbank vor und werden zunächst unverändert in DuckDB übernommen. Dadurch entsteht der Bronze Layer der Medaillon-Architektur.
 
-include::analyse_db.adoc[leveloffset=+1, tags="analyse_kurz"]
-
-
 ==== Format der Raw Data
 
-Die Rohdaten bestehen aus zwei Tabellen: 
+Die Rohdaten bestehen aus zwei Tabellen:
+
 - *students*: alle Prüfungsereignisse eines Studierenden 
+
 - *studienrichtungen*: Lookup-Tabelle zur Auflösung der Studienrichtungscodes 
 
 Die Daten enthalten teilweise fehlende Werte, uneinheitliche Statusangaben und inkonsistente Modulbezeichnungen. Diese Probleme werden im Staging-Prozess bereinigt.
 
 ==== Qualitätssicherung
 Im Rahmen der Datenübernahme werden grundlegende QS-Schritte durchgeführt: 
+
 - Erkennung und Entfernung von Duplikaten 
 - Vereinheitlichung von Statuswerten 
 - Behandlung fehlender Werte 
@@ -163,11 +177,10 @@ Im Rahmen der Datenübernahme werden grundlegende QS-Schritte durchgeführt:
 
 Im Silver Layer werden die Rohdaten bereinigt, vereinheitlicht und um zusätzliche Attribute ergänzt. Dieser Schritt bildet die Grundlage für das spätere Star Schema. 
 
-include::Dokumentation\ der\ dbt-staging-Modelle.adoc[leveloffset=+1]
-
 ==== Abgeleitete Attribute 
 
-Zu den wichtigsten abgeleiteten Attributen gehören: 
+Zu den wichtigsten abgeleiteten Attributen gehören:
+
 - berechnete ECTS pro Modul 
 - gewichtete Durchschnittsnoten 
 - Status-Mapping (bestanden, nicht bestanden, abgemeldet, krank, nicht angetreten) 
@@ -176,9 +189,11 @@ Zu den wichtigsten abgeleiteten Attributen gehören:
 - Berechnung des Fachsemesters 
 - Flags für Inaktivität
 
-=== Seeds (dbt) Für Lookup-Tabellen und Hilfsstrukturen werden Seed-Dateien verwendet, die direkt in dbt eingebunden sind. 
+=== Seeding (dbt)
+include::Dokumentaion dbt-seeding.adoc[leveloffset=+2, tags=seeding_kurz]
 
-include::Dokumentation\ dbt-seeding.adoc[leveloffset=+1]
+==== Fazit
+Seeding stellt sicher, dass wichtige Stammdaten zuverlässig und immer in derselben Version vorliegen. Dadurch können Staging‑Modelle und KPI‑Berechnungen auf einer sauberen und stabilen Datenbasis aufbauen.
 
 == Star Schema
 
@@ -189,12 +204,18 @@ Es besteht aus einer zentralen Faktentabelle und mehreren Dimensionstabellen, di
 ==== Faktentabelle
 * `fact_kpi`  
   Enthält alle prüfungsrelevanten Ereignisse je Student (Noten, Credits, Status).  
-  Sie ist die Basis für alle Berechnungen und Aggregationen.
+  Sie ist die Basis für alle Berechnungen und Aggregationen.  
+
+Siehe <<Strukturfact_kpi,Struktur der Faktentabelle>> im Anhang.
 
 ==== Dimensionstabellen
-* `dim_student` – Stammdaten der Studierenden (Studienrichtung, Jahrgang, Abschlussstatus)  
+* `dim_student` – Stammdaten der Studierenden (Studienrichtung, Jahrgang, Abschlussstatus)
+
 * `dim_modul` – Informationen zu Modulen (Modulnummer, Credits, Prüfungsart, Studienrichtung)  
-* `dim_zeit` – Zeitdimension (Jahr, Semester, zeitID, zeit_label) zur Abbildung von Trends
+
+* `dim_zeit` – Zeitdimension (Jahr, Semester, zeitID, zeit_label) zur Abbildung von Trends  
+
+Siehe <<Strukturdim,Strukturen der Dimensionen>> im Anhang.
 
 == Gold Layer / KPI Tabellen und Views
 include::galaxy_schema.adoc[leveloffset=+1, tags="progress"]
@@ -333,6 +354,26 @@ Ein Studierender ist *GRÜN*, wenn keine ROT- und keine ORANGE-Bedingung erfüll
 
 == Anhang
 
+=== Bilder
+
+==== Dimensionen und Fakttabllen
+[[Strukturfact_kpi]] *Struktur der fact_kpi:*
+
+image::Bilder/fact_kpi.png[width=80%] 
+
+[[Strukturdim]] *Struktur der dim_student:*  
+
+image::Bilder/dim_students.png[width=80%] 
+
+*Struktur der dim_modul:*
+
+image::Bilder/dim_modul.png[width=80%] 
+
+*Struktur der dim_zeit:*
+
+image::Bilder/dim_zeit.png[width=80%]
+
+
 === Technische Details
 
 
@@ -340,6 +381,5 @@ Ein Studierender ist *GRÜN*, wenn keine ROT- und keine ORANGE-Bedingung erfüll
 
 
 === Quellen
-
 
 
