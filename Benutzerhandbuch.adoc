@@ -34,6 +34,7 @@ Auf der Startseite siehst du eine Übersicht über deinen aktuellen Fortschritt 
 * **Plus-Button (+)** zum Hinzufügen neuer Habits
 
 Funktionen auf der Startseite:
+
 - Prüfe deine **heutigen Ziele** und deine **Streak**
 - Tippe auf die Check-Box eines Habits, um es abzuhaken.
 - Tippe auf den **Plus-Button (+)**, um ein neues Habit zu erstellen.
@@ -52,6 +53,7 @@ Die Ansicht ist in drei Bereiche unterteilt:
 * **Alle Habits**: Vollständige Liste aller angelegten Gewohnheiten  
 
 Funktionen in der Habits-Übersicht: 
+
 - Tippe auf die entsprechenden Symbole eines Habits, um es abzuhaken, zu bearbeiten oder zu löschen. 
 - Tippe auf das **Datum** deiner Wahl, um die anstehenden Habits für diesen Tag zu sehen. 
 - Nutze den **Plus-Button (+)**, um ein neues Habit anzulegen. 
@@ -122,6 +124,7 @@ image:images/habit2.jpg[width=200]
 image:images/habit3.jpg[width=200]
 
 So legst du ein vordefiniertes Habit an: 
+
 - Tippe auf den **Plus-Button (+)**, um ein neues Habit zu erstellen.
 - Tippe auf **vordefiniertes Ziel wählen**.
 - Wähle ein **vordefiniertes Ziel** aus der Liste. 
@@ -136,6 +139,7 @@ Wenn du ein individuelles Ziel hast, kannst du ein eigenes Habit erstellen.
 image:images/habit1.jpg[width=200] image:images/habit4.jpg[width=200]
 
 So legst du ein eigenes Habit an:
+
 - Tippe auf den **Plus-Button (+)**, um ein neues Habit zu erstellen.
 - Tippe auf **eigenes Ziel erstellen**.
 - Gib einen **Namen** für dein Habit ein. 
@@ -152,6 +156,7 @@ Das Abhaken eines Habits ist der wichtigste Schritt, um deinen Fortschritt zu do
 image:images/habit5.jpg[width=200] image:images/habit6.jpg[width=200]
 
 So hakst du ein Habit ab (1. Möglichkeit): 
+
 - Scrolle bei Home runter zu **heutige Habits**. 
 - Tippe auf die **Checkbox** des erledigten Habits.
 - Dein **Baum** und deine **Streak** aktualisieren sich automatisch.
@@ -159,6 +164,7 @@ So hakst du ein Habit ab (1. Möglichkeit):
 image:images/habits01.jpg[width=200] image:images/kal3.jpg[width=200]
 
 So hakst du ein Habit ab (2. Möglichkeit): 
+
 - Navigiere zu der Seite **Habits**. 
 - Scrolle runter zu **heutige Habits**.
 - Tippe auf die **Checkbox** des erledigten Habits.
@@ -171,6 +177,7 @@ Du kannst jedes Habit jederzeit anpassen oder entfernen.
 image:images/kal3.jpg[width=200] image:images/kal31.jpg[width=200] 
 
 So bearbeitest oder löschst du ein Habit (1. Möglichkeit):
+
 - Navigiere zu der Seite **Habits**.
 - Scrolle runter zu **heutige Habits**.
 - Tippe auf das **Stift Symbol** um das Habit zu bearbeiten.
@@ -179,12 +186,14 @@ So bearbeitest oder löschst du ein Habit (1. Möglichkeit):
 image:images/habits01.jpg[width=200] image:images/kal6.jpg[width=200]
 
 So bearbeitest oder löschst du ein Habit (2. Möglichkeit):
+
 - Navigiere zu der Seite **Habits**.
 - Wechsel zu **Alle Habits**.
 - Tippe auf das **Stift Symbol** um das Habit zu bearbeiten.
 - Tippe auf das **Papierkorb Symbol** um das Habit zu löschen.
 
 image:images/kal4.jpg[width=200] image:images/kal5.jpg[width=200]
+
 - Jetzt kann das Habit bearbeitet oder das Löschen bestätigt werden.
 
 === Baum anzeigen und wachsen lassen
@@ -192,10 +201,12 @@ image:images/kal4.jpg[width=200] image:images/kal5.jpg[width=200]
 Der Baum zeigt deinen langfristigen Fortschritt. Je mehr Habits du erfüllst, desto größer wird er.
 
 image:images/tree2.jpg[width=200]
+
 - Navigiere zu der Seite **Habitree**.
 - Sieh dir deinen aktuellen Fortschritt aller Habits an.
 
 image:images/tree3.jpg[width=200] image:images/tree1.jpg[width=200] image:images/tree4.jpg[width=200]
+
 - Klicke einen Baum um sein Habit und dessen Streak anzeigen zu lassen.
 - Je mehr Tage erfolgreich abgeschlossen wurden, desto mehr wächst der Baum.
 
@@ -219,11 +230,13 @@ Beim ersten Start der App oder nach dem Abmelden meldest du dich (erneut) an ode
 image:images/login1.jpg[width=200] 
 
 **Anmelden:**
+
 - Gebe deinen Benutzernamen und Passwort ein und klicke auf **Anmelden**.
 
 image:images/login2.jpg[width=200]
 
 **Registrieren:**
+
 - Auf **Jetzt registrieren** klicken.
 - Neuen Benutzernamen, Email und Passwort eingeben.
 - Auf **Registrieren & Anmelden** klicken.
@@ -231,6 +244,7 @@ image:images/login2.jpg[width=200]
 image:images/profil01.jpg[width=200]
 
 **Abmelden:**
+
 - Navigiere zu der Seite **Profil**.
 - Auf *Abmelden** klicken.
 
@@ -243,16 +257,20 @@ image:images/profil01.jpg[width=200]
 - **Der Baum wächst nicht?** - Nur wenn du deine Habits regelmäßig abhaken kannst, steigt der Fortschritt.
 
 - **Warum 66 Tage?** 
+
 image:images/faq1.jpg[width=200]
 
 - **Wo sehe ich meine aktuelle Streak?**
+
 image:images/Home01.jpg[width=200] image:images/habit8.jpg[width=200]
 
 - **Wo sehe ich meine aktuelle Streak eines Habits?**
+
 image:images/Home01.jpg[width=200] image:images/habit7.jpg[width=200]
 
 -**Was passiert nachdem ich mein Habit abgeschlossen habe?**
-image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:images/erfolg3.jpg[width=200]
+
+image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:images/erfolg2.jpg[width=200]
 
 
 
