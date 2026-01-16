@@ -174,7 +174,7 @@ Du kannst jedes Habit jederzeit anpassen oder entfernen.
 
 image:images/habits01n.jpg[width=200] image:images/kal31.jpg[width=200] 
 
-So bearbeitest oder löschst du ein Habit (1. Möglichkeit):
+==== So bearbeitest oder löschst du ein Habit (1. Möglichkeit):
 
 - Navigiere zu der Seite **Habits**.
 - Scrolle runter zu **heutige Habits**.
@@ -183,7 +183,7 @@ So bearbeitest oder löschst du ein Habit (1. Möglichkeit):
 
 image:images/habits01.jpg[width=200] image:images/kal6.jpg[width=200]
 
-So bearbeitest oder löschst du ein Habit (2. Möglichkeit):
+==== So bearbeitest oder löschst du ein Habit (2. Möglichkeit):
 
 - Navigiere zu der Seite **Habits**.
 - Wechsel zu **Alle Habits**.
@@ -230,13 +230,13 @@ Beim ersten Start der App oder nach dem Abmelden meldest du dich (erneut) an ode
 
 image:images/login1.jpg[width=200] 
 
-**Anmelden:**
+==== **Anmelden:**
 
 - Gebe deinen Benutzernamen und Passwort ein und klicke auf **Anmelden**.
 
 image:images/login2.jpg[width=200]
 
-**Registrieren:**
+==== **Registrieren:**
 
 - Auf **Jetzt registrieren** klicken.
 - Neuen Benutzernamen, Email und Passwort eingeben.
@@ -244,7 +244,7 @@ image:images/login2.jpg[width=200]
 
 image:images/profil01.jpg[width=200]
 
-**Abmelden:**
+==== **Abmelden:**
 
 - Navigiere zu der Seite **Profil**.
 - Auf *Abmelden** klicken.
