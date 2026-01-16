@@ -310,10 +310,12 @@ image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:imag
 == Tipps & Tricks
 
 - **Fang klein an**
+
 Du musst nicht direkt große Ziele setzen.  
 Ein paar Minuten pro Tag reichen völlig.
 
 **Mach es dir leicht**
+
 - Verbinde neue Gewohnheiten mit Dingen, die du sowieso tust –  
 zum Beispiel: „Nach dem Zähneputzen trinke ich ein Glas Wasser“.
 
