@@ -228,23 +228,23 @@ So verdienst du Abzeichen:
 
 Beim ersten Start der App oder nach dem Abmelden meldest du dich (erneut) an oder erstellst einen neuen Account.
 
-image:images/login1.jpg[width=200] 
+==== Anmelden:
 
-==== **Anmelden:**
+image:images/login1.jpg[width=200] 
 
 - Gebe deinen Benutzernamen und Passwort ein und klicke auf **Anmelden**.
 
-image:images/login2.jpg[width=200]
+==== Registrieren:
 
-==== **Registrieren:**
+image:images/login2.jpg[width=200]
 
 - Auf **Jetzt registrieren** klicken.
 - Neuen Benutzernamen, Email und Passwort eingeben.
 - Auf **Registrieren & Anmelden** klicken.
 
-image:images/profil01.jpg[width=200]
+==== Abmelden:
 
-==== **Abmelden:**
+image:images/profil01.jpg[width=200]
 
 - Navigiere zu der Seite **Profil**.
 - Auf *Abmelden** klicken.
