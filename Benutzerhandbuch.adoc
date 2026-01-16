@@ -251,35 +251,104 @@ image:images/profil01.jpg[width=200]
 
 
 == FAQ / Häufige Probleme
-- **Warum funktioniert der QR-Code nicht?** - Stelle sicher, dass Expo läuft und die VPN an ist damit dein Handy im gleichen Netzwerk ist.
+**Warum funktioniert der QR-Code nicht?** 
+  
+  - Stelle sicher, dass Expo läuft und die VPN an ist damit dein Handy im gleichen Netzwerk ist.
 
-- **Meine Habits werden nicht geladen / Ich kann mich nicht einloggen** - Prüfe, ob du dich mit deinem Account eingeloggt hast und du Zugriff zum HTW-Netzwerk hast.
+**Meine Habits werden nicht geladen / Ich kann mich nicht einloggen** 
+ 
+  - Prüfe, ob du angemeldet bist.
+  - Stelle sicher, dass du Zugriff auf das HTW‑Netzwerk hast und die VPN aktiv ist.
+  - Falls weiterhin Probleme auftreten: App neu starten oder Internetverbindung prüfen.
 
-- **Der Baum wächst nicht?** - Nur wenn du deine Habits regelmäßig abhaken kannst, steigt der Fortschritt.
+**Der Baum wächst nicht?** 
+  
+  - Nur wenn du deine Habits regelmäßig abhaken kannst, steigt der Fortschritt.
+  - Wenn du mehrere Tage auslässt, wird die Streak zurückgesetzt.
+  - Vergesse also nicht deine Habits zu erledigen.
 
 - **Warum 66 Tage?** 
 
 image:images/faq1.jpg[width=200]
 
-- **Wo sehe ich meine aktuelle Streak?**
+**Wo sehe ich meine aktuelle Streak?**
 
 image:images/Home01.jpg[width=200] image:images/habit8.jpg[width=200]
+ 
+  - Im Home Menü unter dem Menüpunkt **Streak**.
 
-- **Wo sehe ich meine aktuelle Streak eines Habits?**
+
+**Wo sehe ich meine aktuelle Streak eines Habits?**
 
 image:images/Home01.jpg[width=200] image:images/habit7.jpg[width=200]
 
--**Was passiert nachdem ich mein Habit abgeschlossen habe?**
+  - Im Home Menü unter dem Menüpunkt **Habit Statistiken (Tage)**.
+  - Klicke auf das gewünschte Habit um genauere Informationen zu dem Habit und dessen Streak zu bekommen.
+
+**Was passiert nachdem ich mein Habit abgeschlossen habe?**
 
 image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:images/erfolg2.jpg[width=200]
 
+  - Du kannst entscheiden ob du weiter dran bleiben möchtest oder den Baum ernten willst.
+  - Wenn du weiter dran bleibst, wächst der Baum weiter und deine Streak erhöht sich.
+  - Wenn du das Streak‑Ziel erreicht hast, kannst du aber auch den Baum ernten und erhältst ein Abzeichen.
+  - Hierfür einfach auf das **Pokal Symbol** unten bei den abgeschlossenen Baum tippen.
 
+**Kann ich ein Habit nachträglich bearbeiten?**
+
+- Ja, du kannst Name, Beschreibung oder Häufigkeit jederzeit anpassen. Dein bisheriger Fortschritt bleibt dabei erhalten.
+
+**Kann ich ein Habit löschen?**
+
+- Ja, aber Achtung: Beim Löschen gehen Streak und Baum verloren. 
+
+**Was passiert, wenn ich einen Tag vergesse?** 
+
+- Dann wird der Streak zurückgesetzt. Das ist nicht schlimm – wichtig ist, dass du wieder einsteigst.
 
 
 == Tipps & Tricks
-- Starte mit kleinen Gewohnheiten – lieber 5 Minuten lesen als gleich ein ganzes Buch.
 
-- Nutze die Streak-Anzeige als Motivation: schon 3 Tage geschafft, jetzt nicht abbrechen!
+==== Fang klein an
+Du musst nicht direkt große Ziele setzen.  
+Ein paar Minuten pro Tag reichen völlig.
+
+==== Mach es dir leicht
+Verbinde neue Gewohnheiten mit Dingen, die du sowieso tust –  
+zum Beispiel: „Nach dem Zähneputzen trinke ich ein Glas Wasser“.
+
+==== Nutze die Streaks als kleinen Motivationsschub
+Es fühlt sich gut an, wenn die Kette länger wird.  
+Versuche, sie nicht zu unterbrechen – aber sei nicht zu streng mit dir.
+
+==== Plane realistisch
+Zu viele Habits auf einmal überfordern.  
+Starte lieber mit ein bis zwei Gewohnheiten und steigere dich später.
+
+==== Belohne dich bewusst
+Wenn du dein Streak-Ziel erreichst, gönn dir etwas Schönes.  
+Das verstärkt den positiven Effekt und macht Spaß.
+
+==== Der Baum ist dein Fortschrittsbarometer
+Der wachsende Baum zeigt dir, dass du dranbleibst.  
+Das Ernten fühlt sich wie ein kleines Level-Up an.
+
+==== Rückschläge gehören dazu
+Ein verpasster Tag ist kein Weltuntergang.  
+Wichtig ist, dass du wieder einsteigst und weitermachst.
+
+==== Passe deine Habits an dein Leben an
+Wenn etwas nicht funktioniert, ändere es.  
+Ein Habit soll dich unterstützen, nicht stressen.
+
+==== Nutze feste Zeiten
+Gewohnheiten bleiben leichter hängen, wenn sie einen festen Platz im Alltag haben.  
+Ein kurzer Reminder kann zusätzlich helfen.
+
+==== Hab Spaß dabei
+Es geht nicht um Perfektion, sondern um Entwicklung.  
+Jeder kleine Schritt zählt.
+
 
 == 12. Abschluss / Weiterführende Links
 GitHub Repository: https://github.com/laurenzzzzzz/htwd-se1-habitree
