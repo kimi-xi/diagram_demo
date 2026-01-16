@@ -267,7 +267,7 @@ image:images/profil01.jpg[width=200]
   - Wenn du mehrere Tage auslässt, wird die Streak zurückgesetzt.
   - Vergesse also nicht deine Habits zu erledigen.
 
-- **Warum 66 Tage?** 
+**Warum 66 Tage?** 
 
 image:images/faq1.jpg[width=200]
 
@@ -309,12 +309,12 @@ image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:imag
 
 == Tipps & Tricks
 
-==== Fang klein an
+- **Fang klein an**
 Du musst nicht direkt große Ziele setzen.  
 Ein paar Minuten pro Tag reichen völlig.
 
-==== Mach es dir leicht
-Verbinde neue Gewohnheiten mit Dingen, die du sowieso tust –  
+**Mach es dir leicht**
+- Verbinde neue Gewohnheiten mit Dingen, die du sowieso tust –  
 zum Beispiel: „Nach dem Zähneputzen trinke ich ein Glas Wasser“.
 
 ==== Nutze die Streaks als kleinen Motivationsschub
