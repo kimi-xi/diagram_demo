@@ -63,7 +63,7 @@ Funktionen in der Habits-Übersicht:
 
 === Baum-Ansicht (Fortschritt)
 
-image:images/tree01.jpg[width=200] image:images/tree4.jpg[width=200]
+image:images/tree01.jpg[width=200] image:images/tree1.jpg[width=200]
 
 Die Baum-Ansicht zeigt deinen langfristigen Fortschritt in Form eines wachsenden Baumes und noch einen seperaten Baum pro Habit.
 
@@ -119,9 +119,7 @@ Die untere Navigationsleiste ist in allen Ansichten sichtbar und ermöglicht den
 
 Mit vordefinierten Zielen kannst du schnell und einfach ein neues Habit erstellen.
 
-image:images/habit1.jpg[width=200]
-image:images/habit2.jpg[width=200]
-image:images/habit3.jpg[width=200]
+image:images/habit1n.jpg[width=200] image:images/habit2.jpg[width=200] image:images/habit3.jpg[width=200]
 
 So legst du ein vordefiniertes Habit an: 
 
@@ -155,15 +153,15 @@ Das Abhaken eines Habits ist der wichtigste Schritt, um deinen Fortschritt zu do
 
 image:images/habit5.jpg[width=200] image:images/habit6.jpg[width=200]
 
-So hakst du ein Habit ab (1. Möglichkeit): 
+==== So hakst du ein Habit ab (1. Möglichkeit): 
 
 - Scrolle bei Home runter zu **heutige Habits**. 
 - Tippe auf die **Checkbox** des erledigten Habits.
 - Dein **Baum** und deine **Streak** aktualisieren sich automatisch.
 
-image:images/habits01.jpg[width=200] image:images/kal3.jpg[width=200]
+image:images/habits01n.jpg[width=200] image:images/kal3.jpg[width=200]
 
-So hakst du ein Habit ab (2. Möglichkeit): 
+==== So hakst du ein Habit ab (2. Möglichkeit): 
 
 - Navigiere zu der Seite **Habits**. 
 - Scrolle runter zu **heutige Habits**.
@@ -174,7 +172,7 @@ So hakst du ein Habit ab (2. Möglichkeit):
 
 Du kannst jedes Habit jederzeit anpassen oder entfernen.
 
-image:images/kal3.jpg[width=200] image:images/kal31.jpg[width=200] 
+image:images/habits01n.jpg[width=200] image:images/kal31.jpg[width=200] 
 
 So bearbeitest oder löschst du ein Habit (1. Möglichkeit):
 
@@ -209,6 +207,8 @@ image:images/tree3.jpg[width=200] image:images/tree1.jpg[width=200] image:images
 
 - Klicke einen Baum um sein Habit und dessen Streak anzeigen zu lassen.
 - Je mehr Tage erfolgreich abgeschlossen wurden, desto mehr wächst der Baum.
+- Klicke auf das Pokal-Symbol um den Baum zu ernten, nur möglcih wenn das Streak-Ziel erreicht wurde. 
+- Beim Ernten erhält man einen Erfolg.
 
 === Abzeichen verdienen und anzeigen lassen
 
@@ -219,7 +219,8 @@ image:images/erfolg1.jpg[width=200] image:images/erfolg2.jpg[width=200]
 So verdienst du Abzeichen:
 
 - Erfülle regelmäßig deine Habits. 
-- Erreiche bestimmte Meilensteine (z. B. mehrere Tage in Folge). 
+- Erreiche bestimmte Meilensteine (z. B. mehrere Tage in Folge).
+- Ernte deine Bäume.
 - Öffne die Ansicht **Erfolge**, um neue Abzeichen zu sehen 
 - Tippe ein Abzeichen an, um Details zu sehen.
 
