@@ -309,54 +309,51 @@ image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:imag
 
 == Tipps & Tricks
 
-- **Fang klein an**
+===== Fang klein an 
+
+Du musst nicht direkt große Ziele setzen. 
+Ein paar Minuten pro Tag reichen völlig. 
+
+===== Mach es dir leicht 
+
+Verbinde neue Gewohnheiten mit Dingen, die du sowieso tust
+zum Beispiel: „Nach dem Zähneputzen trinke ich ein Glas Wasser“. 
+
+===== Fang klein an
 
 Du musst nicht direkt große Ziele setzen.  
 Ein paar Minuten pro Tag reichen völlig.
 
-**Mach es dir leicht**
+==== Nutze die Streaks als kleinen Motivationsschub
+Es fühlt sich gut an, wenn die Kette länger wird.  
+Versuche, sie nicht zu unterbrechen – aber sei nicht zu streng mit dir.
 
-- Verbinde neue Gewohnheiten mit Dingen, die du sowieso tust 
-– zum Beispiel: „Nach dem Zähneputzen trinke ich ein Glas Wasser“.
+==== Plane realistisch
+Zu viele Habits auf einmal überfordern.  
+Starte lieber mit ein bis zwei Gewohnheiten und steigere dich später.
 
-- **Nutze die Streaks als kleinen Motivationsschub** 
+==== Belohne dich bewusst
+Wenn du dein Streak-Ziel erreichst, gönn dir etwas Schönes.  
+Das verstärkt den positiven Effekt und macht Spaß.
 
-Es fühlt sich gut an, wenn die Kette länger wird. 
-Versuche, sie nicht zu unterbrechen – aber sei nicht zu streng mit dir. 
+==== Der Baum ist dein Fortschrittsbarometer
+Der wachsende Baum zeigt dir, dass du dranbleibst.  
+Das Ernten fühlt sich wie ein kleines Level-Up an.
 
-- **Plane realistisch** 
+==== Rückschläge gehören dazu
+Ein verpasster Tag ist kein Weltuntergang.  
+Wichtig ist, dass du wieder einsteigst und weitermachst.
 
-Zu viele Habits auf einmal überfordern. 
-Starte lieber mit ein bis zwei Gewohnheiten und steigere dich später. 
+==== Passe deine Habits an dein Leben an
+Wenn etwas nicht funktioniert, ändere es.  
+Ein Habit soll dich unterstützen, nicht stressen.
 
-- **Belohne dich bewusst** 
+==== Nutze feste Zeiten
+Gewohnheiten bleiben leichter hängen, wenn sie einen festen Platz im Alltag haben.  
+Ein kurzer Reminder kann zusätzlich helfen.
 
-Wenn du dein Streak-Ziel erreichst, gönn dir etwas Schönes. 
-Das verstärkt den positiven Effekt und macht Spaß. 
-
-- **Der Baum ist dein Fortschrittsbarometer** 
-
-Der wachsende Baum zeigt dir, dass du dranbleibst. 
-Das Ernten fühlt sich wie ein kleines Level-Up an. 
-
-- **Rückschläge gehören dazu** 
-
-Ein verpasster Tag ist kein Weltuntergang. 
-Wichtig ist, dass du wieder einsteigst und weitermachst. 
-
-- **Passe deine Habits an dein Leben an** 
-
-Wenn etwas nicht funktioniert, ändere es. 
-Ein Habit soll dich unterstützen, nicht stressen. 
-
-- **Nutze feste Zeiten** 
-
-Gewohnheiten bleiben leichter hängen, wenn sie einen festen Platz im Alltag haben. 
-Ein kurzer Reminder kann zusätzlich helfen. 
-
-- **Hab Spaß dabei** 
-
-Es geht nicht um Perfektion, sondern um Entwicklung. 
+==== Hab Spaß dabei
+Es geht nicht um Perfektion, sondern um Entwicklung.  
 Jeder kleine Schritt zählt.
 
 
