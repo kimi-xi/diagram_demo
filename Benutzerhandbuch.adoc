@@ -251,41 +251,42 @@ image:images/profil01.jpg[width=200]
 
 
 == FAQ / Häufige Probleme
-**Warum funktioniert der QR-Code nicht?** 
+
+==== Warum funktioniert der QR-Code nicht?
   
   - Stelle sicher, dass Expo läuft und die VPN an ist damit dein Handy im gleichen Netzwerk ist.
 
-**Meine Habits werden nicht geladen / Ich kann mich nicht einloggen** 
+==== Meine Habits werden nicht geladen / Ich kann mich nicht einloggen
  
   - Prüfe, ob du angemeldet bist.
   - Stelle sicher, dass du Zugriff auf das HTW‑Netzwerk hast und die VPN aktiv ist.
   - Falls weiterhin Probleme auftreten: App neu starten oder Internetverbindung prüfen.
 
-**Der Baum wächst nicht?** 
+==== Der Baum wächst nicht?
   
   - Nur wenn du deine Habits regelmäßig abhaken kannst, steigt der Fortschritt.
   - Wenn du mehrere Tage auslässt, wird die Streak zurückgesetzt.
   - Vergesse also nicht deine Habits zu erledigen.
 
-**Warum 66 Tage?** 
+==== Warum 66 Tage?
 
 image:images/faq1.jpg[width=200]
 
-**Wo sehe ich meine aktuelle Streak?**
+==== Wo sehe ich meine aktuelle Streak?
 
 image:images/Home01.jpg[width=200] image:images/habit8.jpg[width=200]
  
   - Im Home Menü unter dem Menüpunkt **Streak**.
 
 
-**Wo sehe ich meine aktuelle Streak eines Habits?**
+==== Wo sehe ich meine aktuelle Streak eines Habits?
 
 image:images/Home01.jpg[width=200] image:images/habit7.jpg[width=200]
 
   - Im Home Menü unter dem Menüpunkt **Habit Statistiken (Tage)**.
   - Klicke auf das gewünschte Habit um genauere Informationen zu dem Habit und dessen Streak zu bekommen.
 
-**Was passiert nachdem ich mein Habit abgeschlossen habe?**
+==== Was passiert nachdem ich mein Habit abgeschlossen habe?
 
 image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:images/erfolg2.jpg[width=200]
 
@@ -294,7 +295,7 @@ image:images/tree4.jpg[width=200] image:images/erfolg1.jpg[width=200] image:imag
   - Wenn du das Streak‑Ziel erreicht hast, kannst du aber auch den Baum ernten und erhältst ein Abzeichen.
   - Hierfür einfach auf das **Pokal Symbol** unten bei den abgeschlossenen Baum tippen.
 
-==== **Kann ich ein Habit nachträglich bearbeiten?**
+==== Kann ich ein Habit nachträglich bearbeiten?
 
 - Ja, du kannst Name, Beschreibung oder Häufigkeit jederzeit anpassen. Dein bisheriger Fortschritt bleibt dabei erhalten.
 
